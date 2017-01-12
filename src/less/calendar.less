@@ -2,3 +2,28 @@ body {
     color: white;
     font-family: sans-serif;
 }
+
+.monthGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  width: 80vw;
+  margin: auto;
+}
+
+.monthGrid__element {
+  flex-basis: 14%;
+  flex-grow: 1;
+}
+
+.month__weekday {
+  .monthGrid__element;
+}
+
+.month__day {
+  .monthGrid__element;
+  height: 60px;
+  padding: 10px;
+  border: 1px solid black;
+}

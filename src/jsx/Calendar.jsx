@@ -10,7 +10,10 @@ class Calendar extends React.Component {
         return (
           <div>
             {this.state.currentMonth.name}
-            <Month numberOfDays={this.state.currentMonth.days} />
+            <Month
+              numberOfDays={this.state.currentMonth.days}
+              firstWeekday={this.state.currentMonth.firstWeekday}
+            />
           </div>
         );
     }
