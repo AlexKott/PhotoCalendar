@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
+import Month from './Month.jsx';
 
 class Calendar extends React.Component {
     render() {
         return (
-            <div>Calendar</div>
+            <Month numberOfDays={30} />
         );
     }
 }
