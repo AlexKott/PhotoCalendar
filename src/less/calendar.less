@@ -1,6 +1,7 @@
-body {
-    color: white;
-    font-family: sans-serif;
+.calendar__title {
+  margin: 30px 0 10px 0;
+  text-align: center;
+  font-weight: 300;
 }
 
 .monthGrid {
@@ -13,17 +14,22 @@ body {
 }
 
 .monthGrid__element {
-  flex-basis: 14%;
+  flex-basis: 13%;
   flex-grow: 1;
+  margin: 5px;
 }
 
 .month__weekday {
   .monthGrid__element;
 }
 
-.month__day {
+.calendar__day {
   .monthGrid__element;
-  height: 60px;
-  padding: 10px;
-  border: 1px solid black;
+  height: 80px;
+  padding: 5px;
+  background-color: white;
+  font-size: 21px;
+  &--selected {
+    background-color: green;
+  }
 }
