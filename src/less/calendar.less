@@ -1,35 +1,45 @@
+.calendar__header {
+    width: 80vw;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .calendar__title {
-  margin: 30px 0 10px 0;
-  text-align: center;
-  font-weight: 300;
+    margin: 0;
+    text-align: center;
+    font-weight: 300;
 }
 
 .monthGrid {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-  width: 80vw;
-  margin: auto;
+    width: 80vw;
+    margin: auto;
 }
 
 .monthGrid__element {
-  flex-basis: 13%;
-  flex-grow: 1;
-  margin: 5px;
+    flex-basis: 13%;
+    flex-grow: 1;
+    margin: 5px;
 }
 
 .month__weekday {
-  .monthGrid__element;
+    .monthGrid__element;
 }
 
 .calendar__day {
-  .monthGrid__element;
-  height: 80px;
-  padding: 5px;
-  background-color: white;
-  font-size: 21px;
-  &--selected {
-    background-color: green;
-  }
+    .monthGrid__element;
+    height: 80px;
+    padding: 5px;
+    background-color: white;
+    font-size: 21px;
+    &--selected {
+        background-color: green;
+    }
 }
