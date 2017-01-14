@@ -32,7 +32,7 @@ function getDaysArray(month, year) {
     const days = [];
     for (let i = 1; i <= monthLength; i++) {
         const displayDay = i < 10 ? '0' + i : i;
-        days.push({ date: `${displayMonth}-${displayDay}-${selectedYear}`, displayNumber: i });
+        days.push({ date: `${selectedYear}-${displayMonth}-${displayDay}`, displayNumber: i });
     }
     return days;
 }

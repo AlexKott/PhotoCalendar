@@ -16,7 +16,7 @@ class Calendar extends React.Component {
             daysArray,
             fillElementsStart,
             fillElementsEnd,
-            selectedDay: '01-13-2017'
+            selectedDay: '2017-01-14'
         }
     }
     calculateOffsetStart(month) {
