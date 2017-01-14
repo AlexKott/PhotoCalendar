@@ -8,6 +8,7 @@ class Gallery extends React.Component {
         });
     }
     render() {
+        // TODO Thumbnail size /s200/
         return (
             <div>
                 <img src={this.state && this.state.photos ? this.state.photos[3].src : 'assets/images/loader.svg'} />
