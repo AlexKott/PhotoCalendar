@@ -6,14 +6,18 @@ const dateHelper = require('./dateHelper');
 const requestURI = 'https://picasaweb.google.com/data/feed/api/user/105349963594832046114/albumid/6297511860833036161';
 
 module.exports = {
-    getPhotos(startDate, endDate) {
-        const startStamp = (new Date(startDate)).getTime();
-        let endStamp;
-        if (endDate) {
-            endStamp = (new Date(endDate)).getTime() + (24 * 60 * 60 * 1000);
+    getPhotos(params) {
+        let startDate, endDate;
+        if (params.selectedDate) {
+            startDate = params.selectedDate;
+            endDate = params.selectedDate;
         } else {
-            endStamp = startStamp + (24 * 60 * 60 * 1000);
+            startDate = params.startDate;
+            endDate = params.endDate;
         }
+        const startStamp = (new Date(startDate)).getTime();
+        const endStamp = (new Date(endDate)).getTime() + (24 * 60 * 60 * 1000);
+
         let fields = 'entry[';
         const filters = [];
         if (startStamp) {

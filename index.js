@@ -8,7 +8,7 @@ const port = 4040;
 app.use(express.static('dist'));
 
 app.get('/photos', (req, res) => {
-    photoService.getPhotos(req.query.startDate, req.query.endDate)
+    photoService.getPhotos(req.query)
         .then((photos) => res.send(photos))
         .catch((error) => {
             console.log(error);
