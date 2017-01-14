@@ -1,13 +1,13 @@
 import React from 'react';
 import CalendarDay from './CalendarDay.jsx';
-import { getCurrentMonth, selectMonth, getDaysArray } from '../js/dateHelper.js';
+import { selectMonth, getDaysArray, getDateString } from '../js/dateHelper.js';
 
 class Calendar extends React.Component {
     constructor(props) {
         super(props);
 
-        const selectedMonth = getCurrentMonth();
-        const daysArray = getDaysArray();
+        const selectedMonth = selectMonth(2, 2012);
+        const daysArray = getDaysArray(2, 2012);
         const fillElementsStart = this.calculateOffsetStart(selectedMonth);
         const fillElementsEnd = this.calculateOffsetEnd(selectedMonth);
 
@@ -16,8 +16,11 @@ class Calendar extends React.Component {
             daysArray,
             fillElementsStart,
             fillElementsEnd,
-            selectedDay: '2017-01-14'
+            selectedDay: getDateString(10, 2, 2012)
         }
+    }
+    componentWillMount() {
+        this.props.updateDate(this.state.selectedDay);
     }
     calculateOffsetStart(month) {
         const numberOfFillDays = month.firstWeekday === 0 ? 6 : month.firstWeekday - 1;
@@ -39,6 +42,7 @@ class Calendar extends React.Component {
     }
     onSelectDay(selectedDay) {
         this.setState({ selectedDay });
+        this.props.updateDate(selectedDay);
     }
     onChangeMonth(direction) {
         const selectedMonth = selectMonth((this.state.selectedMonth.month + direction), this.state.selectedMonth.year);
@@ -63,7 +67,7 @@ class Calendar extends React.Component {
                         key={day.date}
                         date={day.date}
                         displayNumber={day.displayNumber}
-                        onSelectDay={() => this.onSelectDay(day.date)}
+                        onSelectDay={this.onSelectDay.bind(this)}
                         isSelected={day.date === this.state.selectedDay}
                         />
                     ))}

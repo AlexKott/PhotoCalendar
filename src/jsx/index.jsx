@@ -1,15 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Calendar from './Calendar.jsx';
-import Gallery from './Gallery.jsx';
+import Blog from './Blog.jsx';
 
 class App extends React.Component {
     render() {
         return (
-            <div>
-                <Calendar />
-                <Gallery />
-            </div>
+            <Blog />
         );
     }
 }

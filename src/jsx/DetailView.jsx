@@ -1,7 +1,7 @@
 import React from 'react';
 import photoService from '../js/photoService.js';
 
-class Gallery extends React.Component {
+class DetailView extends React.Component {
     componentWillMount() {
         photoService.getPhotos().then((photos) => {
             this.setState({ photos });
@@ -17,4 +17,4 @@ class Gallery extends React.Component {
     }
 }
 
-export default Gallery;
+export default DetailView;
