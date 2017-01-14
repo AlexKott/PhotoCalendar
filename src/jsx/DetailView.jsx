@@ -1,17 +1,32 @@
 import React from 'react';
-import photoService from '../js/photoService.js';
+import { getPhotos } from '../js/photoService.js';
 
 class DetailView extends React.Component {
-    componentWillMount() {
-        photoService.getPhotos().then((photos) => {
-            this.setState({ photos });
+    constructor(props) {
+        super(props);
+        this.state = {
+            photos: null
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({ photos: null });
+        getPhotos({ selectedDate: nextProps.selectedDate }).then((photos) => {
+            if (photos.length > 0) {
+                this.setState({ photos: photos[0].media });
+            }
         });
     }
     render() {
         // TODO Thumbnail size /s200/
         return (
             <div>
-                <img src={this.state && this.state.photos ? this.state.photos[3].src : 'assets/images/loader.svg'} />
+                {this.state.photos
+                    ? this.state.photos.map((photo, index) => (
+                        <img src={photo.src} key={index} />
+                    ))
+                    // TODO: handle empty state
+                    : <img src="assets/images/loader.svg" />
+                }
             </div>
         );
     }
