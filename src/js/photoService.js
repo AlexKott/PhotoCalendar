@@ -1,4 +1,4 @@
-const PHOTOS_API = `http://${window.location.host}/photos`;
+const PHOTOS_API = `http://${window.location.host}/entries`;
 
 function getPhotos(queryParams) {
     return new Promise(function(resolve, reject) {
