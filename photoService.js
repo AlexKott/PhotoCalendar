@@ -3,11 +3,35 @@ const parseXML = require('xml2js').parseString;
 const authService = require('./authService');
 const dateHelper = require('./dateHelper');
 
-const requestURI = 'https://picasaweb.google.com/data/feed/api/user/105349963594832046114/albumid/6297847315379141633';
-const fields = 'entry[gphoto:timestamp>1404932668000](content,gphoto:timestamp)';
+const requestURI = 'https://picasaweb.google.com/data/feed/api/user/105349963594832046114/albumid/6297511860833036161';
 
 module.exports = {
-    getPhotos() {
+    getPhotos(startDate, endDate) {
+        const startStamp = (new Date(startDate)).getTime();
+        let endStamp;
+        if (endDate) {
+            endStamp = (new Date(endDate)).getTime() + (24 * 60 * 60 * 1000);
+        } else {
+            endStamp = startStamp + (24 * 60 * 60 * 1000);
+        }
+        let fields = 'entry[';
+        const filters = [];
+        if (startStamp) {
+            filters.push(`gphoto:timestamp>=${startStamp}`);
+        }
+        if (endStamp) {
+            filters.push(`gphoto:timestamp<${endStamp}`);
+        }
+
+        let i = 0;
+        filters.forEach((filter) => {
+            if (i++) {
+                fields += ' and ';
+            }
+            fields += filter;
+        });
+
+        fields += '](content,gphoto:timestamp)';
         return new Promise((resolve, reject) => {
             authService.getAccessToken().then((token) => {
                 request({
@@ -50,9 +74,7 @@ function buildDayArray(input) {
         if (!{}.hasOwnProperty.call(dayObject, dateString)) {
             dayObject[dateString] = { media: [] };
         }
-        if (media.type.includes('image')) {
-            dayObject[dateString].media.push({ type: 'image', src: media.src });
-        }
+        dayObject[dateString].media.push(media);
     });
 
     for (let day in dayObject) {
