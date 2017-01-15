@@ -6,8 +6,8 @@ class Calendar extends React.Component {
     constructor(props) {
         super(props);
 
-        const selectedMonth = selectMonth(2, 2012);
-        const daysArray = getDaysArray(2, 2012);
+        const selectedMonth = selectMonth();
+        const daysArray = getDaysArray();
         const fillElementsStart = this.calculateOffsetStart(selectedMonth);
         const fillElementsEnd = this.calculateOffsetEnd(selectedMonth);
 
@@ -16,7 +16,7 @@ class Calendar extends React.Component {
             daysArray,
             fillElementsStart,
             fillElementsEnd,
-            selectedDay: getDateString(10, 2, 2012)
+            selectedDay: getDateString()
         }
     }
     componentWillMount() {

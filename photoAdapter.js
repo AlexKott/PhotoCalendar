@@ -2,28 +2,54 @@ const request = require('request-promise');
 const parseXML = require('xml2js').parseString;
 const authService = require('./authService');
 const dateHelper = require('./dateHelper');
-
-const requestURI = 'https://picasaweb.google.com/data/feed/api/user/105349963594832046114/albumid/6297511860833036161';
+const picasaAuth = require('./picasaAuth.json');
 
 module.exports = {
     requestPhotos(query) {
-        return new Promise((resolve, reject) => {
-            authService.getAccessToken().then((access_token) => {
-                request({
-                    uri: requestURI,
-                    qs: Object.assign({}, { access_token }, query)
-                }).then((response) => {
-                    parseXML(response, function (err, parsedResponse) {
-                        resolve(reformatPicasaResponse(parsedResponse));
-                    });
-                }).catch((error) => {
-                    console.log(error);
-                    reject(error);
+        return new Promise((resolveTop, rejectTop) => {
+            const requestPromises = [];
+            Promise.all(authService.getAccessTokens()).then((access_tokens) => {
+                console.log(access_tokens);
+                access_tokens.forEach((access_token, id) => {
+                    requestPromises.push(request({
+                        uri: picasaAuth.clients[id].albumURL,
+                        qs: Object.assign({}, { access_token }, query)
+                    }));
                 });
+                Promise.all(requestPromises).then((responses) => {
+                    const responsePromises = [];
+                    responses.forEach((response) => {
+                        responsePromises.push(new Promise((resolve) => {
+                            parseXML(response, function (err, parsedResponse) {
+                                resolve(reformatPicasaResponse(parsedResponse));
+                            });
+                        }));
+                    });
+                    Promise.all(responsePromises)
+                        .then((formattedResponses) => {
+                            resolveTop(mergeResponses(formattedResponses));
+                        });
+                });
+            }).catch(error => {
+                console.log(error);
+                rejectTop(error);
             });
         });
     }
 };
+
+function mergeResponses(responses) {
+    const singleResponse = {};
+    responses.forEach((response) => {
+        for (let date in response) {
+            if ({}.hasOwnProperty.call(response, date)) {
+                singleResponse[date] = singleResponse[date] || { media: [] };
+                singleResponse[date].media = singleResponse[date].media.concat(response[date].media);
+            }
+        }
+    });
+    return singleResponse;
+}
 
 function reformatPicasaResponse(response) {
     const dayObject = {};

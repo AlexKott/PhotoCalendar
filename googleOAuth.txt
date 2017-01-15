@@ -1,0 +1,17 @@
+1. create credentials
+    - Google developer console
+    - create new Project
+    - create credentials: OAuth Client, web application
+    - enter a name and at least one authorised redirect uri for the project
+    - copy your client id and your client secret from the next screen
+2. build your request uri (be sure to be logged in with google)
+    - https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=https://picasaweb.google.com/data&access_type=offline
+    - &client_id=YOUR_CLIENT_ID
+    - &redirect_uri=YOUR_REDIRECT_URI
+3. Visit the url and authorize with your account
+4. Copy the code from your redirect uri parameters, nevermind the actual page
+5. Exchange the auth code for an access token
+    - POST request:
+    - https://www.googleapis.com/oauth2/v4/token
+    - form fields: code, client_id, client_secret, redirect_uri, grant_type: authorization_code
+    - copy the refresh token
