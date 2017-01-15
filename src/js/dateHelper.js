@@ -21,7 +21,8 @@ function selectMonth(month, year) {
         year: date.getFullYear(),
         displayName: `${monthNames[date.getMonth()]} ${date.getFullYear()}`,
         numberOfDays: getMonthLength(date.getMonth(), date.getFullYear()),
-        firstWeekday: date.getDay()
+        firstWeekday: date.getDay(),
+        requestString: getDateString(date.getDate(), date.getMonth(), date.getFullYear()).slice(0, 7)
     };
 }
 

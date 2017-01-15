@@ -29,17 +29,24 @@
     margin: 5px;
 }
 
-.month__weekday {
+.day {
     .monthGrid__element;
-}
-
-.calendar__day {
-    .monthGrid__element;
+    position: relative;
     height: 80px;
     padding: 5px;
     background-color: white;
     font-size: 21px;
     &--selected {
-        background-color: green;
+        border: solid 5px green;
     }
+}
+
+.day__image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    opacity: 0.4;
 }

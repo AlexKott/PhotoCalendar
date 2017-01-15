@@ -10,6 +10,7 @@ function getPhotos(queryParams, quality) {
                     queryString += '&';
                 }
                 queryString += `${key}=${queryParams[key]}`;
+                console.log(queryString);
             }
         }
         queryString = encodeURI(queryString);

@@ -1,6 +1,7 @@
 import React from 'react';
 import CalendarDay from './CalendarDay.jsx';
 import { selectMonth, getDaysArray, getDateString } from '../js/dateHelper.js';
+import { getPhotos } from '../js/photoService.js';
 
 class Calendar extends React.Component {
     constructor(props) {
@@ -8,6 +9,7 @@ class Calendar extends React.Component {
 
         const selectedMonth = selectMonth();
         const daysArray = getDaysArray();
+        const selectedDay = getDateString();
         const fillElementsStart = this.calculateOffsetStart(selectedMonth);
         const fillElementsEnd = this.calculateOffsetEnd(selectedMonth);
 
@@ -16,11 +18,18 @@ class Calendar extends React.Component {
             daysArray,
             fillElementsStart,
             fillElementsEnd,
-            selectedDay: getDateString()
+            selectedDay,
+            dailyThumbnails: {}
         }
     }
     componentWillMount() {
+
+    }
+    componentDidMount() {
         this.props.updateDate(this.state.selectedDay);
+        getPhotos({ month: this.state.selectedMonth.requestString }, 's200').then((photos) => {
+            this.setState({ dailyThumbnails: photos });
+        });
     }
     calculateOffsetStart(month) {
         const numberOfFillDays = month.firstWeekday === 0 ? 6 : month.firstWeekday - 1;
@@ -49,6 +58,9 @@ class Calendar extends React.Component {
         const daysArray = getDaysArray(selectedMonth.month, selectedMonth.year);
         const fillElementsStart = this.calculateOffsetStart(selectedMonth);
         const fillElementsEnd = this.calculateOffsetEnd(selectedMonth);
+        getPhotos({ month: selectedMonth.requestString }, 's150').then((photos) => {
+            this.setState({ dailyThumbnails: photos });
+        });
 
         this.setState({ selectedMonth, daysArray, fillElementsStart, fillElementsEnd });
     }
@@ -64,11 +76,12 @@ class Calendar extends React.Component {
                     {this.state.fillElementsStart}
                     {this.state.daysArray.map((day) => (
                         <CalendarDay
-                        key={day.date}
-                        date={day.date}
-                        displayNumber={day.displayNumber}
-                        onSelectDay={this.onSelectDay.bind(this)}
-                        isSelected={day.date === this.state.selectedDay}
+                            key={day.date}
+                            date={day.date}
+                            displayNumber={day.displayNumber}
+                            image={this.state.dailyThumbnails[day.date]}
+                            onSelectDay={this.onSelectDay.bind(this)}
+                            isSelected={day.date === this.state.selectedDay}
                         />
                     ))}
                     {this.state.fillElementsEnd}

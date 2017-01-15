@@ -4,9 +4,15 @@ class CalendarDay extends React.Component {
     render() {
         return (
             <div
-                className={this.props.isSelected ? 'calendar__day calendar__day--selected' : 'calendar__day'}
+                className={this.props.isSelected ? 'day day--selected' : 'day'}
                 onClick={() => this.props.onSelectDay(this.props.date)}
-            >{this.props.displayNumber}</div>
+            >
+                <span>{this.props.displayNumber}</span>
+                <div
+                    className="day__image-container"
+                    style={{ backgroundImage: `url(${this.props.image ? this.props.image.media[0].src : ''})` }}>
+                </div>
+            </div>
         );
     }
 }
