@@ -38,13 +38,8 @@ function formatImageSrc(response, quality) {
         if ({}.hasOwnProperty.call(response, date)) {
             formattedResponse[date] = { media: [] };
             response[date].media.forEach((photo) => {
-                const formattedPhoto = {};
+                const formattedPhoto = Object.assign({}, photo);
                 formattedPhoto.src = `${photo.path}/${quality}/${photo.fileName}`;
-                formattedPhoto.type = photo.type;
-                formattedPhoto.timestamp = photo.timestamp;
-                if (formattedPhoto.type.indexOf('video') !== -1) {
-                    formattedPhoto.videoSrc = photo.videoSrc;
-                }
                 formattedResponse[date].media.push(formattedPhoto);
             });
         }

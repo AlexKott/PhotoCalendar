@@ -67,8 +67,14 @@ function reformatPicasaResponse(response) {
             const selectedContent = content[2].$ || content[1].$;
             formattedEntry.videoSrc = selectedContent.url;
             formattedEntry.type = selectedContent.type;
+            formattedEntry.height = selectedContent.height;
+            formattedEntry.width = selectedContent.width;
+            formattedEntry.ratio = selectedContent.width / selectedContent.height;
         } else {
             formattedEntry.type = content[0].$.type;
+            formattedEntry.height = content[0].$.height;
+            formattedEntry.width = content[0].$.width;
+            formattedEntry.ratio = content[0].$.width / content[0].$.height;
         }
 
         formattedEntry.timestamp = entry['gphoto:timestamp'][0];

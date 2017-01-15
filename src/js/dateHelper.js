@@ -1,4 +1,4 @@
-import { monthNames, monthLengths } from './dateConstants';
+import { monthNames, monthLengths, weekdays } from './dateConstants';
 
 function getDateString(day, month, year) {
     const today = new Date();
@@ -46,4 +46,11 @@ function getMonthLength(month, year) {
     return realMonthLengths[month];
 }
 
-export { getDateString, selectMonth, getDaysArray };
+function getDisplayDay(dateString) {
+    const date = new Date(dateString);
+    const weekday = weekdays[date.getDay()];
+    const monthName = monthNames[date.getMonth()];
+    return `${weekday}, ${monthName} ${date.getDate()}`;
+}
+
+export { getDateString, selectMonth, getDaysArray, getDisplayDay };
