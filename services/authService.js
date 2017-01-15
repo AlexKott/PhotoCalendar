@@ -1,15 +1,15 @@
 const request = require('request-promise');
-const picasaAuth = require('./picasaAuth.json');
+const googleAuth = require('../googleAuth.json');
 
 function getAuthOptions(id) {
     return {
         method: 'POST',
-        uri: picasaAuth.endpoint + picasaAuth.route,
+        uri: googleAuth.auth.endpoint + googleAuth.auth.route,
         form: {
-            client_id: picasaAuth.clients[id].client_id,
-            client_secret: picasaAuth.clients[id].client_secret,
-            grant_type: picasaAuth.grant_type,
-            refresh_token: picasaAuth.clients[id].refresh_token
+            client_id: googleAuth.clients[id].client_id,
+            client_secret: googleAuth.clients[id].client_secret,
+            grant_type: googleAuth.auth.grant_type,
+            refresh_token: googleAuth.clients[id].refresh_token
         }
     };
 };
@@ -18,10 +18,13 @@ let accessTokens = [];
 let tokenExpiryTime = [];
 
 module.exports = {
-    getAccessTokens() {
-        const clientsLength = picasaAuth.clients.length;
+    getAccessTokens(service) {
+        const clientsLength = googleAuth.clients.length;
         const promises = [];
         for (let i = 0; i < clientsLength; i++) {
+            if (service && !googleAuth.clients[i][service]) {
+                continue;
+            }
             promises.push(new Promise((resolve, reject) => {
                 const now = Date.now() / 1000;
                 if (accessTokens[i] && tokenExpiryTime[i] && now < tokenExpiryTime[i]) {

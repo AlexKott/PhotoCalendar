@@ -1,6 +1,6 @@
 const NodeCache = require('node-cache');
-const dateHelper = require('./dateHelper');
-const photoAdapter = require('./photoAdapter');
+const dateHelper = require('../helpers/dateHelper');
+const photoAdapter = require('../adapters/photoAdapter');
 
 const photoCache = new NodeCache({ stdTTL: 3600 });
 
@@ -53,7 +53,12 @@ function reducePhotoList(photos) {
     for (let date in photos) {
         if ({}.hasOwnProperty.call(photos, date)) {
             reducedList[date] = { media: [] }
-            reducedList[date].media.push(photos[date].media[0]);
+            const thumbnail = photos[date].media.find(media => media.type.indexOf('image') !== -1);
+            if (!thumbnail) { // no images for this day, take first item (video)
+                reducedList[date].media.push(photos[date].media[0]);
+            } else {
+                reducedList[date].media.push(thumbnail);
+            }
         }
     }
     return reducedList;

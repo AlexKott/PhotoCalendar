@@ -1,8 +1,8 @@
 const request = require('request-promise');
 const parseXML = require('xml2js').parseString;
-const authService = require('./authService');
-const dateHelper = require('./dateHelper');
-const picasaAuth = require('./picasaAuth.json');
+const authService = require('../services/authService');
+const dateHelper = require('../helpers/dateHelper');
+const googleAuth = require('../googleAuth.json');
 
 module.exports = {
     requestPhotos(query) {
@@ -12,7 +12,7 @@ module.exports = {
                 .then((access_tokens) => {
                     access_tokens.forEach((access_token, id) => {
                         requestPromises.push(request({
-                            uri: picasaAuth.clients[id].albumURL,
+                            uri: googleAuth.clients[id].albumURL,
                             qs: Object.assign({}, { access_token }, query)
                         }));
                     });

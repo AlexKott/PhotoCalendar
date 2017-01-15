@@ -1,17 +1,27 @@
 const express = require('express');
 const app = express();
 
-const photoService = require('./photoService');
+const calendarService = require('./services/calendarService');
+const photoService = require('./services/photoService');
 
 const port = 4040;
 
 app.use(express.static('dist'));
 
+app.get('/events', (req, res) => {
+    if (Object.keys(req.query).length === 0) {
+        return res.status(400).send('Missing query parameters');
+    }
+    calendarService.getEventsByMonth(req.query.month)
+        .then(events => res.send(events))
+        .catch(error => res.send(error));
+});
+
 app.get('/entries', (req, res) => {
     if (Object.keys(req.query).length === 0) {
         return res.status(400).send('Missing query parameters');
     }
-    
+
     let getPhotos;
     if ({}.hasOwnProperty.call(req.query, 'month')) {
         getPhotos = () => photoService.getPhotosByMonth(req.query.month);
