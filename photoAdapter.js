@@ -8,32 +8,42 @@ module.exports = {
     requestPhotos(query) {
         return new Promise((resolveTop, rejectTop) => {
             const requestPromises = [];
-            Promise.all(authService.getAccessTokens()).then((access_tokens) => {
-                console.log(access_tokens);
-                access_tokens.forEach((access_token, id) => {
-                    requestPromises.push(request({
-                        uri: picasaAuth.clients[id].albumURL,
-                        qs: Object.assign({}, { access_token }, query)
-                    }));
-                });
-                Promise.all(requestPromises).then((responses) => {
-                    const responsePromises = [];
-                    responses.forEach((response) => {
-                        responsePromises.push(new Promise((resolve) => {
-                            parseXML(response, function (err, parsedResponse) {
-                                resolve(reformatPicasaResponse(parsedResponse));
-                            });
+            Promise.all(authService.getAccessTokens())
+                .then((access_tokens) => {
+                    access_tokens.forEach((access_token, id) => {
+                        requestPromises.push(request({
+                            uri: picasaAuth.clients[id].albumURL,
+                            qs: Object.assign({}, { access_token }, query)
                         }));
                     });
-                    Promise.all(responsePromises)
-                        .then((formattedResponses) => {
-                            resolveTop(mergeResponses(formattedResponses));
+                    Promise.all(requestPromises)
+                        .then((responses) => {
+                            const responsePromises = [];
+                            responses.forEach((response) => {
+                                responsePromises.push(new Promise((resolve) => {
+                                    parseXML(response, function (err, parsedResponse) {
+                                        resolve(reformatPicasaResponse(parsedResponse));
+                                    });
+                                }));
+                            });
+                            Promise.all(responsePromises)
+                                .then((formattedResponses) => {
+                                    resolveTop(mergeResponses(formattedResponses));
+                                })
+                                .catch(formatError => {
+                                    console.log(formatError);
+                                    rejectTop(formatError);
+                                });
+                        })
+                        .catch(requestError => {
+                            console.log(requestError);
+                            rejectTop(requestError);
                         });
+                })
+                .catch(authError => {
+                    console.log(authError);
+                    rejectTop(authError);
                 });
-            }).catch(error => {
-                console.log(error);
-                rejectTop(error);
-            });
         });
     }
 };
@@ -44,7 +54,9 @@ function mergeResponses(responses) {
         for (let date in response) {
             if ({}.hasOwnProperty.call(response, date)) {
                 singleResponse[date] = singleResponse[date] || { media: [] };
-                singleResponse[date].media = singleResponse[date].media.concat(response[date].media);
+                singleResponse[date].media = singleResponse[date].media
+                    .concat(response[date].media)
+                    .sort((a, b) => a.timestamp > b.timestamp ? 1 : -1);
             }
         }
     });
@@ -55,6 +67,9 @@ function reformatPicasaResponse(response) {
     const dayObject = {};
     const formattedResponse = [];
     const entries = response.feed.entry;
+    if (!entries) {
+        return {};
+    }
     entries.forEach((entry) => {
         const formattedEntry = Object.assign({}, entry.content[0].$);
         formattedEntry.timestamp = entry['gphoto:timestamp'][0];

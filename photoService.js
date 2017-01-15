@@ -8,11 +8,13 @@ module.exports = {
     getPhotosByMonth(month) {
         const cachedPhotos = photoCache.get(month);
         if (cachedPhotos) {
-            return new Promise(resolve => resolve(cachedPhotos));
+            return new Promise(resolve => resolve(reducePhotoList(cachedPhotos)));
         }
 
         const startDate = new Date(month);
-        const endDate = (new Date(month)).setMonth(startDate.getMonth() + 1);
+        let endDate = new Date(month)
+        endDate.setMonth(startDate.getMonth() + 1);
+        endDate.setDate(endDate.getDate() - 1);
         const filters = buildTimeFilters(startDate, endDate);
         const fields = buildFields(filters);
 
@@ -20,7 +22,7 @@ module.exports = {
             .requestPhotos({ fields })
             .then((photos) =>{
                 photoCache.set(month, photos);
-                return new Promise(resolve => resolve(photos));
+                return new Promise(resolve => resolve(reducePhotoList(photos)));
             })
             .catch(error => error);
     },
@@ -45,6 +47,17 @@ module.exports = {
         return photoAdapter.requestPhotos({ fields });
     }
 };
+
+function reducePhotoList(photos) {
+    const reducedList = {};
+    for (let date in photos) {
+        if ({}.hasOwnProperty.call(photos, date)) {
+            reducedList[date] = { media: [] }
+            reducedList[date].media.push(photos[date].media[0]);
+        }
+    }
+    return reducedList;
+}
 
 function buildTimeFilters(startDateString, endDateString) {
     const startStamp = (new Date(startDateString)).getTime();
