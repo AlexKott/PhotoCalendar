@@ -48,21 +48,6 @@ module.exports = {
     }
 };
 
-function mergeResponses(responses) {
-    const singleResponse = {};
-    responses.forEach((response) => {
-        for (let date in response) {
-            if ({}.hasOwnProperty.call(response, date)) {
-                singleResponse[date] = singleResponse[date] || { media: [] };
-                singleResponse[date].media = singleResponse[date].media
-                    .concat(response[date].media)
-                    .sort((a, b) => a.timestamp > b.timestamp ? 1 : -1);
-            }
-        }
-    });
-    return singleResponse;
-}
-
 function reformatPicasaResponse(response) {
     const dayObject = {};
     const formattedResponse = [];
@@ -72,12 +57,21 @@ function reformatPicasaResponse(response) {
     }
     entries.forEach((entry) => {
         const formattedEntry = {};
-        const srcString = entry.content[0].$.src;
+        const content = entry['media:group'][0]['media:content'];
+        const srcString = content[0].$.url;
         const splitPosition = srcString.lastIndexOf('/');
         formattedEntry.path = srcString.slice(0, splitPosition);
         formattedEntry.fileName = srcString.slice(splitPosition + 1);
+        if (content.length > 1) { // content is video
+            // try to select medium quality, else use low quality video
+            const selectedContent = content[2].$ || content[1].$;
+            formattedEntry.videoSrc = selectedContent.url;
+            formattedEntry.type = selectedContent.type;
+        } else {
+            formattedEntry.type = content[0].$.type;
+        }
+
         formattedEntry.timestamp = entry['gphoto:timestamp'][0];
-        formattedEntry.type = entry.content[0].$.type;
         formattedResponse.push(formattedEntry);
     });
 
@@ -91,4 +85,19 @@ function reformatPicasaResponse(response) {
     });
 
     return dayObject;
+}
+
+function mergeResponses(responses) {
+    const singleResponse = {};
+    responses.forEach((response) => {
+        for (let date in response) {
+            if ({}.hasOwnProperty.call(response, date)) {
+                singleResponse[date] = singleResponse[date] || { media: [] };
+                singleResponse[date].media = singleResponse[date].media
+                    .concat(response[date].media)
+                    .sort((a, b) => a.timestamp > b.timestamp ? 1 : -1);
+            }
+        }
+    });
+    return singleResponse;
 }

@@ -80,5 +80,5 @@ function buildFields(filters) {
         filterString += filter;
     });
 
-    return `entry[${filterString}](content,gphoto:timestamp)`;
+    return `entry[${filterString}](media:group/media:content,gphoto:timestamp)`;
 }
