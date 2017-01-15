@@ -71,8 +71,13 @@ function reformatPicasaResponse(response) {
         return {};
     }
     entries.forEach((entry) => {
-        const formattedEntry = Object.assign({}, entry.content[0].$);
+        const formattedEntry = {};
+        const srcString = entry.content[0].$.src;
+        const splitPosition = srcString.lastIndexOf('/');
+        formattedEntry.path = srcString.slice(0, splitPosition);
+        formattedEntry.fileName = srcString.slice(splitPosition + 1);
         formattedEntry.timestamp = entry['gphoto:timestamp'][0];
+        formattedEntry.type = entry.content[0].$.type;
         formattedResponse.push(formattedEntry);
     });
 

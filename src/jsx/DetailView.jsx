@@ -10,14 +10,13 @@ class DetailView extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         this.setState({ photos: null });
-        getPhotos({ selectedDate: nextProps.selectedDate }).then((photos) => {
-            if (photos.length > 0) {
-                this.setState({ photos: photos[0].media });
+        getPhotos({ selectedDate: nextProps.selectedDate }, 's400').then((photos) => {
+            if (photos[nextProps.selectedDate]) {
+                this.setState({ photos: photos[nextProps.selectedDate].media });
             }
         });
     }
     render() {
-        // TODO Thumbnail size /s200/
         return (
             <div>
                 {this.state.photos
