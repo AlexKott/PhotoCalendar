@@ -20,9 +20,12 @@ class DetailView extends React.Component {
         return (
             <div>
                 {this.state.photos
-                    ? this.state.photos.map((photo, index) => (
-                        <img src={photo.src} key={index} />
-                    ))
+                    ? this.state.photos.map((photo, index) => {
+                        if (photo.videoSrc) {
+                            return (<video src={photo.videoSrc} controls={true} width={400} />);
+                        }
+                        return (<img src={photo.src} key={index} />);
+                    })
                     // TODO: handle empty state
                     : <img src="assets/images/loader.svg" />
                 }

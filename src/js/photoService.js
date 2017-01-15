@@ -42,6 +42,9 @@ function formatImageSrc(response, quality) {
                 formattedPhoto.src = `${photo.path}/${quality}/${photo.fileName}`;
                 formattedPhoto.type = photo.type;
                 formattedPhoto.timestamp = photo.timestamp;
+                if (formattedPhoto.type.indexOf('video') !== -1) {
+                    formattedPhoto.videoSrc = photo.videoSrc;
+                }
                 formattedResponse[date].media.push(formattedPhoto);
             });
         }
