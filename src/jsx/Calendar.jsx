@@ -27,7 +27,7 @@ class Calendar extends React.Component {
     }
     componentDidMount() {
         this.props.updateDate(this.state.selectedDay);
-        getPhotos({ month: this.state.selectedMonth.requestString }, 's200').then((photos) => {
+        getPhotos({ month: this.state.selectedMonth.requestString }).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
     }
@@ -58,7 +58,7 @@ class Calendar extends React.Component {
         const daysArray = getDaysArray(selectedMonth.month, selectedMonth.year);
         const fillElementsStart = this.calculateOffsetStart(selectedMonth);
         const fillElementsEnd = this.calculateOffsetEnd(selectedMonth);
-        getPhotos({ month: selectedMonth.requestString }, 's150').then((photos) => {
+        getPhotos({ month: selectedMonth.requestString }).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
 

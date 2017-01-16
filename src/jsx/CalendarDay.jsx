@@ -10,7 +10,7 @@ class CalendarDay extends React.Component {
                 <span>{this.props.displayNumber}</span>
                 <div
                     className="day__image-container"
-                    style={{ backgroundImage: `url(${this.props.image ? this.props.image.media[0].src : ''})` }}>
+                    style={{ backgroundImage: `url(${this.props.image ? this.props.image.media[0].thumbnailSrc : ''})` }}>
                 </div>
             </div>
         );

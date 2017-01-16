@@ -1,6 +1,6 @@
 const PHOTOS_API = `http://${window.location.host}/entries`;
 
-function getPhotos(queryParams, quality) {
+function getPhotos(queryParams) {
     return new Promise(function(resolve, reject) {
         let queryString = '?';
         let i = 0;
@@ -20,7 +20,7 @@ function getPhotos(queryParams, quality) {
         xhr.responseType = 'json';
         xhr.onload = function() {
             if (xhr.status === 200) {
-                resolve(formatImageSrc(xhr.response, quality));
+                resolve(formatImageSrc(xhr.response));
             } else {
                 reject('There was an error loading the images. (Server error)');
             }
@@ -32,14 +32,16 @@ function getPhotos(queryParams, quality) {
     });
 }
 
-function formatImageSrc(response, quality) {
+function formatImageSrc(response) {
     const formattedResponse = {};
     for (let date in response) {
         if ({}.hasOwnProperty.call(response, date)) {
             formattedResponse[date] = { media: [] };
             response[date].media.forEach((photo) => {
                 const formattedPhoto = Object.assign({}, photo);
-                formattedPhoto.src = `${photo.path}/${quality}/${photo.fileName}`;
+                formattedPhoto.thumbnailSrc = `${photo.path}/s150/${photo.fileName}`;
+                formattedPhoto.src = `${photo.path}/s400/${photo.fileName}`;
+                formattedPhoto.highQualitySrc = `${photo.path}/s900/${photo.fileName}`;
                 formattedResponse[date].media.push(formattedPhoto);
             });
         }
