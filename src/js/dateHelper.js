@@ -11,6 +11,10 @@ function getDateString(day, month, year) {
     return `${givenYear}-${displayMonth}-${displayDay}`;
 }
 
+function getDateStringFromDate(date) {
+    return getDateString(date.getDate(), date.getMonth(), date.getFullYear());
+}
+
 function selectMonth(month, year) {
     const today = new Date();
     const givenYear = year ? year : today.getFullYear();
@@ -53,4 +57,4 @@ function getDisplayDay(dateString) {
     return `${weekday}, ${monthName} ${date.getDate()}`;
 }
 
-export { getDateString, selectMonth, getDaysArray, getDisplayDay };
+export { getDateString, getDateStringFromDate, selectMonth, getDaysArray, getDisplayDay };

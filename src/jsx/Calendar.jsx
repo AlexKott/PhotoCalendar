@@ -2,6 +2,7 @@ import React from 'react';
 import CalendarDay from './CalendarDay.jsx';
 import { selectMonth, getDaysArray, getDateString } from '../js/dateHelper.js';
 import { getPhotos } from '../js/photoService.js';
+import { getEvents } from '../js/eventService.js';
 
 class Calendar extends React.Component {
     constructor(props) {
@@ -19,23 +20,24 @@ class Calendar extends React.Component {
             fillElementsStart,
             fillElementsEnd,
             selectedDay,
-            dailyThumbnails: {}
+            dailyThumbnails: {},
+            events: []
         }
-    }
-    componentWillMount() {
-
     }
     componentDidMount() {
         this.props.updateDate(this.state.selectedDay);
         getPhotos({ month: this.state.selectedMonth.requestString }).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
+        getEvents({ month: this.state.selectedMonth.requestString }).then((events) => {
+            this.setState({ events });
+        });
     }
     calculateOffsetStart(month) {
         const numberOfFillDays = month.firstWeekday === 0 ? 6 : month.firstWeekday - 1;
         const fillElementsStart = [];
         for (let i = 0; i < numberOfFillDays; i++) {
-            fillElementsStart.push(<div className="monthGrid__element" key={i}></div>);
+            fillElementsStart.push(<span className="monthGrid__element" key={i}></span>);
         }
         return fillElementsStart;
     }
@@ -44,7 +46,7 @@ class Calendar extends React.Component {
         const fillElementsEnd = [];
         let totalDays = numberOfFillDays + month.numberOfDays;
         while (totalDays % 7 !== 0) {
-            fillElementsEnd.push(<div className="monthGrid__element" key={totalDays}></div>);
+            fillElementsEnd.push(<span className="monthGrid__element" key={totalDays}></span>);
             totalDays++;
         }
         return fillElementsEnd;
@@ -61,6 +63,9 @@ class Calendar extends React.Component {
         getPhotos({ month: selectedMonth.requestString }).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
+        getEvents({ month: selectedMonth.requestString }).then((events) => {
+            this.setState({ events });
+        });
 
         this.setState({ selectedMonth, daysArray, fillElementsStart, fillElementsEnd });
     }
@@ -74,16 +79,26 @@ class Calendar extends React.Component {
                 </div>
                 <div className="monthGrid">
                     {this.state.fillElementsStart}
-                    {this.state.daysArray.map((day) => (
-                        <CalendarDay
-                            key={day.date}
-                            date={day.date}
-                            displayNumber={day.displayNumber}
-                            image={this.state.dailyThumbnails[day.date]}
-                            onSelectDay={this.onSelectDay.bind(this)}
-                            isSelected={day.date === this.state.selectedDay}
-                        />
-                    ))}
+                    {this.state.daysArray.map((day, index) => {
+                        const dayEvents = [];
+                        this.state.events.forEach((event) => {
+                            if (event.startDate <= day.date && day.date <= event.endDate) {
+                                dayEvents.push(event);
+                            }
+                        });
+                        return (
+                            <CalendarDay
+                                key={day.date}
+                                dayIndex={this.state.fillElementsStart.length + index}
+                                date={day.date}
+                                displayNumber={day.displayNumber}
+                                image={this.state.dailyThumbnails[day.date]}
+                                events={dayEvents}
+                                isSelected={day.date === this.state.selectedDay}
+                                onSelectDay={this.onSelectDay.bind(this)}
+                            />
+                        );
+                    })}
                     {this.state.fillElementsEnd}
                 </div>
             </div>
