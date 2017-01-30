@@ -4,6 +4,8 @@ const router = express.Router();
 const calendarService = require('./services/calendarService');
 const photoService = require('./services/photoService');
 
+router.use(express.static('dist'));
+
 router.get('/events', (req, res) => {
     if (Object.keys(req.query).length === 0) {
         return res.status(400).send('Missing query parameters');

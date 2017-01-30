@@ -5,8 +5,6 @@ const travelRouter = require('./router.js');
 
 const port = 4040;
 
-app.use(express.static('dist'));
-
 app.use('/', travelRouter);
 
 app.listen(port, () => {

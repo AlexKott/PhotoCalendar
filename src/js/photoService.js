@@ -1,5 +1,5 @@
-import ajax from './ajax';
-const PHOTOS_API = `http://${window.location.host}/entries`;
+import ajax, { API_URL} from './ajax';
+const PHOTOS_API = `${API_URL}/entries`;
 
 function getPhotos(queryParams) {
     return new Promise((resolve, reject) => {
