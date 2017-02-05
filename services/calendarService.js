@@ -18,6 +18,18 @@ module.exports = {
                     reject(requestError);
                 });
         });
+    },
+    getAllEvents() {
+        return new Promise((resolve, reject) => {
+            calendarAdapter.requestEvents(null)
+                .then((events) => {
+                    resolve(events);
+                })
+                .catch(requestError => {
+                    console.log(requestError);
+                    reject(requestError);
+                });
+        });
     }
 };
 

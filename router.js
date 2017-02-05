@@ -15,11 +15,14 @@ router.get('/admin', (req, res) => {
 
 router.get('/events', (req, res) => {
     if (Object.keys(req.query).length === 0) {
-        return res.status(400).send('Missing query parameters');
+        calendarService.getAllEvents()
+            .then(events => res.send(events))
+            .catch(error => res.send(error));
+    } else {
+        calendarService.getEventsByMonth(req.query.month)
+            .then(events => res.send(events))
+            .catch(error => res.send(error));
     }
-    calendarService.getEventsByMonth(req.query.month)
-        .then(events => res.send(events))
-        .catch(error => res.send(error));
 });
 
 router.get('/entries', (req, res) => {
