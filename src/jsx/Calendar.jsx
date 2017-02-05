@@ -1,6 +1,5 @@
 import React from 'react';
 import CalendarWeek from './CalendarWeek.jsx';
-import CalendarDay from './CalendarDay.jsx';
 import { selectMonth, getDateString, getWeeks, buildEventWeeks } from '../js/dateHelper.js';
 import { getPhotos } from '../js/photoService.js';
 import { getEvents } from '../js/eventService.js';
@@ -39,6 +38,7 @@ class Calendar extends React.Component {
     onChangeMonth(direction) {
         const selectedMonth = selectMonth((this.state.selectedMonth.month + direction), this.state.selectedMonth.year);
         const weeks = getWeeks(selectedMonth);
+        this.setState({ weeks });
 
         getPhotos({ month: selectedMonth.requestString }).then((photos) => {
             this.setState({ dailyThumbnails: photos });
@@ -58,7 +58,15 @@ class Calendar extends React.Component {
                     <button className="button" onClick={() => this.onChangeMonth(1)}>Next</button>
                 </div>
                 <div className="calendar">
-                    {this.state.weeks.map((days, index) => <CalendarWeek days={days} key={index} images={this.state.dailyThumbnails} />)}
+                    {this.state.weeks.map((days, index) => (
+                        <CalendarWeek
+                            days={days}
+                            key={index}
+                            images={this.state.dailyThumbnails}
+                            onSelectDay={this.onSelectDay.bind(this)}
+                            selectedDay={this.state.selectedDay}
+                        />
+                    ))}
                 </div>
             </div>
         );

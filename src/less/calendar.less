@@ -1,56 +1,141 @@
-.calendar__header {
-    width: 80vw;
+@calendarWidth: 80vw;
+@weekDayHeight: 90px;
+@eventHeight: 20px;
+
+.calendar {
+    width: @calendarWidth;
     margin: auto;
     margin-top: 30px;
     margin-bottom: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.calendar__title {
-    margin: 0;
-    text-align: center;
-    font-weight: 300;
-}
-
-.monthGrid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-
-    width: 80vw;
-    margin: auto;
-}
-
-.monthGrid__element {
-    flex-basis: 13%;
-    flex-grow: 1;
-    margin: 5px;
-}
-
-.day {
-    .monthGrid__element;
-    position: relative;
-    height: 80px;
-    padding: 8px;
-    background-color: white;
-    font-size: 21px;
-    &--selected {
-        border: solid 5px green;
-        margin: 0 5px;
-        height: 90px;
-        padding: 8px 3px;
+    &__header {
+        width: 80vw;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    &__title {
+        margin: 0;
+        text-align: center;
+        font-weight: 300;
     }
 }
-
-.day__image-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
+.c-week {
+    position: relative;
     width: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0.4;
+    height: @weekDayHeight;
+    margin: 8px 0;
+    &__days,
+    &__events {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        display: flex;
+    }
+    &__days {
+        top: 0;
+        height: 100%;
+    }
+    &__events {
+        bottom: 0;
+        height: @eventHeight;
+    }
+
+    &__day {
+        position: relative;
+        flex-basis: calc(100%/7);
+        height: 100%;
+        margin: 0 4px;
+        padding: 10px;
+        background-color: white;
+        background-size: cover;
+        background-position: center;
+        opacity: 0.4;
+        cursor: pointer;
+        font-size: 18px;
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            background-color: rgba(255,255,255,0.5);
+            transition: opacity 0.3s;
+        }
+        &:not(.c-week__day--pseudo):hover:after {
+            opacity: 1;
+        }
+        &--pseudo {
+            background-color: transparent;
+            cursor: initial;
+        }
+        &--selected {
+            border: 4px solid green;
+        }
+    }
+    &__event {
+        position: relative;
+        height: 100%;
+        padding: 0 4px;
+        border-left: 4px solid rgb(240, 245, 235);
+        border-right: 4px solid rgb(240, 245, 235);
+        overflow: hidden;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight:300;
+        line-height: @eventHeight;
+        text-shadow: 0 0 4px rgba(200,200,200, 0.5);
+        color: black;
+        transition: background-color 0.3s;
+        &--pseudo {
+            background-color: transparent;
+            cursor: initial;
+        }
+        &--0 {
+            .eventBgColor(244, 50, 50);
+        }
+        &--1 {
+            .eventBgColor(244, 100, 100);
+        }
+        &--2 {
+            .eventBgColor(244, 150, 150);
+        }
+        &--3 {
+            .eventBgColor(50, 244, 50);
+        }
+        &--4 {
+            .eventBgColor(100, 244, 100);
+        }
+        &--5 {
+            .eventBgColor(150, 244, 150);
+        }
+        &--6 {
+            .eventBgColor(50, 50, 244);
+        }
+        &--7 {
+            .eventBgColor(100, 100, 244);
+        }
+        &--8 {
+            .eventBgColor(150, 150, 244);
+        }
+        &--9 {
+            .eventBgColor(100, 100, 100);
+        }
+        &--10 {
+            .eventBgColor(50, 50, 50);
+        }
+        &--11 {
+            .eventBgColor(244, 0, 100);
+        }
+    }
+}
+.eventBgColor(@r, @g, @b) {
+    background-color: rgba(@r, @g, @b, 0.4);
+    &:hover {
+        background-color: rgba(@r, @g, @b, 0.7);
+    }
 }

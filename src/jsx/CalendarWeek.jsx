@@ -13,15 +13,16 @@ class CalendarWeek extends React.Component {
             <section className="c-week">
                 <div className="c-week__days">
                     {this.props.days.map((day, index) => {
-                        if (!day.date) {
-                            return (<div className="c-week__day c-week__day--pseudo"></div>);
-                        } else {
+                        if (day.date) {
                             return (
                                 <div
-                                    className="c-week__day"
+                                    className={this.props.selectedDay === day.date ? 'c-week__day c-week__day--selected' : 'c-week__day'}
                                     style={{ backgroundImage: `url(${this.props.images[day.date] ? this.props.images[day.date].media[0].thumbnailSrc : ''})` }}
+                                    onClick={() => this.props.onSelectDay(day.date)}
                                 >{day.displayNumber}</div>
                             );
+                        } else {
+                            return (<div className="c-week__day c-week__day--pseudo"></div>);
                         }
                     })}
                 </div>
