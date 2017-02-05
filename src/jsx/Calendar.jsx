@@ -57,7 +57,9 @@ class Calendar extends React.Component {
                     <h1 className="calendar__title">{this.state.selectedMonth.displayName}</h1>
                     <button className="button" onClick={() => this.onChangeMonth(1)}>Next</button>
                 </div>
-                {this.state.weeks.map((days, index) => <CalendarWeek days={days} key={index} />)}
+                <div className="calendar">
+                    {this.state.weeks.map((days, index) => <CalendarWeek days={days} key={index} images={this.state.dailyThumbnails} />)}
+                </div>
             </div>
         );
     }

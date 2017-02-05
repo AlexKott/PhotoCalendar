@@ -1,3 +1,9 @@
+.calendar {
+    width: 80vw;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
 .c-week {
     position: relative;
     width: 100%;
@@ -16,5 +22,63 @@
     &__events {
         bottom: 0;
         height: 20px;
+    }
+
+    &__day {
+        flex-basis: calc(100%/7);
+        height: 100%;
+        margin: 2px;
+        padding: 2px;
+        background-color: white;
+        background-size: cover;
+        background-position: center;
+        opacity: 0.4;
+        &--pseudo {
+            background-color: transparent;
+        }
+    }
+    &__event {
+        height: 100%;
+        background-color: red;
+        overflow: hidden;
+        &--pseudo {
+            background-color: transparent;
+        }
+        &--0 {
+            background-color: rgba(244, 50, 50, 0.4);
+        }
+        &--1 {
+            background-color: rgba(244, 100, 100, 0.4);
+        }
+        &--2 {
+            background-color: rgba(244, 150, 150, 0.4);
+        }
+        &--3 {
+            background-color: rgba(50, 244, 50, 0.4);
+        }
+        &--4 {
+            background-color: rgba(100, 244, 100, 0.4);
+        }
+        &--5 {
+            background-color: rgba(150, 244, 150, 0.4);
+        }
+        &--6 {
+            background-color: rgba(50, 50, 244, 0.4);
+        }
+        &--7 {
+            background-color: rgba(100, 100, 244, 0.4);
+        }
+        &--8 {
+            background-color: rgba(150, 150, 244, 0.4);
+        }
+        &--9 {
+            background-color: rgba(100, 100, 100, 0.4);
+        }
+        &--10 {
+            background-color: rgba(50, 50, 50, 0.4);
+        }
+        &--11 {
+            background-color: rgba(244, 0, 100, 0.4);
+        }
     }
 }
