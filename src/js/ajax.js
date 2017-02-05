@@ -36,4 +36,4 @@ export default ajax;
 
 const isLocalEnv = window.location.hostname === 'localhost';
 
-export const API_URL = isLocalEnv ? 'http://localhost:4040' : window.location.host;
+export const API_URL = isLocalEnv ? 'http://localhost:4040' : `${window.location.protocol}//${window.location.host}`;

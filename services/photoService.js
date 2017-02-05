@@ -5,10 +5,12 @@ const photoAdapter = require('../adapters/photoAdapter');
 const photoCache = new NodeCache({ stdTTL: 3600 });
 
 module.exports = {
-    getPhotosByMonth(month) {
-        const cachedPhotos = photoCache.get(month);
-        if (cachedPhotos) {
-            return new Promise(resolve => resolve(reducePhotoList(cachedPhotos)));
+    getPhotosByMonth(month, useCache) {
+        if (useCache) {
+            const cachedPhotos = photoCache.get(month);
+            if (cachedPhotos) {
+                return new Promise(resolve => resolve(reducePhotoList(cachedPhotos)));
+            }
         }
 
         const startDate = new Date(month);
@@ -26,13 +28,15 @@ module.exports = {
             })
             .catch(error => error);
     },
-    getPhotosByDay(selectedDate) {
-        const month = selectedDate.substring(0, 7);
-        const cachedPhotos = photoCache.get(month);
-        if (cachedPhotos) {
-            const photoObj = {};
-            photoObj[selectedDate] = cachedPhotos[selectedDate];
-            return new Promise(resolve => resolve(photoObj));
+    getPhotosByDay(selectedDate, useCache) {
+        if (useCache) {
+            const month = selectedDate.substring(0, 7);
+            const cachedPhotos = photoCache.get(month);
+            if (cachedPhotos) {
+                const photoObj = {};
+                photoObj[selectedDate] = cachedPhotos[selectedDate];
+                return new Promise(resolve => resolve(photoObj));
+            }
         }
 
         const filters = buildTimeFilters(selectedDate, selectedDate);

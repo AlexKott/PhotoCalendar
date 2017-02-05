@@ -1,12 +1,9 @@
 const express = require('express');
 const app = express();
 
-const travelRouter = require('./router.js');
+const router = require('./router.js');
 
-const port = 4040;
+app.use('/', router);
+app.use(express.static('./dist', { index: false }));
 
-app.use('/', travelRouter);
-
-app.listen(port, () => {
-    console.log(`Listening on ${port}`);
-});
+app.listen(4040, () => console.log('Listening on 4040...'));
