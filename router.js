@@ -9,6 +9,10 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
+router.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 router.get('/events', (req, res) => {
     if (Object.keys(req.query).length === 0) {
         return res.status(400).send('Missing query parameters');
