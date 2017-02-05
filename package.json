@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -d --watch"
+    "start": "export NODE_ENV=production && webpack && node index.js &",
+    "watch": "concurrently \"webpack -d --watch\" \"nodemon index.js\""
   },
   "author": "Alex Kott, Alina Beck",
   "license": "ISC",
