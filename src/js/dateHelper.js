@@ -3,7 +3,7 @@ import { monthNames, monthLengths, weekdays } from './dateConstants';
 function getDateString(day, month, year) {
     const today = new Date();
     const givenDay = day ? day : today.getDate();
-    const givenMonth = month ? (month + 1) : (today.getMonth() + 1);
+    const givenMonth = (typeof month === 'undefined') ? (today.getMonth() + 1) : (month + 1);
     const givenYear = year ? year : today.getFullYear();
 
     const displayDay = givenDay < 10 ? '0' + givenDay : givenDay;
@@ -18,7 +18,7 @@ function getDateStringFromDate(date) {
 function selectMonth(month, year) {
     const today = new Date();
     const givenYear = year ? year : today.getFullYear();
-    const givenMonth = month ? month : today.getMonth();
+    const givenMonth = (typeof month === 'undefined') ? today.getMonth() : month;
     const date = new Date(givenYear, givenMonth, 1);
     return {
         month: date.getMonth(),
@@ -32,7 +32,7 @@ function selectMonth(month, year) {
 
 function getDaysArray(month, year) {
     const selectedYear = year ? year : (new Date()).getFullYear();
-    const selectedMonth = month ? month : (new Date()).getMonth();
+    const selectedMonth = (typeof month === 'undefined') ? (new Date()).getMonth() : month;
     const monthLength = getMonthLength(selectedMonth, selectedYear);
 
     const days = [];
