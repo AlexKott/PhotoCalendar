@@ -57,4 +57,63 @@ function getDisplayDay(dateString) {
     return `${weekday}, ${monthName} ${date.getDate()}`;
 }
 
-export { getDateString, getDateStringFromDate, selectMonth, getDaysArray, getDisplayDay };
+function getWeeks(selectedMonth) {
+    const daysArray = getDaysArray(selectedMonth.month, selectedMonth.year);
+    const weekDummiesStart = getWeekDummies('start', selectedMonth);
+    const weekDummiesEnd = getWeekDummies('end', selectedMonth);
+
+    const month = [].concat(weekDummiesStart, daysArray, weekDummiesEnd);
+    const weeks = [];
+
+    while(month.length > 0) {
+        weeks.push(month.splice(0, 7));
+    }
+    return weeks;
+}
+
+function getWeekDummies(position, month) {
+    const numberOfFillDays = month.firstWeekday === 0 ? 6 : month.firstWeekday - 1;
+    return position === 'start' ?
+        getWeekDummiesStart(month, numberOfFillDays) :
+        getWeekDummiesEnd(month, numberOfFillDays);
+}
+function getWeekDummiesStart(month, numberOfFillDays) {
+    const fillElements = [];
+    for (let i = 0; i < numberOfFillDays; i++) {
+        fillElements.push({ date: null });
+    }
+    return fillElements;
+}
+function getWeekDummiesEnd(month, numberOfFillDays) {
+    const fillElements = [];
+    let totalDays = numberOfFillDays + month.numberOfDays;
+    while (totalDays % 7 !== 0) {
+        fillElements.push({ date: null });
+        totalDays++;
+    }
+    return fillElements;
+}
+
+function buildEventWeeks(weeks, events) {
+    events.forEach(event => {
+        weeks.forEach(week => {
+            week.forEach(day => {
+                if (event.startDate <= day.date && day.date <= event.endDate) {
+                    const options = {};
+                    if (!day.events) {
+                        day.events = [];
+                    }
+                    if (event.startDate === day.date) {
+                        options.isStart = true;
+                    } else if (event.endDate === day.date) {
+                        options.isEnd = true;
+                    }
+                    day.events.push(Object.assign({}, event, options));
+                }
+            });
+        });
+    });
+    return weeks;
+}
+
+export { getDateString, getDateStringFromDate, selectMonth, getDaysArray, getDisplayDay, getWeeks, buildEventWeeks };

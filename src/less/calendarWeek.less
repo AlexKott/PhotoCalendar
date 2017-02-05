@@ -1,0 +1,20 @@
+.c-week {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    &__days,
+    &__events {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        display: flex;
+    }
+    &__days {
+        top: 0;
+        height: 100%;
+    }
+    &__events {
+        bottom: 0;
+        height: 20px;
+    }
+}
