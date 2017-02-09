@@ -25,6 +25,10 @@ router.get('/events', (req, res) => {
     }
 });
 
+router.post('/texts', (req, res) => {
+    // TODO: save in mongodb
+});
+
 router.get('/entries', (req, res) => {
     if (Object.keys(req.query).length === 0) {
         return res.status(400).send('Missing query parameters');

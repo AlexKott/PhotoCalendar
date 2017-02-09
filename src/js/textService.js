@@ -1,12 +1,12 @@
 import ajax, { API_URL } from './ajax';
-const EVENTS_API = `${API_URL}/events`;
+const TEXTS_API = `${API_URL}/texts`;
 
-function getEvents(queryParams) {
+function postText(text) {
     return new Promise((resolve, reject) => {
-        ajax(EVENTS_API, 'GET', queryParams)
+        ajax(TEXTS_API, 'POST', text)
             .then(response => resolve(response))
             .catch(error => reject(error));
     });
 }
 
-export { getEvents };
+export { postText };

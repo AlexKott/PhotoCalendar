@@ -1,6 +1,7 @@
 import React from 'react';
 import Quill from 'quill';
 import { getEvents } from '../js/eventService.js';
+import { postText } from '../js/textService.js';
 
 class Admin extends React.Component {
     constructor(props) {
@@ -30,10 +31,13 @@ class Admin extends React.Component {
     }
     onSaveText() {
         const type = this.state.selectedType;
-        const date = type === date ? this.state.selectedDate : null;
-        const event = type === event ? this.state.selectedEvent : null;
+        const date = type === 'date' ? this.state.selectedDate : null;
+        const event = type === 'event' ? this.state.selectedEvent : null;
         const html = this.state.quill.root.innerHTML;
-        
+        postText({ type, date, event, html }).then((response) => {
+            console.log('text saved');
+            console.log(response);
+        });
     }
     render () {
         return (

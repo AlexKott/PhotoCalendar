@@ -3,7 +3,7 @@ const PHOTOS_API = `${API_URL}/entries`;
 
 function getPhotos(queryParams) {
     return new Promise((resolve, reject) => {
-        ajax(PHOTOS_API, queryParams)
+        ajax(PHOTOS_API, 'GET', queryParams)
             .then(response => resolve(formatImageSrc(response)))
             .catch(error => reject(error));
     });

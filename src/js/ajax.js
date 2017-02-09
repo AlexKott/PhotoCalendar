@@ -1,20 +1,29 @@
-function ajax(uri, query) {
+function ajax(url, method, data) {
     return new Promise((resolve, reject) => {
-        const queryString = query ? buildQueryString(query) : '';
+        let uri = url;
+        let postData;
+        if (method === 'GET') {
+            const queryString = data ? buildQueryString(data) : '';
+            uri += queryString;
+        } else if (method === 'POST') {
+            postData = data;
+        }
+
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', uri + queryString);
+        xhr.open(method, uri);
         xhr.responseType = 'json';
+        xhr.setRequestHeader('Content-type', 'application/json');
         xhr.onload = function onXhrLoad() {
             if (xhr.status === 200) {
                 resolve(xhr.response);
             } else {
-                reject('There was an error loading the images. (Server error)');
+                reject('There was an error processing the request. (Server error)');
             }
         }
         xhr.onerror = function onXhrError() {
-            reject('There was an error loading the images. (Request error)');
+            reject('There was an error processing the request. (Request error)');
         }
-        xhr.send();
+        xhr.send(JSON.stringify(postData));
     });
 }
 
