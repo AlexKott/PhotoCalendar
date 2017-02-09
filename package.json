@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "node-cache": "^4.1.1",
+    "quill": "^1.2.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "request": "^2.79.0",

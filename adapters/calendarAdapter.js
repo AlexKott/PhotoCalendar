@@ -45,7 +45,8 @@ function formatEvents(response) {
         } else {
             endDate = item.end.dateTime.substring(0, 10);
         }
-        events.push({ summary, description, colorId, startDate, endDate });
+        const eventId = `${startDate}_${endDate}`;
+        events.push({ summary, description, colorId, startDate, endDate, eventId });
     });
     return events;
 }
