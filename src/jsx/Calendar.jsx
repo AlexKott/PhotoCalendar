@@ -35,6 +35,9 @@ class Calendar extends React.Component {
         this.setState({ selectedDay });
         this.props.updateDate(selectedDay);
     }
+    onSelectEvent(selectedEvent) {
+        this.props.updateEvent(selectedEvent);
+    }
     onChangeMonth(direction) {
         const selectedMonth = selectMonth((this.state.selectedMonth.month + direction), this.state.selectedMonth.year);
         const weeks = getWeeks(selectedMonth);
@@ -64,6 +67,7 @@ class Calendar extends React.Component {
                             key={index}
                             images={this.state.dailyThumbnails}
                             onSelectDay={this.onSelectDay.bind(this)}
+                            onSelectEvent={this.onSelectEvent.bind(this)}
                             selectedDay={this.state.selectedDay}
                         />
                     ))}

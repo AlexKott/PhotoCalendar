@@ -15,12 +15,28 @@ class DetailView extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         this.setState({ title: null, photos: null, isLoading: true });
-        getPhotos({ selectedDate: nextProps.selectedDate }).then((photos) => {
-            if (photos[nextProps.selectedDate]) {
-                this.setState({ title: getDisplayDay(nextProps.selectedDate), photos: photos[nextProps.selectedDate].media });
-            }
-            this.setState({ isLoading: false });
-        });
+        if (nextProps.selectedDate) {
+            getPhotos({ selectedDate: nextProps.selectedDate }).then((photos) => {
+                if (photos[nextProps.selectedDate]) {
+                    this.setState({ title: getDisplayDay(nextProps.selectedDate), photos: photos[nextProps.selectedDate].media });
+                }
+                this.setState({ isLoading: false });
+            });
+        } else if (nextProps.selectedEvent) {
+            const dates = nextProps.selectedEvent.split('_');
+            const startDate = dates[0];
+            const endDate = dates[1];
+            getPhotos({ startDate, endDate }).then((photos) => {
+                const allPhotos = [];
+                for (let date in photos) {
+                    if ({}.hasOwnProperty.call(photos, date)) {
+                        allPhotos.push(...photos[date].media);
+                    }
+                }
+                this.setState({ title: 'Event Test', photos: allPhotos, isLoading: false });
+            });
+        }
+
     }
     onOpenSlideshow(startPhoto) {
         document.querySelector('body').classList.add('no-scroll');

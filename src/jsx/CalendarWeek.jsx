@@ -19,10 +19,11 @@ class CalendarWeek extends React.Component {
                                     className={this.props.selectedDay === day.date ? 'c-week__day c-week__day--selected' : 'c-week__day'}
                                     style={{ backgroundImage: `url(${this.props.images[day.date] ? this.props.images[day.date].media[0].thumbnailSrc : ''})` }}
                                     onClick={() => this.props.onSelectDay(day.date)}
+                                    key={index}
                                 >{day.displayNumber}</div>
                             );
                         } else {
-                            return (<div className="c-week__day c-week__day--pseudo"></div>);
+                            return (<div className="c-week__day c-week__day--pseudo" key={index}></div>);
                         }
                     })}
                 </div>
@@ -33,10 +34,12 @@ class CalendarWeek extends React.Component {
                                 <div
                                     className={`c-week__event c-week__event--${event.colorId}`}
                                     style={{ flexBasis: `${100/7*event.size}%`}}
+                                    onClick={() => this.props.onSelectEvent(event.eventId)}
+                                    key={index}
                                 >{event.summary}</div>
                             );
                         } else {
-                            return <div className="c-week__event c-week__event--pseudo" style={{ flexBasis: `${100/7*event.size}%`}}></div>;
+                            return (<div className="c-week__event c-week__event--pseudo" style={{ flexBasis: `${100/7*event.size}%`}} key={index}></div>);
                         }
                     })}
                 </div>
@@ -68,17 +71,17 @@ function reduceEvents(days) {
                 if (current) {
                     elements.push(current);
                 }
-                current = { isEvent: true, colorId: event.colorId, summary: event.summary, size: 1 };
+                current = { isEvent: true, eventId: event.eventId, colorId: event.colorId, summary: event.summary, size: 1 };
             }
         } else if (days[i].events.length === 2) {
             const startEvent = days[i].events[0].isStart ? days[i].events[0] : days[i].events[1];
             const endEvent = days[i].events[0].isEnd ? days[i].events[0] : days[i].events[1];
             if (!current) {
-                current = { isEvent: true, colorId: endEvent.colorId, summary: endEvent.summary, size: 0 };
+                current = { isEvent: true, eventId: event.eventId, colorId: endEvent.colorId, summary: endEvent.summary, size: 0 };
             }
             current.size += 0.5;
             elements.push(current);
-            current = { isEvent: true, colorId: startEvent.colorId, summary: startEvent.summary, size: 0.5 };
+            current = { isEvent: true, eventId: event.eventId, colorId: startEvent.colorId, summary: startEvent.summary, size: 0.5 };
         }
     }
     elements.push(current);
