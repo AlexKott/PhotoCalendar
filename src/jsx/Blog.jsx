@@ -7,22 +7,18 @@ class Blog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedDate: null,
-            selectedEvent: null
+            selectedElement: null
         }
     }
-    updateDate(selectedDate) {
-        this.setState({ selectedDate, selectedEvent: null });
-    }
-    updateEvent(selectedEvent) {
-        this.setState({ selectedEvent, selectedDate: null });
+    selectElement(selectedElement) {
+        this.setState({ selectedElement });
     }
 
     render() {
         return(
             <div>
-                <Calendar updateDate={this.updateDate.bind(this)} updateEvent={this.updateEvent.bind(this)}/>
-                <DetailView selectedDate={this.state.selectedDate} selectedEvent={this.state.selectedEvent}/>
+                <Calendar selectElement={this.selectElement.bind(this)} />
+                <DetailView selectedElement={this.state.selectedElement} />
             </div>
         );
     }

@@ -20,7 +20,7 @@ class Calendar extends React.Component {
         }
     }
     componentDidMount() {
-        this.props.updateDate(this.state.selectedDay);
+        this.props.selectElement(this.state.selectedDay);
 
         const weeks = this.state.weeks;
 
@@ -31,12 +31,11 @@ class Calendar extends React.Component {
             this.setState({ weeks: buildEventWeeks(weeks, events) });
         });
     }
-    onSelectDay(selectedDay) {
-        this.setState({ selectedDay });
-        this.props.updateDate(selectedDay);
-    }
-    onSelectEvent(selectedEvent) {
-        this.props.updateEvent(selectedEvent);
+    onSelectElement(selectedElement) {
+        this.props.selectElement(selectedElement);
+        if (!selectedElement.isEvent) {
+            this.setState({ selectedDay: selectedElement });
+        }
     }
     onChangeMonth(direction) {
         const selectedMonth = selectMonth((this.state.selectedMonth.month + direction), this.state.selectedMonth.year);
@@ -66,8 +65,7 @@ class Calendar extends React.Component {
                             days={days}
                             key={index}
                             images={this.state.dailyThumbnails}
-                            onSelectDay={this.onSelectDay.bind(this)}
-                            onSelectEvent={this.onSelectEvent.bind(this)}
+                            onSelectElement={this.onSelectElement.bind(this)}
                             selectedDay={this.state.selectedDay}
                         />
                     ))}

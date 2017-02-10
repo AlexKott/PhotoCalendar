@@ -18,7 +18,7 @@ class CalendarWeek extends React.Component {
                                 <div
                                     className={this.props.selectedDay === day.date ? 'c-week__day c-week__day--selected' : 'c-week__day'}
                                     style={{ backgroundImage: `url(${this.props.images[day.date] ? this.props.images[day.date].media[0].thumbnailSrc : ''})` }}
-                                    onClick={() => this.props.onSelectDay(day.date)}
+                                    onClick={() => this.props.onSelectElement(day.date)}
                                     key={index}
                                 >{day.displayNumber}</div>
                             );
@@ -34,7 +34,7 @@ class CalendarWeek extends React.Component {
                                 <div
                                     className={`c-week__event c-week__event--${event.colorId}`}
                                     style={{ flexBasis: `${100/7*event.size}%`}}
-                                    onClick={() => this.props.onSelectEvent(event.eventId)}
+                                    onClick={() => this.props.onSelectElement(event)}
                                     key={index}
                                 >{event.summary}</div>
                             );
