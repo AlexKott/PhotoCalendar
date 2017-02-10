@@ -20,21 +20,24 @@ class Calendar extends React.Component {
         }
     }
     componentDidMount() {
-        this.props.selectElement(this.state.selectedDay);
+        this.props.selectElement({ date: this.state.selectedDay, isDate: true });
 
+        const month = this.state.selectedMonth;
         const weeks = this.state.weeks;
 
-        getPhotos({ month: this.state.selectedMonth.requestString }).then((photos) => {
+        getPhotos({ month: month.requestString }).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
-        getEvents({ month: this.state.selectedMonth.requestString }).then((events) => {
+        getEvents({ month: month.requestString }).then((events) => {
             this.setState({ weeks: buildEventWeeks(weeks, events) });
         });
     }
     onSelectElement(selectedElement) {
         this.props.selectElement(selectedElement);
-        if (!selectedElement.isEvent) {
-            this.setState({ selectedDay: selectedElement });
+        if (selectedElement.isDate) {
+            this.setState({ selectedDay: selectedElement.date });
+        } else if (selectedElement.isEvent) {
+            this.setState({ selectedDay: null });
         }
     }
     onChangeMonth(direction) {
@@ -60,11 +63,11 @@ class Calendar extends React.Component {
                     <button className="button" onClick={() => this.onChangeMonth(1)}>Next</button>
                 </div>
                 <div className="calendar">
-                    {this.state.weeks.map((days, index) => (
+                    {this.state.weeks.map((week, index) => (
                         <CalendarWeek
-                            days={days}
+                            week={week}
                             key={index}
-                            images={this.state.dailyThumbnails}
+                            dailyThumbnails={this.state.dailyThumbnails}
                             onSelectElement={this.onSelectElement.bind(this)}
                             selectedDay={this.state.selectedDay}
                         />

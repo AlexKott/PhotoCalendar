@@ -5,20 +5,26 @@ class CalendarWeek extends React.Component {
         super(props);
         this.state = { events: [] }
     }
-    componentWillReceiveProps() {
-        this.setState({ events: reduceEvents(this.props.days) });
+    componentWillReceiveProps(nextProps) {
+        this.setState({ events: reduceEvents(this.props.week) });
     }
     render() {
+        const {
+            week,
+            selectedDay,
+            dailyThumbnails,
+            onSelectElement
+        } = this.props;
         return (
             <section className="c-week">
                 <div className="c-week__days">
-                    {this.props.days.map((day, index) => {
+                    {week.map((day, index) => {
                         if (day.date) {
                             return (
                                 <div
-                                    className={this.props.selectedDay === day.date ? 'c-week__day c-week__day--selected' : 'c-week__day'}
-                                    style={{ backgroundImage: `url(${this.props.images[day.date] ? this.props.images[day.date].media[0].thumbnailSrc : ''})` }}
-                                    onClick={() => this.props.onSelectElement(day.date)}
+                                    className={selectedDay === day.date ? 'c-week__day c-week__day--selected' : 'c-week__day'}
+                                    style={{ backgroundImage: `url(${dailyThumbnails[day.date] ? dailyThumbnails[day.date].media[0].thumbnailSrc : ''})` }}
+                                    onClick={() => onSelectElement({ date: day.date, isDate: true })}
                                     key={index}
                                 >{day.displayNumber}</div>
                             );
@@ -34,7 +40,7 @@ class CalendarWeek extends React.Component {
                                 <div
                                     className={`c-week__event c-week__event--${event.colorId}`}
                                     style={{ flexBasis: `${100/7*event.size}%`}}
-                                    onClick={() => this.props.onSelectElement(event)}
+                                    onClick={() => onSelectElement(event)}
                                     key={index}
                                 >{event.summary}</div>
                             );
@@ -48,13 +54,13 @@ class CalendarWeek extends React.Component {
     }
 }
 
-function reduceEvents(days) {
-    const daysLength = days.length;
+function reduceEvents(week) {
+    const weekLength = week.length;
     const elements = [];
     let current;
 
-    for (let i = 0; i < daysLength; i++) {
-        if (!days[i].events || days[i].events.length === 0) {
+    for (let i = 0; i < weekLength; i++) {
+        if (!week[i].events || week[i].events.length === 0) {
             if (!current) { // first day of the week
                 current = { isEvent: false, size: 1 }
             } else if (!current.isEvent) {
@@ -63,25 +69,25 @@ function reduceEvents(days) {
                 elements.push(current);
                 current = { isEvent: false, size: 1 };
             }
-        } else if (days[i].events.length === 1) {
-            const event = days[i].events[0];
+        } else if (week[i].events.length === 1) {
+            const event = week[i].events[0];
             if (current && current.isEvent && current.summary === event.summary) {
                 current.size++;
             } else {
                 if (current) {
                     elements.push(current);
                 }
-                current = { isEvent: true, eventId: event.eventId, colorId: event.colorId, summary: event.summary, size: 1 };
+                current = Object.assign({}, event, { isEvent: true, size: 1 });
             }
-        } else if (days[i].events.length === 2) {
-            const startEvent = days[i].events[0].isStart ? days[i].events[0] : days[i].events[1];
-            const endEvent = days[i].events[0].isEnd ? days[i].events[0] : days[i].events[1];
+        } else if (week[i].events.length === 2) {
+            const startEvent = week[i].events[0].isStart ? week[i].events[0] : week[i].events[1];
+            const endEvent = week[i].events[0].isEnd ? week[i].events[0] : week[i].events[1];
             if (!current) {
-                current = { isEvent: true, eventId: event.eventId, colorId: endEvent.colorId, summary: endEvent.summary, size: 0 };
+                current = Object.assign({}, endEvent, { isEvent: true, size: 0 });
             }
             current.size += 0.5;
             elements.push(current);
-            current = { isEvent: true, eventId: event.eventId, colorId: startEvent.colorId, summary: startEvent.summary, size: 0.5 };
+            current = Object.assign({}, startEvent, { isEvent: true, size: 0.5 });
         }
     }
     elements.push(current);

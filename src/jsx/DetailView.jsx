@@ -26,14 +26,16 @@ class DetailView extends React.Component {
                 }
                 this.setState({ title: event.summary, photos: allPhotos, isLoading: false });
             });
-        } else if (nextProps.selectedElement) {
-            const date = nextProps.selectedElement;
+        } else if (nextProps.selectedElement.isDate) {
+            const date = nextProps.selectedElement.date;
             getPhotos({ selectedDate: date }).then((photos) => {
                 if (photos[date]) {
                     this.setState({ title: getDisplayDay(date), photos: photos[date].media });
                 }
                 this.setState({ isLoading: false });
             });
+        } else {
+            this.setState({ isLoading: false });
         }
     }
     onOpenSlideshow(startPhoto) {
