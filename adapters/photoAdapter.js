@@ -11,8 +11,9 @@ module.exports = {
             Promise.all(authService.getAccessTokens())
                 .then((access_tokens) => {
                     access_tokens.forEach((access_token, id) => {
+                        const uri = googleAuth.clients[id].albumURL;
                         requestPromises.push(request({
-                            uri: googleAuth.clients[id].albumURL,
+                            uri,
                             qs: Object.assign({}, { access_token }, query)
                         }));
                     });

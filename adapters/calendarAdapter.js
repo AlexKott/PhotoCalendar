@@ -33,8 +33,8 @@ function formatEvents(response) {
     const events = [];
     response.items.forEach((item) => {
         const summary = item.summary;
-        const description = item.description;
         const colorId = item.colorId || 0;
+        const created = item.created;
         const startDate = item.start.date || item.start.dateTime.substring(0, 10);
         let endDate;
         // shift the exclusive end.date provided by google and make it inclusive
@@ -46,7 +46,7 @@ function formatEvents(response) {
             endDate = item.end.dateTime.substring(0, 10);
         }
         const eventId = `${startDate}_${endDate}`;
-        events.push({ summary, description, colorId, startDate, endDate, eventId });
+        events.push({ summary, created, colorId, startDate, endDate, eventId });
     });
     return events;
 }

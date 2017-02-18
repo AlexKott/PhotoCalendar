@@ -19,9 +19,9 @@ module.exports = {
                 });
         });
     },
-    getAllEvents() {
+    getAllEvents(query = null) {
         return new Promise((resolve, reject) => {
-            calendarAdapter.requestEvents(null)
+            calendarAdapter.requestEvents(query)
                 .then((events) => {
                     resolve(events);
                 })
