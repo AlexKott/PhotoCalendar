@@ -1,4 +1,5 @@
 dist/js
 dist/css
 googleAuth.json
+mongoConfig.json
 node_modules
