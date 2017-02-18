@@ -1,3 +1,7 @@
+const fs = require('fs');
+const path = require('path');
+const sendmail = require('sendmail')();
+
 module.exports = {
     sendEmail(recipients, calendarUpdates, photoUpdates) {
         sendmail({
@@ -20,10 +24,10 @@ function formatEmail(calendarUpdates, photoUpdates) {
     const foot = fs.readFileSync(path.join(__dirname, 'foot.html'))
     let body = '';
 
-    if (calendarUpdates.length === 1) {
+    if (calendarUpdates && calendarUpdates.length === 1) {
         body += '<h2>A new destination has been chosen!</h2>';
         body += `<p>We added <strong>${calendarUpdates[0].summary}</strong> and will probably be there from ${calendarUpdates[0].startDate} until ${calendarUpdates[0].endDate}.</p>`;
-    } else if (calendarUpdates > 1) {
+    } else if (calendarUpdates && calendarUpdates.length > 1) {
         const destinations = calendarUpdates.map(a => a.summary).join(' and ');
         body += '<h2>Some new destination have been chosen!</h2>';
         body += `<p>We added <strong>${destinations}</strong>. How exciting!</p>`;

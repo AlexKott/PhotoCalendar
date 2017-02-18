@@ -1,9 +1,6 @@
-const fs = require('fs');
-const path = require('path');
 const photoService = require('../services/photoService');
 const calendarService = require('../services/calendarService');
 const emailService = require('./emailService');
-const sendmail = require('sendmail')();
 const MongoClient = require('mongodb').MongoClient;
 const { dbUser, dbPassword, dbDomain } = require('../mongoConfig.json');
 
@@ -40,16 +37,16 @@ updatePromises.push(fetchMailAddresses);
 
 Promise.all(updatePromises)
     .then((updates) => {
-        const calendarUpdates = updates[0].filter((update) => {
+        const calendarUpdates = !updates[0] ? null : updates[0].filter((update) => {
             if (update.created < startDate.toISOString()) {
                 return false;
             }
             return true;
         });
-        const photoUpdates = updates[1];
+        const photoUpdates = updates[1] ? updates[1] : null;
         const recipients = updates[2];
 
-        if (calendarUpdates.length || photoUpdates) {
+        if (calendarUpdates || photoUpdates) {
             emailService.sendEmail(recipients, calendarUpdates, photoUpdates);
         } else {
             console.log(`No news, no newsletter at ${endDate}.`);
