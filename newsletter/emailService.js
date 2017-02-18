@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const sendmail = require('sendmail')();
+const sendmail = require('sendmail')({ silent: process.env.NODE_ENV === 'production' });
 
 module.exports = {
     sendEmail(recipients, calendarUpdates, photoUpdates) {
+        const now = new Date();
         sendmail({
             from: 'Alina and Alex <no-reply@alexkott.com>',
             to: recipients.map(r => r.email).join(', '),
@@ -13,7 +14,7 @@ module.exports = {
             if (err) {
                 console.log(err && err.stack);
             } else {
-                console.log(`Newsletter sent at ${endDate}.`);
+                console.log(`Newsletter sent at ${now}.`);
             }
         });
     }

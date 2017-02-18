@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "export NODE_ENV=production && npm install && webpack && node index.js",
-    "watch": "concurrently \"webpack -d --watch\" \"nodemon index.js\""
+    "watch": "concurrently \"webpack -d --watch\" \"nodemon index.js\"",
+    "newsletter": "export NODE_ENV=production && node newsletter"
   },
   "author": "Alex Kott, Alina Beck",
   "license": "ISC",

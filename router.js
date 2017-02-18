@@ -4,6 +4,7 @@ const path = require('path');
 
 const calendarService = require('./services/calendarService');
 const photoService = require('./services/photoService');
+const textService = require('./services/textService');
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
@@ -25,9 +26,16 @@ router.get('/events', (req, res) => {
     }
 });
 
-router.post('/texts', (req, res) => {
-    // TODO: save in mongodb
-});
+router.route('/texts')
+    .post((req, res) => {
+        textService
+            .saveText(req.body)
+            .then(response => res.send(response))
+            .catch(error => res.status(500).send(error));
+    })
+    .get((req, res) => {
+        // TODO: load from mongodb
+    });
 
 router.get('/entries', (req, res) => {
     if (Object.keys(req.query).length === 0) {

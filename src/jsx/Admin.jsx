@@ -32,9 +32,9 @@ class Admin extends React.Component {
     onSaveText() {
         const type = this.state.selectedType;
         const date = type === 'date' ? this.state.selectedDate : null;
-        const event = type === 'event' ? this.state.selectedEvent : null;
+        const eventId = type === 'event' ? this.state.selectedEvent : null;
         const html = this.state.quill.root.innerHTML;
-        postText({ type, date, event, html }).then((response) => {
+        postText({ type, date, eventId, html }).then((response) => {
             console.log('text saved');
             console.log(response);
         });
