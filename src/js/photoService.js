@@ -1,5 +1,5 @@
 import ajax, { API_URL} from './ajax';
-const PHOTOS_API = `${API_URL}/entries`;
+const PHOTOS_API = `${API_URL}/photos`;
 
 function getPhotos(queryParams) {
     return new Promise((resolve, reject) => {

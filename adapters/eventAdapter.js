@@ -4,7 +4,7 @@ const googleAuth = require('../googleAuth.json');
 const dateHelper = require('../helpers/dateHelper');
 
 module.exports = {
-    requestEvents(query) {
+    getEvents(query) {
         return new Promise((resolve, reject) => {
             authService.getAccessTokens('calendar')[0]
                 .then((access_token) => {

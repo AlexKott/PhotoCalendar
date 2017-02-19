@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-const calendarService = require('./services/calendarService');
+const eventController = require('./controllers/eventController');
+const textController = require('./controllers/textController');
+
 const photoService = require('./services/photoService');
-const textService = require('./services/textService');
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
@@ -14,30 +15,15 @@ router.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-router.get('/events', (req, res) => {
-    if (Object.keys(req.query).length === 0) {
-        calendarService.getAllEvents()
-            .then(events => res.send(events))
-            .catch(error => res.send(error));
-    } else {
-        calendarService.getEventsByMonth(req.query.month)
-            .then(events => res.send(events))
-            .catch(error => res.send(error));
-    }
-});
+router.get('/events', eventController.getAllEvents);
+router.get('/events/:month', eventController.getEventsByMonth);
 
-router.route('/texts')
-    .post((req, res) => {
-        textService
-            .saveText(req.body)
-            .then(response => res.send(response))
-            .catch(error => res.status(500).send(error));
-    })
-    .get((req, res) => {
-        // TODO: load from mongodb
-    });
+router.get('/texts', textController.getAllTexts);
+router.get('/texts/:id', textController.getTextsById);
+router.post('/texts', textController.saveText);
 
-router.get('/entries', (req, res) => {
+
+router.get('/photos', (req, res) => {
     if (Object.keys(req.query).length === 0) {
         return res.status(400).send('Missing query parameters');
     }

@@ -52,11 +52,11 @@ module.exports = {
 function reformatPicasaResponse(response) {
     const dayObject = {};
     const formattedResponse = [];
-    const entries = response.feed.entry;
-    if (!entries) {
+    const photos = response.feed.entry;
+    if (!photos) {
         return {};
     }
-    entries.forEach((entry) => {
+    photos.forEach((entry) => {
         const formattedEntry = {};
         const content = entry['media:group'][0]['media:content'];
         const srcString = content[0].$.url;

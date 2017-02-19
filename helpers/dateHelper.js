@@ -6,5 +6,16 @@ module.exports = {
         const day = date.getDate();
         const displayDay = day < 10 ? '0' + day : day;
         return `${year}-${displayMonth}-${displayDay}`;
+    },
+    getMonthBounds(month, inclusiveUpper = true) {
+        const startDate = new Date(month);
+        const endDate = new Date(month);
+        endDate.setMonth(endDate.getMonth() + 1);
+
+        if (inclusiveUpper) {
+            endDate.setDate(endDate.getDate() - 1);
+        }
+        
+        return { startDate, endDate };
     }
 };

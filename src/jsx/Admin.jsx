@@ -1,6 +1,6 @@
 import React from 'react';
 import Quill from 'quill';
-import { getEvents } from '../js/eventService.js';
+import { getAllEvents } from '../js/eventService.js';
 import { postText } from '../js/textService.js';
 
 class Admin extends React.Component {
@@ -16,7 +16,7 @@ class Admin extends React.Component {
         const quill = new Quill('#editor', {
             theme: 'snow'
         });
-        const events = getEvents().then((events) => {
+        const events = getAllEvents().then((events) => {
             this.setState({ events, quill });
         });
     }
