@@ -1,5 +1,5 @@
 import React from 'react';
-import { getPhotos } from '../js/photoService.js';
+import { getPhotosByDate, getPhotosByRange } from '../js/photoService.js';
 import { getDisplayDay } from '../js/dateHelper.js';
 import Slideshow from './Slideshow.jsx';
 
@@ -17,7 +17,7 @@ class DetailView extends React.Component {
         this.setState({ title: null, photos: null, isLoading: true });
         if (nextProps.selectedElement.isEvent) {
             const event = nextProps.selectedElement;
-            getPhotos({ startDate: event.startDate, endDate: event.endDate }).then((photos) => {
+            getPhotosByRange(event.startDate, event.endDate).then((photos) => {
                 const allPhotos = [];
                 for (let date in photos) {
                     if ({}.hasOwnProperty.call(photos, date)) {
@@ -28,7 +28,7 @@ class DetailView extends React.Component {
             });
         } else if (nextProps.selectedElement.isDate) {
             const date = nextProps.selectedElement.date;
-            getPhotos({ selectedDate: date }).then((photos) => {
+            getPhotosByDate(date).then((photos) => {
                 if (photos[date]) {
                     this.setState({ title: getDisplayDay(date), photos: photos[date].media });
                 }

@@ -15,7 +15,17 @@ module.exports = {
         if (inclusiveUpper) {
             endDate.setDate(endDate.getDate() - 1);
         }
-        
+        return { startDate, endDate };
+    },
+    getDayBounds(day, inclusiveUpper = true) {
+        const startDate = new Date(day);
+        const endDate = new Date(day);
+        if (inclusiveUpper) {
+            endDate.setHours(23, 59, 59);
+        } else {
+            endDate.setDate(endDate.getDate() + 1);
+        }
+
         return { startDate, endDate };
     }
 };

@@ -1,40 +1,40 @@
 const request = require('request-promise');
-const parseXML = require('xml2js').parseString;
+const parseXML = require('xml-js').xml2js;
 const authService = require('../services/authService');
 const dateHelper = require('../helpers/dateHelper');
 const googleAuth = require('../googleAuth.json');
 
 module.exports = {
-    requestPhotos(query) {
-        return new Promise((resolveTop, rejectTop) => {
+    getPhotos(startDate, endDate) {
+        let fields = 'entry'; // type of response
+            fields += `[gphoto:timestamp>=${startDate.getTime()} and gphoto:timestamp<${endDate.getTime()}]`; // applied filters
+            fields += '(media:group/media:content,gphoto:timestamp)'; // requested fields
+        return new Promise((resolve, reject) => {
             const requestPromises = [];
-            Promise.all(authService.getAccessTokens())
+            // authentication requests
+            Promise.all(authService.getAccessTokens('picasa'))
                 .then((access_tokens) => {
                     access_tokens.forEach((access_token, id) => {
                         const uri = googleAuth.clients[id].albumURL;
                         requestPromises.push(request({
                             uri,
-                            qs: Object.assign({}, { access_token }, query)
+                            qs: Object.assign({}, { access_token, fields })
                         }));
                     });
+                    // picasa requests
                     Promise.all(requestPromises)
                         .then((responses) => {
-                            const responsePromises = [];
+                            const mediaDayObjects = [];
                             responses.forEach((response) => {
-                                responsePromises.push(new Promise((resolve) => {
-                                    parseXML(response, function (err, parsedResponse) {
-                                        resolve(reformatPicasaResponse(parsedResponse));
-                                    });
-                                }));
+                                const parsedResponse = parseXML(response, { compact: true });
+                                const filteredResponse = filterPicasaResponse(parsedResponse);
+                                if (filteredResponse) {
+                                    const mediaDayObject = buildDayObject(filteredResponse);
+                                    mediaDayObjects.push(mediaDayObject);
+                                }
                             });
-                            Promise.all(responsePromises)
-                                .then((formattedResponses) => {
-                                    resolveTop(mergeResponses(formattedResponses));
-                                })
-                                .catch(formatError => {
-                                    console.log(formatError);
-                                    rejectTop(formatError);
-                                });
+                            const mergedDayObjects = mergeDayObjects(mediaDayObjects);
+                            resolve(mergedDayObjects);
                         })
                         .catch(requestError => {
                             console.log(requestError);
@@ -49,40 +49,52 @@ module.exports = {
     }
 };
 
-function reformatPicasaResponse(response) {
-    const dayObject = {};
-    const formattedResponse = [];
-    const photos = response.feed.entry;
-    if (!photos) {
-        return {};
+function filterPicasaResponse(response) {
+    if (!response.feed.entry) {
+        return null;
     }
+    const filteredResponses = [];
+    let photos;
+    if (!response.feed.entry.hasOwnProperty('length')) {
+        photos = [response.feed.entry];
+    } else {
+        photos = response.feed.entry;
+    }
+
     photos.forEach((entry) => {
-        const formattedEntry = {};
-        const content = entry['media:group'][0]['media:content'];
-        const srcString = content[0].$.url;
-        const splitPosition = srcString.lastIndexOf('/');
-        formattedEntry.path = srcString.slice(0, splitPosition);
-        formattedEntry.fileName = srcString.slice(splitPosition + 1);
-        if (content.length > 1) { // content is video
+        const filteredEntry = {};
+        const mediaContent = entry['media:group']['media:content'];
+        const isVideo = {}.hasOwnProperty.call(mediaContent, 'length');
+        let content, srcString;
+        if (isVideo) {
             // try to select medium quality, else use low quality video
-            const selectedContent = content[2].$ || content[1].$;
-            formattedEntry.videoSrc = selectedContent.url;
-            formattedEntry.type = selectedContent.type;
-            formattedEntry.height = selectedContent.height;
-            formattedEntry.width = selectedContent.width;
-            formattedEntry.ratio = selectedContent.width / selectedContent.height;
+            content = mediaContent[2]._attributes || mediaContent[1]._attributes;
+            filteredEntry.videoSrc = content.url;
+            // need to take image url for thumbnail preview
+            srcString = mediaContent[0]._attributes.url;
         } else {
-            formattedEntry.type = content[0].$.type;
-            formattedEntry.height = content[0].$.height;
-            formattedEntry.width = content[0].$.width;
-            formattedEntry.ratio = content[0].$.width / content[0].$.height;
+            content = mediaContent._attributes;
+            srcString = content.url;
         }
 
-        formattedEntry.timestamp = entry['gphoto:timestamp'][0];
-        formattedResponse.push(formattedEntry);
-    });
+        const splitPosition = srcString.lastIndexOf('/');
+        filteredEntry.path = srcString.slice(0, splitPosition);
+        filteredEntry.fileName = srcString.slice(splitPosition + 1);
 
-    formattedResponse.forEach((media) => {
+        filteredEntry.type = content.type;
+        filteredEntry.height = content.height;
+        filteredEntry.width = content.width;
+        filteredEntry.ratio = content.width / content.height;
+
+        filteredEntry.timestamp = entry['gphoto:timestamp']['_text'];
+        filteredResponses.push(filteredEntry);
+    });
+    return filteredResponses;
+}
+
+function buildDayObject(filteredResponse) {
+    const dayObject = {};
+    filteredResponse.forEach((media) => {
         const date = new Date(parseInt(media.timestamp, 10));
         const dateString = dateHelper.getDateString(date);
         if (!{}.hasOwnProperty.call(dayObject, dateString)) {
@@ -90,13 +102,12 @@ function reformatPicasaResponse(response) {
         }
         dayObject[dateString].media.push(media);
     });
-
     return dayObject;
 }
 
-function mergeResponses(responses) {
+function mergeDayObjects(mediaDayObjects) {
     const singleResponse = {};
-    responses.forEach((response) => {
+    mediaDayObjects.forEach((response) => {
         for (let date in response) {
             if ({}.hasOwnProperty.call(response, date)) {
                 singleResponse[date] = singleResponse[date] || { media: [] };

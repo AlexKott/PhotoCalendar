@@ -1,7 +1,7 @@
 import React from 'react';
 import CalendarWeek from './CalendarWeek.jsx';
 import { selectMonth, getDateString, getWeeks, buildEventWeeks } from '../js/dateHelper.js';
-import { getPhotos } from '../js/photoService.js';
+import { getPhotosByDate } from '../js/photoService.js';
 import { getEventsByMonth } from '../js/eventService.js';
 
 class Calendar extends React.Component {
@@ -25,7 +25,7 @@ class Calendar extends React.Component {
         const month = this.state.selectedMonth;
         const weeks = this.state.weeks;
 
-        getPhotos({ month: month.requestString }).then((photos) => {
+        getPhotosByDate(month.requestString).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
         getEventsByMonth(month.requestString).then((events) => {
@@ -45,10 +45,10 @@ class Calendar extends React.Component {
         const weeks = getWeeks(selectedMonth);
         this.setState({ weeks });
 
-        getPhotos({ month: selectedMonth.requestString }).then((photos) => {
+        getPhotosByDate(selectedMonth.requestString).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
-        getEvents({ month: selectedMonth.requestString }).then((events) => {
+        getEventsByMonth(selectedMonth.requestString).then((events) => {
             this.setState({ weeks: buildEventWeeks(weeks, events) });
         });
 

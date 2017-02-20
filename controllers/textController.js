@@ -1,5 +1,4 @@
 const textAdapter = require('../adapters/textAdapter');
-const dateHelper = require('../helpers/dateHelper');
 
 module.exports = {
     getAllTexts(req, res) {
@@ -10,9 +9,8 @@ module.exports = {
     },
     saveText(req, res) {
         const { type, html, date, eventId } = req.body;
-        textAdapter
-            .saveText(type, html, date, eventId)
-            .then(response => res.send(response))
+        textAdapter.saveText(type, html, date, eventId)
+            .then(response => res.status(200).send(response))
             .catch(error => res.status(500).send(error));
     }
 }

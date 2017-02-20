@@ -1,9 +1,17 @@
 import ajax, { API_URL} from './ajax';
 const PHOTOS_API = `${API_URL}/photos`;
 
-function getPhotos(queryParams) {
+function getPhotosByDate(date) {
     return new Promise((resolve, reject) => {
-        ajax(PHOTOS_API, 'GET', queryParams)
+        ajax(`${PHOTOS_API}/${date}`, 'GET')
+            .then(response => resolve(formatImageSrc(response)))
+            .catch(error => reject(error));
+    });
+}
+
+function getPhotosByRange(startDate, endDate) {
+    return new Promise((resolve, reject) => {
+        ajax(`${PHOTOS_API}/${startDate}/${endDate}`, 'GET')
             .then(response => resolve(formatImageSrc(response)))
             .catch(error => reject(error));
     });
@@ -26,4 +34,4 @@ function formatImageSrc(response) {
     return formattedResponse;
 }
 
-export { getPhotos };
+export { getPhotosByDate, getPhotosByRange };
