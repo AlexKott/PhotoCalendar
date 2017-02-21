@@ -22,7 +22,7 @@ module.exports = {
 };
 
 function buildEmail(calendarUpdates, photoUpdates) {
-    const template = fs.readFileSync(path.join(__dirname, 'template.jst'));
+    const template = fs.readFileSync(path.join(__dirname, '../newsletter/template.jst'));
     const templateFunction = doT.template(template);
 
     const photoDates = Object.keys(photoUpdates);
