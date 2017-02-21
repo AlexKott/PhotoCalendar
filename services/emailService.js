@@ -26,10 +26,15 @@ function buildEmail(calendarUpdates, photoUpdates) {
     const templateFunction = doT.template(template);
 
     const photoDates = Object.keys(photoUpdates);
+    let amountPhotos = 0;
+    photoDates.forEach((date) => {
+        amountPhotos += photoUpdates[date].media.length;
+    });
+    console.log(amountPhotos);
     const emailData = {
         calendarUpdates,
         photoUpdates: {
-            size: photoDates.length,
+            size: amountPhotos,
             teaser: photoUpdates[photoDates[0]].media[0]
         }
     };
