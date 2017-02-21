@@ -4,7 +4,7 @@ const EVENTS_API = `${API_URL}/events`;
 function getAllEvents() {
     return new Promise((resolve, reject) => {
         ajax(EVENTS_API, 'GET')
-            .then(response => resolve(response))
+            .then(response => resolve(response.data))
             .catch(error => reject(error));
     });
 }
@@ -12,7 +12,7 @@ function getAllEvents() {
 function getEventsByMonth(month) {
     return new Promise((resolve, reject) => {
         ajax(`${EVENTS_API}/${month}`, 'GET')
-            .then(response => resolve(response))
+            .then(response => resolve(response.data))
             .catch(error => reject(error));
     });
 }

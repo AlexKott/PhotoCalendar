@@ -1,0 +1,96 @@
+.newsletter {
+    position: fixed;;
+    bottom: 16px;
+    right: 0;
+    width: 380px;
+    padding: 16px;
+    padding-left: 32px;
+    border: 1px solid green;
+    border-right: none;
+    background-color: white;
+    transition: transform .6s;
+    transform: translate(0);
+    &__title {
+        margin: 0;
+        font-weight: 300;
+    }
+    &__description {
+        display: block;
+        margin: 4px 0 8px;
+    }
+    &__input-wrapper {
+        width: 100%;
+        height: 24px;
+        margin: 4px 0;
+        padding-bottom: 4px;
+        display: flex;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    &__label {
+        flex-basis: 60px;
+        height: 24px;
+        line-height: 24px;
+    }
+    &__input {
+        flex-basis: 240px;
+        font-size: 16px;
+        height: 24px;
+        line-height: 24px;
+    }
+    &__submit.button {
+        display:block;
+        width: 120px;
+        padding: 4px 8px;
+        margin: 8px auto 0;
+        text-transform: uppercase;
+        font-size: 14px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    &__close-button.button {
+        position: absolute;
+        top: -16px;
+        left: -16px;
+        padding: 0;
+        width: 28px;
+        height: 28px;
+        min-width: 0;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 28px;
+        overflow: hidden;
+        >span {
+            display: block;
+            transform: rotate(-225deg);
+            transition: transform .6s;
+        }
+    }
+    &--closed {
+        transform: translate(356px);
+        .newsletter__close-button>span {
+            transform: rotate(0);
+        }
+    }
+    &--exists {
+        border-left: 8px solid rgb(212, 212, 89);
+        .newsletter__close-button.button {
+            left:-24px;
+        }
+    }
+    &--signed {
+        border-left: 8px solid rgb(89, 202, 89);
+        .newsletter__close-button.button {
+            left:-24px;
+        }
+    }
+    &--error {
+        border-left: 8px solid rgb(202, 89, 89);
+        .newsletter__close-button.button {
+            left:-24px;
+        }
+    }
+}

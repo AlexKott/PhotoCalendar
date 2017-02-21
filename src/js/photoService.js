@@ -4,7 +4,7 @@ const PHOTOS_API = `${API_URL}/photos`;
 function getPhotosByDate(date) {
     return new Promise((resolve, reject) => {
         ajax(`${PHOTOS_API}/${date}`, 'GET')
-            .then(response => resolve(formatImageSrc(response)))
+            .then(response => resolve(formatImageSrc(response.data)))
             .catch(error => reject(error));
     });
 }
@@ -12,7 +12,7 @@ function getPhotosByDate(date) {
 function getPhotosByRange(startDate, endDate) {
     return new Promise((resolve, reject) => {
         ajax(`${PHOTOS_API}/${startDate}/${endDate}`, 'GET')
-            .then(response => resolve(formatImageSrc(response)))
+            .then(response => resolve(formatImageSrc(response.data)))
             .catch(error => reject(error));
     });
 }

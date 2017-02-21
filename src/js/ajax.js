@@ -14,8 +14,8 @@ function ajax(url, method, data) {
         xhr.responseType = 'json';
         xhr.setRequestHeader('Content-type', 'application/json');
         xhr.onload = function onXhrLoad() {
-            if (xhr.status === 200) {
-                resolve(xhr.response);
+            if (xhr.status < 400) {
+                resolve({ data: xhr.response, status: xhr.status });
             } else {
                 reject('There was an error processing the request. (Server error)');
             }

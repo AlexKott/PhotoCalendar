@@ -1,4 +1,5 @@
 import React from 'react';
+import Newsletter from './Newsletter.jsx';
 import Calendar from './Calendar.jsx';
 import DetailView from './DetailView.jsx';
 import { getDateString } from '../js/dateHelper.js';
@@ -17,6 +18,7 @@ class Blog extends React.Component {
     render() {
         return(
             <div>
+                <Newsletter />
                 <Calendar selectElement={this.selectElement.bind(this)} />
                 <DetailView selectedElement={this.state.selectedElement} />
             </div>

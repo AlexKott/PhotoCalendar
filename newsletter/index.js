@@ -1,29 +1,6 @@
 const photoAdapter = require('../adapters/photoAdapter');
 const eventAdapter = require('../adapters/eventAdapter');
-const emailService = require('../services/emailService');
-const MongoClient = require('mongodb').MongoClient;
-const { dbUser, dbPassword, dbDomain } = require('../mongoConfig.json');
-
-const dbUrl = `mongodb://${dbUser}:${dbPassword}@${dbDomain}`;
-
-const fetchMailAddresses = new Promise((resolve, reject) => {
-    MongoClient.connect(dbUrl, (connectionError, db) => {
-        if (!connectionError) {
-            db
-                .collection('newsletterEmails')
-                .find({}, { _id: 0 }, (dbError, cursor) => {
-                    if (!dbError) {
-                        resolve(cursor.toArray());
-                        db.close();
-                    } else {
-                        reject(dbError);
-                    }
-                });
-        } else {
-            reject(connectionError);
-        }
-    });
-});
+const newsletterService = require('../services/newsletterService');
 
 const updatePromises = [];
 
@@ -48,7 +25,7 @@ Promise.all(updatePromises)
         const recipients = updates[2];
 
         if (calendarUpdates || photoUpdates) {
-            emailService.sendEmail(recipients, calendarUpdates, photoUpdates);
+            newsletterService.sendEmail(recipients, calendarUpdates, photoUpdates);
         } else {
             console.log(`No news, no newsletter at ${endDate}.`);
         }
