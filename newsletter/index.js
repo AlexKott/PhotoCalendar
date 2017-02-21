@@ -1,6 +1,6 @@
 const photoAdapter = require('../adapters/photoAdapter');
 const eventAdapter = require('../adapters/eventAdapter');
-const emailService = require('./emailService');
+const emailService = require('../services/emailService');
 const MongoClient = require('mongodb').MongoClient;
 const { dbUser, dbPassword, dbDomain } = require('../mongoConfig.json');
 
@@ -38,7 +38,7 @@ updatePromises.push(fetchMailAddresses);
 Promise.all(updatePromises)
     .then((updates) => {
         const calendarUpdates = !updates[0] ? null : updates[0].filter((update) => {
-            if (update.created < startDate.toISOString()) {
+            if (update.created <= startDate.toISOString()) {
                 return false;
             }
             return true;
