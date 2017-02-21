@@ -30,6 +30,7 @@ const updatePromises = [];
 const endDate = new Date();
 const startDate = new Date();
 startDate.setDate(endDate.getDate() - 7);
+endDate.setHours(23, 59, 59);
 
 updatePromises.push(eventAdapter.getEvents({ updatedMin: startDate }));
 updatePromises.push(photoAdapter.getPhotos(startDate, endDate));
