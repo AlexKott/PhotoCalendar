@@ -1,0 +1,35 @@
+<html>
+<head>
+    <style>
+        body { width: 100%; color: #222222; font-family: Helvetica, Arial, sans-serif; margin: 0; padding 0; }
+        .wrapper { width: 100%; background-color: #777777; padding: 20px 0; }
+        .content { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #FBFBFB; }
+        h1 { font-size: 24px; margin: 0 0 16px; padding: 4px 8px; background-color: #880011; color: #FBFBFB; }
+        h2 { font-size: 18px; margin: 4px 0; border-left: 4px solid #880011; padding-left: 4px; }
+        p { font-size: 14px; line-height: 1.46; margin: 8px 0 16px; padding: 0 8px }
+        a { color: #880011; text-decoration: none; border-bottom: 1px solid currentColor; }
+        a:hover { border: none; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="content">
+            <h1>New updates from Alina and Alex</h1>
+            {{? it.calendarUpdates.length === 1}}
+                <h2>A new destination has been chosen!</h2>
+                <p>We added <strong>{{=it.calendarUpdates[0].summary}}</strong> and will probably be there from {{=it.calendarUpdates[0].startDate}} until {{=it.calendarUpdates[0].endDate}}.</p>
+            {{?}}
+            {{? it.calendarUpdates.length > 1}}
+                <h2>Some new destinations have been chosen!</h2>
+                <p>We added <strong>{{=it.calendarUpdates.map(a => a.summary).join(' and ')}}</strong>. How exciting!</p>
+            {{?}}
+            {{? it.photoUpdates.size > 0}}
+                <h2>We added some new photos</h2>
+                <p>In the last week we added {{=it.photoUpdates.size}} new photos. Here's a teaser:</p>
+                <img src="{{=it.photoUpdates.teaser.path + '/' + it.photoUpdates.teaser.fileName}}" width="{{=it.photoUpdates.teaser.width}}" height="{{=it.photoUpdates.teaser.height}}" />
+            {{?}}
+            <p>Go check it out at <a href="https://travel.alexkott.com">the website</a></p>
+        </div>
+    </div>
+</body>
+</html>

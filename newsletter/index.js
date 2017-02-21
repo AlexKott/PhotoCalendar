@@ -1,5 +1,5 @@
-const photoService = require('../services/photoService');
-const calendarService = require('../services/calendarService');
+const photoAdapter = require('../adapters/photoAdapter');
+const eventAdapter = require('../adapters/eventAdapter');
 const emailService = require('./emailService');
 const MongoClient = require('mongodb').MongoClient;
 const { dbUser, dbPassword, dbDomain } = require('../mongoConfig.json');
@@ -31,8 +31,8 @@ const endDate = new Date();
 const startDate = new Date();
 startDate.setDate(endDate.getDate() - 7);
 
-updatePromises.push(calendarService.getAllEvents({ updatedMin: startDate }));
-updatePromises.push(photoService.getPhotosByPeriod(startDate, endDate));
+updatePromises.push(eventAdapter.getEvents({ updatedMin: startDate }));
+updatePromises.push(photoAdapter.getPhotos(startDate, endDate));
 updatePromises.push(fetchMailAddresses);
 
 Promise.all(updatePromises)

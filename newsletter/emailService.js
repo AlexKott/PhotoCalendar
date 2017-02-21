@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const sendmail = require('sendmail')({ silent: process.env.NODE_ENV === 'production' });
+const doT = require('dot');
+
+doT.templateSettings = { strip: true };
 
 module.exports = {
     sendEmail(recipients, calendarUpdates, photoUpdates) {
@@ -9,7 +12,7 @@ module.exports = {
             from: 'Alina and Alex <no-reply@alexkott.com>',
             to: recipients.map(r => r.email).join(', '),
             subject: 'New updates from Alina and Alex',
-            html: formatEmail(calendarUpdates, photoUpdates)
+            html: buildEmail(calendarUpdates, photoUpdates)
         }, (err, reply) => {
             if (err) {
                 console.log(err && err.stack);
@@ -20,26 +23,18 @@ module.exports = {
     }
 };
 
-function formatEmail(calendarUpdates, photoUpdates) {
-    const head = fs.readFileSync(path.join(__dirname, 'head.html'));
-    const foot = fs.readFileSync(path.join(__dirname, 'foot.html'))
-    let body = '';
+function buildEmail(calendarUpdates, photoUpdates) {
+    const template = fs.readFileSync(path.join(__dirname, 'template.jst'), 'utf-8');
+    const templateFunction = doT.template(template);
 
-    if (calendarUpdates && calendarUpdates.length === 1) {
-        body += '<h2>A new destination has been chosen!</h2>';
-        body += `<p>We added <strong>${calendarUpdates[0].summary}</strong> and will probably be there from ${calendarUpdates[0].startDate} until ${calendarUpdates[0].endDate}.</p>`;
-    } else if (calendarUpdates && calendarUpdates.length > 1) {
-        const destinations = calendarUpdates.map(a => a.summary).join(' and ');
-        body += '<h2>Some new destination have been chosen!</h2>';
-        body += `<p>We added <strong>${destinations}</strong>. How exciting!</p>`;
-    }
-    if (photoUpdates) {
-        const photoDates = Object.keys(photoUpdates);
-        const examplePhoto = photoUpdates[photoDates[0]].media[0];
-        body += '<h2>We added some new photos</h2>';
-        body += `<p>In the last week we added ${photoDates.length} new photos. Here's a teaser:</p>`;
-        body += `<img src="${examplePhoto.path}/${examplePhoto.fileName}" width="${examplePhoto.width}" height="${examplePhoto.height}" />`;
-    }
-    body += '<p>Go check it out at <a href="https://travel.alexkott.com">the website</a></p>';
-    return head + body + foot;
+    const photoDates = Object.keys(photoUpdates);
+    const emailData = {
+        calendarUpdates,
+        photoUpdates: {
+            size: photoDates.length,
+            teaser: photoUpdates[photoDates[0]].media[0]
+        }
+    };
+
+    return templateFunction(emailData);
 }
