@@ -11,7 +11,7 @@ endDate.setHours(23, 59, 59);
 
 updatePromises.push(eventAdapter.getEvents({ updatedMin: startDate }));
 updatePromises.push(photoAdapter.getPhotos(startDate, endDate));
-updatePromises.push(fetchMailAddresses);
+updatePromises.push(newsletterService.fetchMailAddresses());
 
 Promise.all(updatePromises)
     .then((updates) => {
