@@ -41,11 +41,12 @@ class Admin extends React.Component {
                 }
                 this.setState({ isUpdating: true });
 
-                let overwriteText = true;
                 if (this.state.quill.root.innerText.trim()) {
-                    const overwriteText = confirm('There is a text saved for your selection. Do you want the editor to update? (Changes made will be lost)');
+                    if(confirm('Load text from database? (Local changes will be lost!)')) {
+                        this.state.quill.root.innerHTML = text.content;
+                    }
                 }
-                if (overwriteText) {
+                else {
                     this.state.quill.root.innerHTML = text.content;
                 }
                 this.setState({ isLoadingText: false });
