@@ -1,15 +1,34 @@
 const textAdapter = require('../adapters/textAdapter');
+const dateHelper = require('../helpers/dateHelper');
 
 module.exports = {
-    getAllTexts(req, res) {
-        res.send('ok');
-    },
     getTextsById(req, res) {
-        res.send('ok');
+        const isDate = dateHelper.isDateString(req.params.id);
+        let textPromise;
+        if (isDate) {
+            textPromise = textAdapter.getText('date', req.params.id);
+        } else {
+            textPromise = textAdapter.getText('event', null, req.params.id);
+        }
+        textPromise
+            .then(text => {
+                if (!text) {
+                    res.sendStatus(404);
+                } else {
+                    res.status(200).send(text);
+                }
+            })
+            .catch(error => res.status(500).send(error));
     },
     saveText(req, res) {
         const { type, html, date, eventId } = req.body;
         textAdapter.saveText(type, html, date, eventId)
+            .then(response => res.status(200).send(response))
+            .catch(error => res.status(500).send(error));
+    },
+    updateText(req, res) {
+        const { type, html, date, eventId } = req.body;
+        textAdapter.updateText(type, html, date, eventId)
             .then(response => res.status(200).send(response))
             .catch(error => res.status(500).send(error));
     }

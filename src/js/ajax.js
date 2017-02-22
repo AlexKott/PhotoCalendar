@@ -5,7 +5,7 @@ function ajax(url, method, data) {
         if (method === 'GET') {
             const queryString = data ? buildQueryString(data) : '';
             uri += queryString;
-        } else if (method === 'POST') {
+        } else if (method === 'POST' || method === 'PUT') {
             postData = data;
         }
 
@@ -17,7 +17,7 @@ function ajax(url, method, data) {
             if (xhr.status < 400) {
                 resolve({ data: xhr.response, status: xhr.status });
             } else {
-                reject('There was an error processing the request. (Server error)');
+                reject({ message: 'There was an error processing the request. (Server error)', status: xhr.status });
             }
         }
         xhr.onerror = function onXhrError() {

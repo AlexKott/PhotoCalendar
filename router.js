@@ -19,11 +19,10 @@ router.get('/admin', (req, res) => {
 router.get('/events', eventController.getAllEvents);
 router.get('/events/:month', eventController.getEventsByMonth);
 
-router.get('/texts', textController.getAllTexts);
 router.get('/texts/:id', textController.getTextsById);
 router.post('/texts', textController.saveText);
+router.put('/texts/:id', textController.updateText);
 
-router.get('/photos', (req, res) => res.status(400).send('Please specify a range for your photo request.'));
 router.get('/photos/:date', photoController.getPhotosByDate);
 router.get('/photos/:startDate/:endDate', photoController.getPhotosByRange);
 

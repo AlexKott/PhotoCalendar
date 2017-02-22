@@ -1,4 +1,8 @@
 module.exports = {
+    isDateString(str) {
+        const dateRegExp = /\d{4}(-\d{2}){2}/;
+        return dateRegExp.test(str);
+    },
     getDateString(date) {
         const year = date.getFullYear();
         const month = date.getMonth();
