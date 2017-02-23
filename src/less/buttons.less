@@ -2,6 +2,7 @@
     border: none;
     color: @buttonFontColor;
     background-color: @buttonBgColor;
+    cursor: pointer;
     &:focus {
         outline: transparent;
     }
@@ -15,11 +16,19 @@
     color: @buttonBgColor;
     font-size: 60px;
     font-weight: 700;
-    cursor: pointer;
     &-left {
         transform: rotate(180deg);
     }
     &:hover {
         background-color: fade(@white, 60%);
+    }
+}
+
+.button.button--white {
+    color: @white;
+    background-color: transparent;
+    &:hover {
+        background-color: fade(@white, 60%);
+        color: @black;
     }
 }

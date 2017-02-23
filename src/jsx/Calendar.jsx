@@ -58,7 +58,7 @@ class Calendar extends React.Component {
     }
     render() {
         return (
-            <div className={this.props.isCalendarActive ? "calendar__wrapper" : "invisible"}>
+            <div className={this.props.isCalendarActive ? "calendar__wrapper" : "hidden"}>
                 <button className="button button--nav button--nav-left" onClick={() => this.onChangeMonth(-1)}>&#9654;</button>
                 <div className="calendar">
                     {this.state.weeks.map((week, index) => (

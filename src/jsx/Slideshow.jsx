@@ -7,7 +7,8 @@ class Slideshow extends React.Component {
             selectedPhoto: this.props.startPhoto,
         }
     }
-    changePhoto(direction) {
+    changePhoto(event, direction) {
+        event.stopPropagation();
         let nextPhoto = this.state.selectedPhoto + direction;
         const lastPhotoIndex = this.props.photos.length - 1;
         if (nextPhoto > lastPhotoIndex) {
@@ -19,23 +20,34 @@ class Slideshow extends React.Component {
     }
     render() {
         return (
-            <div className="slideshow__container">
-                <div className="slideshow__header">
-                    <h1 className="slideshow__title">{this.props.title}</h1>
-                    <button className="button" onClick={() => this.props.onClose()}>Close Slideshow</button>
-                </div>
-                <div className="slideshow__body">
-                    {this.props.photos.length > 1 && <button className="button" onClick={() => this.changePhoto(-1)}>Previous</button>}
-                    {this.props.photos[this.state.selectedPhoto].videoSrc
-                        ? <div className="slideshow__image"><video
-                            src={this.props.photos[this.state.selectedPhoto].videoSrc}
-                            controls={true}
-                            width={800}
-                        /></div>
-                        : <img className="slideshow__image" src={this.props.photos[this.state.selectedPhoto].highQualitySrc}/>
-                    }
-                    {this.props.photos.length > 1 && <button className="button" onClick={() => this.changePhoto(1)}>Next</button>}
-                </div>
+            <div className="slideshow__container" onClick={() => this.props.onClose()}>
+                <button className="button button--white slideshow__close-button" onClick={() => this.props.onClose()}>+</button>
+                {this.props.photos.length > 1 &&
+                    <button
+                        className="button button--white button--nav button--nav-left"
+                        onClick={(e) => this.changePhoto(e, -1)}>&#9654;
+                    </button>
+                }
+                {this.props.photos[this.state.selectedPhoto].videoSrc
+                    ? <div className="slideshow__image"><video
+                        onClick={(e) => e.stopPropagation()}
+                        src={this.props.photos[this.state.selectedPhoto].videoSrc}
+                        controls={true}
+                        width={800}
+                    /></div>
+                    : <div className="slideshow__image">
+                        <img
+                            onClick={(e) => e.stopPropagation()}
+                            src={this.props.photos[this.state.selectedPhoto].highQualitySrc}
+                        />
+                    </div>
+                }
+                {this.props.photos.length > 1 &&
+                    <button
+                        className="button button--white button--nav"
+                        onClick={(e) => this.changePhoto(e, 1)}>&#9654;
+                    </button>
+                }
             </div>
         );
     }

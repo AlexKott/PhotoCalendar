@@ -26,7 +26,7 @@ function formatImageSrc(response) {
                 const formattedPhoto = Object.assign({}, photo);
                 formattedPhoto.thumbnailSrc = `${photo.path}/s150/${photo.fileName}`;
                 formattedPhoto.src = `${photo.path}/s400/${photo.fileName}`;
-                formattedPhoto.highQualitySrc = `${photo.path}/s900/${photo.fileName}`;
+                formattedPhoto.highQualitySrc = `${photo.path}/s1200/${photo.fileName}`;
                 formattedResponse[date].media.push(formattedPhoto);
             });
         }

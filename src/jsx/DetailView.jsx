@@ -60,7 +60,7 @@ class DetailView extends React.Component {
     }
     render() {
         return (
-            <div className={!this.props.isCalendarActive ? "detailWindow" : "invisible"}>
+            <div className={!this.props.isCalendarActive ? "detail__window" : "hidden"}>
                 <div className="detail__container">
                     {this.state.photos
                         ? this.state.photos.map((photo, index) => {
@@ -84,7 +84,7 @@ class DetailView extends React.Component {
                                 className="detail__image-container"
                                 onClick={() => this.onOpenSlideshow(index)}></div>);
                         })
-                        : (this.state.isLoading ? (<img src="assets/images/loader.svg" />) : '')
+                        : (this.state.isLoading ? (<img className="detail__loader" src="assets/images/loader.svg" />) : '')
                     }
                 </div>
                 {this.state.isSlideShowOpen &&
