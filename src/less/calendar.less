@@ -2,11 +2,18 @@
 @weekDayHeight: 90px;
 @eventHeight: 20px;
 
+.invisible {
+    display: none;
+}
+
 .calendar {
     width: @calendarWidth;
     margin: auto;
-    margin-top: 30px;
-    margin-bottom: 10px;
+    &__wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
     &__header {
         width: 80vw;
         margin: auto;

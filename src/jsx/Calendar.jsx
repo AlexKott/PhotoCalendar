@@ -20,8 +20,6 @@ class Calendar extends React.Component {
         }
     }
     componentDidMount() {
-        this.props.selectElement({ date: this.state.selectedDay, isDate: true });
-
         const month = this.state.selectedMonth;
         const weeks = this.state.weeks;
 
@@ -31,6 +29,8 @@ class Calendar extends React.Component {
         getEventsByMonth(month.requestString).then((events) => {
             this.setState({ weeks: buildEventWeeks(weeks, events) });
         });
+        this.props.setTitle(month.displayName);
+        this.props.setCalendarTitle(month.displayName);
     }
     onSelectElement(selectedElement) {
         this.props.selectElement(selectedElement);
@@ -53,15 +53,13 @@ class Calendar extends React.Component {
         });
 
         this.setState({ selectedMonth });
+        this.props.setTitle(selectedMonth.displayName);
+        this.props.setCalendarTitle(selectedMonth.displayName);
     }
     render() {
         return (
-            <div>
-                <div className="calendar__header">
-                    <button className="button" onClick={() => this.onChangeMonth(-1)}>Previous</button>
-                    <h1 className="calendar__title">{this.state.selectedMonth.displayName}</h1>
-                    <button className="button" onClick={() => this.onChangeMonth(1)}>Next</button>
-                </div>
+            <div className={this.props.isCalendarActive ? "calendar__wrapper" : "invisible"}>
+                <button className="button button--nav" onClick={() => this.onChangeMonth(-1)}>Previous</button>
                 <div className="calendar">
                     {this.state.weeks.map((week, index) => (
                         <CalendarWeek
@@ -73,6 +71,7 @@ class Calendar extends React.Component {
                         />
                     ))}
                 </div>
+                <button className="button button--nav" onClick={() => this.onChangeMonth(1)}>Next</button>
             </div>
         );
     }

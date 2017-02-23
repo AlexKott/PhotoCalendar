@@ -7,16 +7,27 @@ class DetailView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: null,
             photos: null,
             isSlideShowOpen: false,
             startPhoto: null
         }
     }
     componentWillReceiveProps(nextProps) {
-        this.setState({ title: null, photos: null, isLoading: true });
+        if (!nextProps.selectedElement) {
+            return;
+        }
+        const oldElement = this.props.selectedElement || {};
+        const newElement = nextProps.selectedElement;
+        const isSameEvent = oldElement.isEvent && newElement.isEvent && oldElement.eventId === newElement.eventId;
+        const isSameDate = oldElement.isDate && newElement.isDate && oldElement.date === newElement.date;
+        if (isSameEvent || isSameDate) {
+            return;
+        }
+
+        this.setState({ photos: null, isLoading: true });
         if (nextProps.selectedElement.isEvent) {
             const event = nextProps.selectedElement;
+            this.props.setTitle(event.summary);
             getPhotosByRange(event.startDate, event.endDate).then((photos) => {
                 const allPhotos = [];
                 for (let date in photos) {
@@ -24,13 +35,14 @@ class DetailView extends React.Component {
                         allPhotos.push(...photos[date].media);
                     }
                 }
-                this.setState({ title: event.summary, photos: allPhotos, isLoading: false });
+                this.setState({ photos: allPhotos, isLoading: false });
             });
         } else if (nextProps.selectedElement.isDate) {
             const date = nextProps.selectedElement.date;
+            this.props.setTitle(getDisplayDay(date));
             getPhotosByDate(date).then((photos) => {
                 if (photos[date]) {
-                    this.setState({ title: getDisplayDay(date), photos: photos[date].media });
+                    this.setState({ photos: photos[date].media });
                 }
                 this.setState({ isLoading: false });
             });
@@ -48,8 +60,7 @@ class DetailView extends React.Component {
     }
     render() {
         return (
-            <div className="detailWindow">
-                <h1 className="detail__title">{this.state.title ? this.state.title : ''}</h1>
+            <div className={!this.props.isCalendarActive ? "detailWindow" : "invisible"}>
                 <div className="detail__container">
                     {this.state.photos
                         ? this.state.photos.map((photo, index) => {
