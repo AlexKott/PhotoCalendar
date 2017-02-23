@@ -1,3 +1,5 @@
+@import 'variables';
+@import 'buttons';
 @import 'calendar';
 @import 'detailView';
 @import 'slideshow';
@@ -13,23 +15,10 @@
 body {
     position: relative;
     padding-bottom: 80px;
-    background-color: rgb(240, 245, 235);
+    background-color: @backgroundColor;
+    color: @fontColor;
 }
 
 .no-scroll {
     overflow: hidden;
-}
-
-.button {
-    height: 30px;
-    min-width: 60px;
-    margin: 5px;
-    border: none;
-    color: white;
-    background-color: green;
-}
-
-.button--nav {
-    height: 400px;
-    flex-grow: 1;
 }

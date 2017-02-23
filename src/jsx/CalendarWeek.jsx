@@ -23,10 +23,17 @@ class CalendarWeek extends React.Component {
                             return (
                                 <div
                                     className={selectedDay === day.date ? 'c-week__day c-week__day--selected' : 'c-week__day'}
-                                    style={{ backgroundImage: `url(${dailyThumbnails[day.date] ? dailyThumbnails[day.date].media[0].thumbnailSrc : ''})` }}
                                     onClick={() => onSelectElement({ date: day.date, isDate: true })}
                                     key={index}
-                                >{day.displayNumber}</div>
+                                >
+                                {dailyThumbnails[day.date] &&
+                                    <div
+                                        className="c-week__day-thumbnail"
+                                        style={{ backgroundImage: `url(${dailyThumbnails[day.date].media[0].thumbnailSrc})`}}
+                                    />
+                                }
+                                    {day.displayNumber}
+                                </div>
                             );
                         } else {
                             return (<div className="c-week__day c-week__day--pseudo" key={index}></div>);

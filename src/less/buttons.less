@@ -1,0 +1,25 @@
+.button {
+    border: none;
+    color: @buttonFontColor;
+    background-color: @buttonBgColor;
+    &:focus {
+        outline: transparent;
+    }
+}
+
+.button--nav {
+    height: 482px;
+    flex-grow: 1;
+    margin: 8px 4px;
+    background: transparent;
+    color: @buttonBgColor;
+    font-size: 60px;
+    font-weight: 700;
+    cursor: pointer;
+    &-left {
+        transform: rotate(180deg);
+    }
+    &:hover {
+        background-color: fade(@white, 60%);
+    }
+}
