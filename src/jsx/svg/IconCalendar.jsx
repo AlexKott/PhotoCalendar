@@ -1,8 +1,8 @@
 import React from 'react';
 
-const IconCalendar = () => (
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" className="icon__calendar"
-    	 width="42px" height="40px" viewBox="0 0 480 469">
+const IconCalendar = (props) => (
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" className="icon icon__calendar"
+    	 width={props.size} height={props.size} viewBox="0 0 480 469">
          <g>
          	<path d="M240.162-0.291c62.09,0,124.177,0.061,186.267-0.05c12.774-0.024,24.171,3.484,34.146,11.188
          		c7.784,6.014,13.288,13.73,16.509,22.924c2.11,6.03,2.97,12.234,2.968,18.649c-0.063,121.424-0.069,242.849-0.012,364.274
