@@ -33,15 +33,14 @@ module.exports = {
         const subject = 'New updates from Alina and Alex';
         const html = buildEmail(calendarUpdates, photoUpdates, textUpdates, newsString);
         const now = new Date();
-        console.log(html);
-/*
+
         sendmail({ from, to, subject, html }, (err, reply) => {
             if (err) {
                 console.log(err && err.stack);
             } else {
                 console.log(`Newsletter sent at ${now}.`);
             }
-        }); */
+        });
     },
     addUser(name, email) {
         return new Promise((resolve, reject) => {
