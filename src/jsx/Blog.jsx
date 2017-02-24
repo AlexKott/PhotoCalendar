@@ -17,7 +17,6 @@ class Blog extends React.Component {
     }
     selectElement(selectedElement) {
         this.setState({ selectedElement, isCalendarActive: false });
-        console.log(selectedElement);
     }
     showCalendar() {
         this.setState({ isCalendarActive: true });

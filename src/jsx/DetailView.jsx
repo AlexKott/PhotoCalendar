@@ -1,5 +1,6 @@
 import React from 'react';
 import { getPhotosByDate, getPhotosByRange } from '../js/photoService.js';
+import { getText } from '../js/textService.js';
 import { getDisplayDay } from '../js/dateHelper.js';
 import Slideshow from './Slideshow.jsx';
 
@@ -9,7 +10,8 @@ class DetailView extends React.Component {
         this.state = {
             photos: null,
             isSlideShowOpen: false,
-            startPhoto: null
+            startPhoto: null,
+            text: null
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -24,28 +26,58 @@ class DetailView extends React.Component {
             return;
         }
 
-        this.setState({ photos: null, isLoading: true });
+        this.setState({ photos: null, text: null, isLoading: true });
         if (nextProps.selectedElement.isEvent) {
             const event = nextProps.selectedElement;
             this.props.setTitle(event.summary);
-            getPhotosByRange(event.startDate, event.endDate).then((photos) => {
-                const allPhotos = [];
-                for (let date in photos) {
-                    if ({}.hasOwnProperty.call(photos, date)) {
-                        allPhotos.push(...photos[date].media);
+
+            getPhotosByRange(event.startDate, event.endDate)
+                .then((photos) => {
+                    const allPhotos = [];
+                    for (let date in photos) {
+                        if ({}.hasOwnProperty.call(photos, date)) {
+                            allPhotos.push(...photos[date].media);
+                        }
                     }
-                }
-                this.setState({ photos: allPhotos, isLoading: false });
-            });
+                    allPhotos.sort((a, b) => a.timestamp > b.timestamp ? 1 : -1);
+                    this.setState({ photos: allPhotos, isLoading: false });
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.setState({ isLoading: false, photos: null });
+                });
+
+            getText(event.eventId)
+                .then(text => this.setState({ text, isLoading: false }))
+                .catch((error) => {
+                    console.log(error);
+                    this.setState({ isLoading: false, text: null });
+                });
+
         } else if (nextProps.selectedElement.isDate) {
             const date = nextProps.selectedElement.date;
             this.props.setTitle(getDisplayDay(date));
-            getPhotosByDate(date).then((photos) => {
-                if (photos[date]) {
-                    this.setState({ photos: photos[date].media });
-                }
-                this.setState({ isLoading: false });
-            });
+
+            getPhotosByDate(date)
+                .then((photos) => {
+                    if (photos[date]) {
+                        this.setState({ photos: photos[date].media, isLoading: false });
+                    } else {
+                        this.setState({ photos: null, isLoading: false });
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.setState({ isLoading: false, photos: null });
+                });
+
+            getText(date)
+                .then(text => this.setState({ text, isLoading: false }))
+                .catch((error) => {
+                    console.log(error);
+                    this.setState({ isLoading: false, text: null });
+                });
+
         } else {
             this.setState({ isLoading: false });
         }
@@ -61,6 +93,9 @@ class DetailView extends React.Component {
     render() {
         return (
             <div className={!this.props.isCalendarActive ? "detail__window" : "hidden"}>
+                {this.state.text &&
+                    <div className="detail__text" dangerouslySetInnerHTML={{ __html: this.state.text.content }} />
+                }
                 <div className="detail__container">
                     {this.state.photos
                         ? this.state.photos.map((photo, index) => {

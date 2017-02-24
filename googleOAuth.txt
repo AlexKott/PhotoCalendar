@@ -5,7 +5,7 @@
     - enter a name and at least one authorised redirect uri for the project
     - copy your client id and your client secret from the next screen
 2. build your request uri (be sure to be logged in with google)
-    - https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=https://picasaweb.google.com/data&access_type=offline
+    - https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=https://picasaweb.google.com/data https://www.googleapis.com/auth/calendar&access_type=offline
     - &client_id=YOUR_CLIENT_ID
     - &redirect_uri=YOUR_REDIRECT_URI
 3. Visit the url and authorize with your account
