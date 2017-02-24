@@ -1,7 +1,11 @@
+const fs = require('fs');
+const path = require('path');
+
 const photoAdapter = require('../adapters/photoAdapter');
 const eventAdapter = require('../adapters/eventAdapter');
 const textAdapter = require('../adapters/textAdapter');
 const newsletterService = require('../services/newsletterService');
+const dateHelper = require('../helpers/dateHelper');
 
 const updatePromises = [];
 
@@ -14,6 +18,15 @@ updatePromises.push(eventAdapter.getEvents({ updatedMin: startDate }));
 updatePromises.push(photoAdapter.getPhotos(startDate, endDate));
 updatePromises.push(textAdapter.getTextsByRange('date', startDate, endDate));
 updatePromises.push(textAdapter.getTextsByRange('event', startDate, endDate));
+updatePromises.push(new Promise((resolve, reject) => {
+    fs.readFile(path.join(__dirname, '/content/news.html'), 'utf-8', (err, result) => {
+        if (err) {
+            resolve();
+        } else {
+            resolve(result);
+        }
+    });
+}));
 updatePromises.push(newsletterService.fetchMailAddresses());
 
 Promise.all(updatePromises)
@@ -26,10 +39,15 @@ Promise.all(updatePromises)
         });
         const photoUpdates = updates[1] ? updates[1] : null;
         const textUpdates = { dateTexts: updates[2], eventTexts: updates[3] };
-        const recipients = updates[4];
+        const newsString = updates[4];
+        const recipients = updates[5];
 
-        if (calendarUpdates || photoUpdates || textUpdates.dateTexts || textUpdates.eventTexts) {
-            newsletterService.sendEmail(recipients, calendarUpdates, photoUpdates, textUpdates);
+        if (calendarUpdates || photoUpdates || textUpdates.dateTexts || textUpdates.eventTexts || newsString) {
+            newsletterService.sendEmail(recipients, calendarUpdates, photoUpdates, textUpdates, newsString);
+            if (newsString) {
+                const archiveName = dateHelper.getDateString(new Date());
+                fs.renameSync(path.join(__dirname, '/content/news.html'), path.join(__dirname, `/content/archive/${archiveName}.html`));
+            }
         } else {
             console.log(`No news, no newsletter at ${endDate}.`);
         }

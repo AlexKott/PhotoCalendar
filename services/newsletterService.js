@@ -27,11 +27,11 @@ module.exports = {
             });
         });
     },
-    sendEmail(recipients, calendarUpdates, photoUpdates, textUpdates) {
+    sendEmail(recipients, calendarUpdates, photoUpdates, textUpdates, newsString) {
         const from = 'Alina and Alex <no-reply@alexkott.com>';
         const to = recipients.map(r => r.email).join(', ');
         const subject = 'New updates from Alina and Alex';
-        const html = buildEmail(calendarUpdates, photoUpdates, textUpdates);
+        const html = buildEmail(calendarUpdates, photoUpdates, textUpdates, newsString);
         const now = new Date();
         console.log(html);
 /*
@@ -69,7 +69,7 @@ module.exports = {
     }
 };
 
-function buildEmail(calendarUpdates, photoUpdates, textUpdates) {
+function buildEmail(calendarUpdates, photoUpdates, textUpdates, newsString) {
     const template = fs.readFileSync(path.join(__dirname, '../newsletter/template.jst'));
     const templateFunction = doT.template(template);
 
@@ -85,7 +85,8 @@ function buildEmail(calendarUpdates, photoUpdates, textUpdates) {
             size: amountPhotos,
             teaser: photoUpdates[photoDates[0]].media[0]
         },
-        textUpdates
+        textUpdates,
+        newsString
     };
 
     return templateFunction(emailData);

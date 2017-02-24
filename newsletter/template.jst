@@ -17,6 +17,9 @@
     <div class="wrapper">
         <div class="content">
             <h1>New updates from Alina and Alex</h1>
+            {{? it.newsString}}
+                {{=it.newsString}}
+            {{?}}
             {{? it.calendarUpdates.length === 1}}
                 <h2>A new destination has been chosen!</h2>
                 <p>We added <strong>{{=it.calendarUpdates[0].summary}}</strong> and will probably be there from {{=it.calendarUpdates[0].startDate}} until {{=it.calendarUpdates[0].endDate}}.</p>
@@ -38,7 +41,7 @@
                 <p>We wrote a text for {{=it.textUpdates.eventTexts[0].eventSummary}}. Sounds good? Go, read it! :)</p>
                 <hr>
             {{?}}
-            {{? it.textUpdates.eventTexts.length > 1 || it.textUpdates.dateTexts.length > 1}}
+            {{? it.textUpdates.eventTexts.length > 1 || it.textUpdates.dateTexts.length > 0}}
                 <h2>We published some texts</h2>
                 <p>We were busy and added {{=it.textUpdates.eventTexts.length + it.textUpdates.dateTexts.length}} new texts. Can you find them? ;)</p>
                 <hr>
