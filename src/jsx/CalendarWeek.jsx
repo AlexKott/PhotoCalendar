@@ -32,7 +32,7 @@ class CalendarWeek extends React.Component {
                                         style={{ backgroundImage: `url(${dailyThumbnails[day.date].media[0].thumbnailSrc})`}}
                                     />
                                 }
-                                    {day.displayNumber}
+                                    <span className="c-week__day-number">{day.displayNumber}</span>
                                 </div>
                             );
                         } else {

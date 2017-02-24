@@ -1,5 +1,6 @@
 const textAdapter = require('../adapters/textAdapter');
 const dateHelper = require('../helpers/dateHelper');
+const configPassword = require('../password.json').password;
 
 module.exports = {
     getTextsById(req, res) {
@@ -21,13 +22,19 @@ module.exports = {
             .catch(error => res.status(500).send(error));
     },
     saveText(req, res) {
-        const { type, html, date, eventId, eventSummary } = req.body;
+        const { password, type, html, date, eventId, eventSummary } = req.body;
+        if (password !== configPassword) {
+            return res.status(401).send('wrong password!');
+        }
         textAdapter.saveText(type, html, date, eventId, eventSummary)
             .then(response => res.status(200).send(response))
             .catch(error => res.status(500).send(error));
     },
     updateText(req, res) {
-        const { type, html, date, eventId } = req.body;
+        const { password, type, html, date, eventId } = req.body;
+        if (password !== configPassword) {
+            return res.status(401).send('wrong password!');
+        }
         textAdapter.updateText(type, html, date, eventId)
             .then(response => res.status(200).send(response))
             .catch(error => res.status(500).send(error));

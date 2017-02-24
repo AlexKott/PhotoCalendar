@@ -10,7 +10,8 @@ class Admin extends React.Component {
         this.state = {
             events: [],
             selectedType: null,
-            isLoadingText: false
+            isLoadingText: false,
+            password: ''
         }
     }
     componentDidMount() {
@@ -56,21 +57,25 @@ class Admin extends React.Component {
                 console.log(error)
             });
     }
+    onEnterPassword(e) {
+        this.setState({ password: e.target.value });
+    }
     onSaveText() {
         const type = this.state.selectedType;
         const date = type === 'date' ? this.state.selectedDate : null;
         const eventId = type === 'event' ? this.state.selectedEvent : null;
+        const password = this.state.password;
         let eventSummary;
         if (type === 'event') {
             eventSummary = this.state.events.find(event => event.eventId === eventId).summary;
         }
         const html = this.state.quill.root.innerHTML;
         if (this.state.isUpdating) {
-            updateText({ type, date, eventId, html }).then((response) => {
+            updateText({ password, type, date, eventId, html }).then((response) => {
                 console.log(response);
             });
         } else {
-            postText({ type, date, eventId, html, eventSummary }).then((response) => {
+            postText({ password, type, date, eventId, html, eventSummary }).then((response) => {
                 console.log(response);
             });
         }
@@ -127,6 +132,7 @@ class Admin extends React.Component {
                     <div id="editor"></div>
                 </div>
 
+                <input type="password" onChange={this.onEnterPassword.bind(this)} />
                 <button className="button" onClick={() => this.onSaveText()}>Save</button>
             </div>
         );

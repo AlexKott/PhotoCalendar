@@ -4,3 +4,4 @@ googleAuth.json
 mongoConfig.json
 node_modules
 newsletter/content
+password.json
