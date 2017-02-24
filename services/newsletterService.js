@@ -27,20 +27,21 @@ module.exports = {
             });
         });
     },
-    sendEmail(recipients, calendarUpdates, photoUpdates) {
+    sendEmail(recipients, calendarUpdates, photoUpdates, textUpdates) {
         const from = 'Alina and Alex <no-reply@alexkott.com>';
         const to = recipients.map(r => r.email).join(', ');
         const subject = 'New updates from Alina and Alex';
-        const html = buildEmail(calendarUpdates, photoUpdates);
+        const html = buildEmail(calendarUpdates, photoUpdates, textUpdates);
         const now = new Date();
-
+        console.log(html);
+/*
         sendmail({ from, to, subject, html }, (err, reply) => {
             if (err) {
                 console.log(err && err.stack);
             } else {
                 console.log(`Newsletter sent at ${now}.`);
             }
-        });
+        }); */
     },
     addUser(name, email) {
         return new Promise((resolve, reject) => {
@@ -68,7 +69,7 @@ module.exports = {
     }
 };
 
-function buildEmail(calendarUpdates, photoUpdates) {
+function buildEmail(calendarUpdates, photoUpdates, textUpdates) {
     const template = fs.readFileSync(path.join(__dirname, '../newsletter/template.jst'));
     const templateFunction = doT.template(template);
 
@@ -83,7 +84,8 @@ function buildEmail(calendarUpdates, photoUpdates) {
         photoUpdates: {
             size: amountPhotos,
             teaser: photoUpdates[photoDates[0]].media[0]
-        }
+        },
+        textUpdates
     };
 
     return templateFunction(emailData);

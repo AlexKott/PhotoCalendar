@@ -26,16 +26,42 @@ module.exports = {
             });
         });
     },
-    saveText(type, content, date, eventId) {
+    getTextsByRange(type, startDate, endDate) {
         const collectionName = `${type}Texts`;
-        const id = type === 'date' ? { date } : { eventId };
+        const startStamp = startDate.getTime();
+        const endStamp = endDate.getTime();
 
         return new Promise((resolve, reject) => {
             MongoClient.connect(dbUrl, (err, db) => {
                 if (!err) {
                     db
                         .collection(collectionName)
-                        .insertOne(Object.assign({}, { content }, id), () => resolve('ok'));
+                        .find({ createdAt: { $gte: startStamp, $lte: endStamp }}, (dbError, cursor) => {
+                            if (!dbError) {
+                                resolve(cursor.toArray());
+                                db.close();
+                            } else {
+                                reject(dbError);
+                            }
+                        })
+                } else {
+                    reject(err);
+                }
+            });
+        });
+    },
+    saveText(type, content, date, eventId, eventSummary) {
+        const collectionName = `${type}Texts`;
+        const id = type === 'date' ? { date } : { eventId };
+        const createdAt = updatedAt = (new Date()).getTime();
+        const eventProps = type === 'event' ? { eventSummary } : null;
+
+        return new Promise((resolve, reject) => {
+            MongoClient.connect(dbUrl, (err, db) => {
+                if (!err) {
+                    db
+                        .collection(collectionName)
+                        .insertOne(Object.assign({}, { content, createdAt, updatedAt }, id, eventProps), () => resolve('ok'));
                 } else {
                     reject(err);
                 }
@@ -45,13 +71,14 @@ module.exports = {
     updateText(type, content, date, eventId) {
         const collectionName = `${type}Texts`;
         const id = type === 'date' ? { date } : { eventId };
+        const updatedAt = (new Date()).getTime();
 
         return new Promise((resolve, reject) => {
             MongoClient.connect(dbUrl, (err, db) => {
                 if (!err) {
                     db
                         .collection(collectionName)
-                        .updateOne(id, { $set: { content }}, () => resolve('ok'));
+                        .updateOne(id, { $set: { content, updatedAt }}, () => resolve('ok'));
                 } else {
                     reject(err);
                 }

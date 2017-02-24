@@ -5,10 +5,12 @@
         .wrapper { width: 100%; background-color: #777777; padding: 20px 0; }
         .content { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #FBFBFB; }
         h1 { font-size: 24px; margin: 0 0 16px; padding: 4px 8px; background-color: #880011; color: #FBFBFB; }
-        h2 { font-size: 18px; margin: 4px 0; border-left: 4px solid #880011; padding-left: 4px; }
-        p { font-size: 14px; line-height: 1.46; margin: 8px 0 16px; padding: 0 8px }
+        h2 { font-size: 18px; margin: 20px 0 4px 0; border-left: 4px solid #880011; padding-left: 4px; }
+        p { font-size: 14px; line-height: 1.46; margin: 8px 0 8px; padding: 0 8px }
         a { color: #880011; text-decoration: none; border-bottom: 1px solid currentColor; }
         a:hover { border: none; }
+        .small { font-size: 10px; padding-left: 8px; }
+        hr { width: 40%; margin: 20px auto; border: 1px solid #880011; border-top: none; }
     </style>
 </head>
 <body>
@@ -18,17 +20,31 @@
             {{? it.calendarUpdates.length === 1}}
                 <h2>A new destination has been chosen!</h2>
                 <p>We added <strong>{{=it.calendarUpdates[0].summary}}</strong> and will probably be there from {{=it.calendarUpdates[0].startDate}} until {{=it.calendarUpdates[0].endDate}}.</p>
+                <hr>
             {{?}}
             {{? it.calendarUpdates.length > 1}}
                 <h2>Some new destinations have been chosen!</h2>
                 <p>We added <strong>{{=it.calendarUpdates.map(a => a.summary).join(' and ')}}</strong>. How exciting!</p>
+                <hr>
             {{?}}
             {{? it.photoUpdates.size > 0}}
                 <h2>We added some new photos</h2>
                 <p>In the last week we added {{=it.photoUpdates.size}} new photos. Here's a teaser:</p>
                 <img src="{{=it.photoUpdates.teaser.path + '/' + it.photoUpdates.teaser.fileName}}" width="{{=it.photoUpdates.teaser.width}}" height="{{=it.photoUpdates.teaser.height}}" />
+                <hr>
+            {{?}}
+            {{? it.textUpdates.eventTexts.length === 1 && it.textUpdates.dateTexts.length === 0}}
+                <h2>We published a new text</h2>
+                <p>We wrote a text for {{=it.textUpdates.eventTexts[0].eventSummary}}. Sounds good? Go, read it! :)</p>
+                <hr>
+            {{?}}
+            {{? it.textUpdates.eventTexts.length > 1 || it.textUpdates.dateTexts.length > 1}}
+                <h2>We published some texts</h2>
+                <p>We were busy and added {{=it.textUpdates.eventTexts.length + it.textUpdates.dateTexts.length}} new texts. Can you find them? ;)</p>
+                <hr>
             {{?}}
             <p>Go check it out at <a href="https://travel.alexkott.com">the website</a></p>
+            <div class="small">Too many newsletters? Just <a href="mailto:alex.kott@mail.com">let us know</a> and we might consider unsubscribing you :)</div>
         </div>
     </div>
 </body>

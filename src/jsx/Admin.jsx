@@ -60,13 +60,17 @@ class Admin extends React.Component {
         const type = this.state.selectedType;
         const date = type === 'date' ? this.state.selectedDate : null;
         const eventId = type === 'event' ? this.state.selectedEvent : null;
+        let eventSummary;
+        if (type === 'event') {
+            eventSummary = this.state.events.find(event => event.eventId === eventId).summary;
+        }
         const html = this.state.quill.root.innerHTML;
         if (this.state.isUpdating) {
             updateText({ type, date, eventId, html }).then((response) => {
                 console.log(response);
             });
         } else {
-            postText({ type, date, eventId, html }).then((response) => {
+            postText({ type, date, eventId, html, eventSummary }).then((response) => {
                 console.log(response);
             });
         }

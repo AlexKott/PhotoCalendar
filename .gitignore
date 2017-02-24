@@ -3,3 +3,4 @@ dist/css
 googleAuth.json
 mongoConfig.json
 node_modules
+newsletter/content
