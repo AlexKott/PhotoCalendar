@@ -52,19 +52,15 @@
         margin: 0 4px;
         padding: 10px;
         background-color: @white;
-        cursor: pointer;
         font-size: 18px;
 
         &--pseudo {
             background-color: transparent;
-            cursor: initial;
-        }
-        &--selected {
-            border: 4px solid @mediumGreen;
         }
         &-number {
             position: relative;
             z-index: 2;
+            pointer-events: none;
         }
         &-thumbnail {
             position: absolute;
@@ -74,6 +70,7 @@
             height: 100%;
             background-size: cover;
             background-position: center;
+            cursor: pointer;
             &:after {
                 content: '';
                 display: block;
@@ -83,6 +80,10 @@
                 width: 100%;
                 height: 100%;
                 background-color: fade(@white, 30%);
+                transition: background-color .2s;
+            }
+            &:hover:after {
+                background-color: fade(@white, 60%);
             }
         }
     }
@@ -144,7 +145,7 @@
 }
 .eventBgColor(@r, @g, @b) {
     background-color: rgba(@r, @g, @b, 0.4);
-    &:hover {
+    &.c-week__event--focussed {
         background-color: rgba(@r, @g, @b, 0.7);
     }
 }

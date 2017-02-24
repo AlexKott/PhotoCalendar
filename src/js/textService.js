@@ -5,13 +5,7 @@ function getText(id) {
     return new Promise((resolve, reject) => {
         ajax(`${TEXTS_API}/${id}`, 'GET')
             .then(response => resolve(response.data))
-            .catch((error) => {
-                if (error.status === 404) {
-                    resolve(null);
-                } else {
-                    reject(error);
-                }
-            });
+            .catch((error) => reject(error));
     });
 }
 

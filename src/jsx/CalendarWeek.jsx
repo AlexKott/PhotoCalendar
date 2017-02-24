@@ -11,9 +11,11 @@ class CalendarWeek extends React.Component {
     render() {
         const {
             week,
-            selectedDay,
             dailyThumbnails,
-            onSelectElement
+            onSelectElement,
+            focussedEvent,
+            onFocusEvent,
+            onBlurEvent
         } = this.props;
         return (
             <section className="c-week">
@@ -21,15 +23,12 @@ class CalendarWeek extends React.Component {
                     {week.map((day, index) => {
                         if (day.date) {
                             return (
-                                <div
-                                    className={selectedDay === day.date ? 'c-week__day c-week__day--selected' : 'c-week__day'}
-                                    onClick={() => onSelectElement({ date: day.date, isDate: true })}
-                                    key={index}
-                                >
+                                <div className="c-week__day" key={index}>
                                 {dailyThumbnails[day.date] &&
                                     <div
                                         className="c-week__day-thumbnail"
                                         style={{ backgroundImage: `url(${dailyThumbnails[day.date].media[0].thumbnailSrc})`}}
+                                        onClick={() => onSelectElement({ date: day.date, isDate: true })}
                                     />
                                 }
                                     <span className="c-week__day-number">{day.displayNumber}</span>
@@ -43,11 +42,14 @@ class CalendarWeek extends React.Component {
                 <div className="c-week__events">
                     {this.state.events.map((event, index) => {
                         if (event.isEvent) {
+                            const classNames = `c-week__event c-week__event--${event.colorId} ${focussedEvent === event.eventId ? 'c-week__event--focussed' : ''}`;
                             return (
                                 <div
-                                    className={`c-week__event c-week__event--${event.colorId}`}
+                                    className={classNames}
                                     style={{ flexBasis: `${100/7*event.size}%`}}
                                     onClick={() => onSelectElement(event)}
+                                    onMouseEnter={() => onFocusEvent(event)}
+                                    onMouseLeave={() => onBlurEvent()}
                                     key={index}
                                 >{event.summary}</div>
                             );

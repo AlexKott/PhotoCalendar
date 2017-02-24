@@ -9,13 +9,11 @@ class Calendar extends React.Component {
         super(props);
 
         const selectedMonth = selectMonth();
-        const selectedDay = getDateString();
         const weeks = getWeeks(selectedMonth);
 
         this.state = {
             selectedMonth,
             weeks,
-            selectedDay,
             dailyThumbnails: {}
         }
     }
@@ -32,13 +30,11 @@ class Calendar extends React.Component {
         this.props.setTitle(month.displayName);
         this.props.setCalendarTitle(month.displayName);
     }
-    onSelectElement(selectedElement) {
-        this.props.selectElement(selectedElement);
-        if (selectedElement.isDate) {
-            this.setState({ selectedDay: selectedElement.date });
-        } else if (selectedElement.isEvent) {
-            this.setState({ selectedDay: null });
-        }
+    onFocusEvent(event) {
+        this.setState({ focussedEvent: event.eventId });
+    }
+    onBlurEvent() {
+        this.setState({ focussedEvent: null })
     }
     onChangeMonth(direction) {
         const selectedMonth = selectMonth((this.state.selectedMonth.month + direction), this.state.selectedMonth.year);
@@ -66,8 +62,10 @@ class Calendar extends React.Component {
                             week={week}
                             key={index}
                             dailyThumbnails={this.state.dailyThumbnails}
-                            onSelectElement={this.onSelectElement.bind(this)}
-                            selectedDay={this.state.selectedDay}
+                            onSelectElement={this.props.selectElement}
+                            focussedEvent={this.state.focussedEvent}
+                            onFocusEvent={this.onFocusEvent.bind(this)}
+                            onBlurEvent={this.onBlurEvent.bind(this)}
                         />
                     ))}
                 </div>

@@ -14,7 +14,7 @@ module.exports = {
         textPromise
             .then(text => {
                 if (!text) {
-                    res.sendStatus(404);
+                    res.status(200).send();
                 } else {
                     res.status(200).send(text);
                 }
