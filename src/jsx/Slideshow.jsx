@@ -1,4 +1,5 @@
 import React from 'react';
+import IconClose from './svg/IconClose.jsx';
 
 class Slideshow extends React.Component {
     constructor(props) {
@@ -20,8 +21,10 @@ class Slideshow extends React.Component {
     }
     render() {
         return (
-            <div className="slideshow__container" onClick={() => this.props.onClose()}>
-                <button className="button button--white slideshow__close-button" onClick={() => this.props.onClose()}>+</button>
+            <div className="slideshow" onClick={() => this.props.onClose()}>
+                <button className="button button--white slideshow__close-button" onClick={() => this.props.onClose()}>
+                    <IconClose size="64px" />
+                </button>
                 {this.props.photos.length > 1 &&
                     <button
                         className="button button--white button--nav button--nav-left"

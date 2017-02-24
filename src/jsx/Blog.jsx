@@ -4,6 +4,7 @@ import Header from './Header.jsx';
 import Calendar from './Calendar.jsx';
 import DetailView from './DetailView.jsx';
 import { getDateString } from '../js/dateHelper.js';
+import { readCookie } from '../js/cookieService.js';
 
 class Blog extends React.Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class Blog extends React.Component {
             selectedElement: null,
             isCalendarActive: true,
             calendarTitle: '',
-            title: ''
+            title: '',
+            hasSubscribedNewsletter: readCookie('subscribedNewsletter')
         }
     }
     selectElement(selectedElement) {
@@ -31,7 +33,7 @@ class Blog extends React.Component {
     render() {
         return(
             <div>
-                <Newsletter />
+                {!this.state.hasSubscribedNewsletter && <Newsletter />}
                 <Header
                     isCalendarActive={this.state.isCalendarActive}
                     title={this.state.isCalendarActive ? this.state.calendarTitle : this.state.title}

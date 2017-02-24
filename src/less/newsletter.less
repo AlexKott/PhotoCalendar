@@ -58,20 +58,18 @@
         height: 28px;
         min-width: 0;
         border-radius: 50%;
-        font-weight: 700;
-        font-size: 40px;
-        line-height: 28px;
         overflow: hidden;
-        >span {
-            display: block;
-            transform: rotate(-225deg);
-            transition: transform .6s;
+        background-color: @white;
+        >svg {
+            transform: rotate(0);
+            transition: transform .75s;
+            fill: @mediumGreen;
         }
     }
     &--closed {
         transform: translate(356px);
-        .newsletter__close-button>span {
-            transform: rotate(0);
+        .newsletter__close-button>svg {
+            transform: rotate(225deg);
         }
     }
     &--exists {

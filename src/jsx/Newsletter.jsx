@@ -1,5 +1,7 @@
 import React from 'react';
-import { signUp } from '../js/newsletterService';
+import { signUp } from '../js/newsletterService.js';
+import { writeCookie } from '../js/cookieService.js';
+import IconClose from './svg/IconClose.jsx';
 
 class Newsletter extends React.Component {
     constructor(props) {
@@ -56,6 +58,7 @@ class Newsletter extends React.Component {
                 } else if (result.status === 304) {
                     this.setState({ status: 1 });
                 }
+                writeCookie('subscribedNewsletter', true);
                 this.setState({ isLoading: false });
             })
             .catch(error => {
@@ -70,7 +73,9 @@ class Newsletter extends React.Component {
         classes += `newsletter--${this.state.messages[this.state.status].type}`;
         return (
             <section className={classes}>
-                <button className="button newsletter__close-button" onClick={this.onToggleNewsletter.bind(this)}><span>+</span></button>
+                <button className="button newsletter__close-button" onClick={this.onToggleNewsletter.bind(this)}>
+                    <IconClose size="28px" />
+                </button>
                 <h3 className="newsletter__title">{this.state.messages[this.state.status].title}</h3>
                 <small className="newsletter__description">{this.state.messages[this.state.status].description}</small>
                 {this.state.status === 0 &&
