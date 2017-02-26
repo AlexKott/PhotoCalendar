@@ -37,7 +37,7 @@ class DetailView extends React.Component {
                     const allPhotos = [];
                     for (let date in photos) {
                         if ({}.hasOwnProperty.call(photos, date)) {
-                            allPhotos.push(...photos[date].media);
+                            allPhotos.push(...photos[date]);
                         }
                     }
                     allPhotos.sort((a, b) => a.timestamp > b.timestamp ? 1 : -1);
@@ -61,11 +61,7 @@ class DetailView extends React.Component {
 
             getPhotosByDay(date)
                 .then((photos) => {
-                    if (photos[date]) {
-                        this.setState({ photos: photos[date].media, isLoading: false });
-                    } else {
-                        this.setState({ photos: null, isLoading: false });
-                    }
+                    this.setState({ photos, isLoading: false });
                 })
                 .catch((error) => {
                     console.log(error);

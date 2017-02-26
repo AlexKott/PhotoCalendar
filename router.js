@@ -23,7 +23,7 @@ router.get('/texts/:id', textController.getTextsById);
 router.post('/texts', textController.saveText);
 router.put('/texts/:id', textController.updateText);
 
-router.get('/photos/:date', photoController.getPhotosByDate);
+router.get('/photos/:month', photoController.getPhotosByMonth);
 router.get('/photos/:startDate/:endDate', photoController.getPhotosByRange);
 
 router.post('/newsletter/add', (req, res) => {

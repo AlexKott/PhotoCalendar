@@ -3,23 +3,23 @@ let photoCache = null;
 class PhotoCache {
     constructor() {
         if (!photoCache) {
-            this.monthCache = {};
-            this.dayCache = {};
+            this.cache = {};
             photoCache = this;
         }
         return photoCache;
     }
-    savePhotosByMonth(photos) {
-        this.monthCache = Object.assign({}, this.monthCache, photos);
+    savePhotosByMonth(month, photos) {
+        this.cache = Object.assign({}, this.cache, { [month]: photos });
     }
     getPhotosByMonth(month) {
-        return this.monthCache[month];
-    }
-    savePhotosByDay(photos) {
-        this.dayCache = Object.assign({}, this.dayCache, photos);
+        return this.cache[month];
     }
     getPhotosByDay(day) {
-        return this.dayCache[day];
+        const month = day.substring(0, 7);
+        return this.cache[month][day];
+    }
+    doesMonthExist(month) {
+        return {}.hasOwnProperty.call(this.cache, month);
     }
 }
 

@@ -27,7 +27,7 @@ class CalendarWeek extends React.Component {
                                 {dailyThumbnails[day.date] &&
                                     <div
                                         className="c-week__day-thumbnail"
-                                        style={{ backgroundImage: `url(${dailyThumbnails[day.date].media[0].thumbnailSrc})`}}
+                                        style={{ backgroundImage: `url(${dailyThumbnails[day.date][0].thumbnailSrc})`}}
                                         onClick={() => onselectContent({ date: day.date, isDate: true })}
                                     />
                                 }

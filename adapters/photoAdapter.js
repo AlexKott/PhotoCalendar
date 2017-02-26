@@ -98,9 +98,9 @@ function buildDayObject(filteredResponse) {
         const date = new Date(parseInt(media.timestamp, 10));
         const dateString = dateHelper.getDateString(date);
         if (!{}.hasOwnProperty.call(dayObject, dateString)) {
-            dayObject[dateString] = { media: [] };
+            dayObject[dateString] = [];
         }
-        dayObject[dateString].media.push(media);
+        dayObject[dateString].push(media);
     });
     return dayObject;
 }
@@ -110,9 +110,8 @@ function mergeDayObjects(mediaDayObjects) {
     mediaDayObjects.forEach((response) => {
         for (let date in response) {
             if ({}.hasOwnProperty.call(response, date)) {
-                singleResponse[date] = singleResponse[date] || { media: [] };
-                singleResponse[date].media = singleResponse[date].media
-                    .concat(response[date].media)
+                singleResponse[date] = singleResponse[date] || [];
+                singleResponse[date] = singleResponse[date].concat(response[date])
                     .sort((a, b) => a.timestamp > b.timestamp ? 1 : -1);
             }
         }

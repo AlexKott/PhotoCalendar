@@ -6,18 +6,16 @@ const photoCache = new PhotoCache();
 
 function getPhotosByDay(day) {
     return new Promise((resolve, reject) => {
-        const cachedPhotos = photoCache.getPhotosByDay(day)
-            if (cachedPhotos) {
-                resolve(cachedPhotos);
-            } else {
-                ajax(`${PHOTOS_API}/${day}`, 'GET')
-                    .then((response) => {
-                        const formattedPhotos = formatImageSrc(response.data);
-                        photoCache.savePhotosByDay({ [day]: formattedPhotos });
-                        resolve(formattedPhotos);
-                    })
-                    .catch(error => reject(error));
-            }
+        const month = day.substring(0, 7);
+
+        if (!photoCache.doesMonthExist(month)) {
+            getPhotosByMonth(month).then(() => {
+                resolve(photoCache.getPhotosByDay(day));
+            })
+            .catch(error => console.log(error));
+        } else {
+            resolve(photoCache.getPhotosByDay(day));
+        }
     });
 }
 
@@ -30,7 +28,7 @@ function getPhotosByMonth(month) {
             ajax(`${PHOTOS_API}/${month}`, 'GET')
                 .then((response) => {
                     const formattedPhotos = formatImageSrc(response.data);
-                    photoCache.savePhotosByMonth({ [month]: formattedPhotos });
+                    photoCache.savePhotosByMonth(month, formattedPhotos);
                     resolve(formattedPhotos);
                 })
                 .catch(error => reject(error));
@@ -50,13 +48,13 @@ function formatImageSrc(response) {
     const formattedResponse = {};
     for (let date in response) {
         if ({}.hasOwnProperty.call(response, date)) {
-            formattedResponse[date] = { media: [] };
-            response[date].media.forEach((photo) => {
+            formattedResponse[date] = [];
+            response[date].forEach((photo) => {
                 const formattedPhoto = Object.assign({}, photo);
                 formattedPhoto.thumbnailSrc = `${photo.path}/s150/${photo.fileName}`;
                 formattedPhoto.src = `${photo.path}/s400/${photo.fileName}`;
                 formattedPhoto.highQualitySrc = `${photo.path}/s1200/${photo.fileName}`;
-                formattedResponse[date].media.push(formattedPhoto);
+                formattedResponse[date].push(formattedPhoto);
             });
         }
     }
