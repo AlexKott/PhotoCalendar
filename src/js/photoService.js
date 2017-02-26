@@ -1,11 +1,40 @@
 import ajax, { API_URL} from './ajax';
+import PhotoCache from './photoCache';
 const PHOTOS_API = `${API_URL}/photos`;
 
-function getPhotosByDate(date) {
+const photoCache = new PhotoCache();
+
+function getPhotosByDay(day) {
     return new Promise((resolve, reject) => {
-        ajax(`${PHOTOS_API}/${date}`, 'GET')
-            .then(response => resolve(formatImageSrc(response.data)))
-            .catch(error => reject(error));
+        const cachedPhotos = photoCache.getPhotosByDay(day)
+            if (cachedPhotos) {
+                resolve(cachedPhotos);
+            } else {
+                ajax(`${PHOTOS_API}/${day}`, 'GET')
+                    .then((response) => {
+                        const formattedPhotos = formatImageSrc(response.data);
+                        photoCache.savePhotosByDay({ [day]: formattedPhotos });
+                        resolve(formattedPhotos);
+                    })
+                    .catch(error => reject(error));
+            }
+    });
+}
+
+function getPhotosByMonth(month) {
+    return new Promise((resolve, reject) => {
+        const cachedPhotos = photoCache.getPhotosByMonth(month);
+        if (cachedPhotos) {
+            resolve(cachedPhotos);
+        } else {
+            ajax(`${PHOTOS_API}/${month}`, 'GET')
+                .then((response) => {
+                    const formattedPhotos = formatImageSrc(response.data);
+                    photoCache.savePhotosByMonth({ [month]: formattedPhotos });
+                    resolve(formattedPhotos);
+                })
+                .catch(error => reject(error));
+        }
     });
 }
 
@@ -34,4 +63,4 @@ function formatImageSrc(response) {
     return formattedResponse;
 }
 
-export { getPhotosByDate, getPhotosByRange };
+export { getPhotosByDay, getPhotosByMonth, getPhotosByRange };

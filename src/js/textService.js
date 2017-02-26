@@ -1,11 +1,22 @@
 import ajax, { API_URL } from './ajax';
+import TextCache from './TextCache';
 const TEXTS_API = `${API_URL}/texts`;
+
+const textCache = new TextCache();
 
 function getText(id) {
     return new Promise((resolve, reject) => {
-        ajax(`${TEXTS_API}/${id}`, 'GET')
-            .then(response => resolve(response.data))
-            .catch((error) => reject(error));
+        const cachedText = textCache.getTextById(id);
+        if (cachedText !== undefined) {
+            resolve(cachedText);
+        } else {
+            ajax(`${TEXTS_API}/${id}`, 'GET')
+                .then((response) => {
+                    textCache.saveTextById({ [id]: response.data || null });
+                    resolve(response.data);
+                })
+                .catch((error) => reject(error));
+        }
     });
 }
 

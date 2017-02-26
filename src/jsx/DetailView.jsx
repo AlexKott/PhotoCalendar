@@ -1,5 +1,5 @@
 import React from 'react';
-import { getPhotosByDate, getPhotosByRange } from '../js/photoService.js';
+import { getPhotosByDay, getPhotosByRange } from '../js/photoService.js';
 import { getText } from '../js/textService.js';
 import { getDisplayDay, getDateStringFromDate } from '../js/dateHelper.js';
 import Slideshow from './Slideshow.jsx';
@@ -59,7 +59,7 @@ class DetailView extends React.Component {
             const date = nextProps.selectedElement.date;
             this.props.setTitle(getDisplayDay(date));
 
-            getPhotosByDate(date)
+            getPhotosByDay(date)
                 .then((photos) => {
                     if (photos[date]) {
                         this.setState({ photos: photos[date].media, isLoading: false });

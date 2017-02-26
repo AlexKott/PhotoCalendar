@@ -2,7 +2,7 @@ import React from 'react';
 import CalendarWeek from './CalendarWeek.jsx';
 import NavButton from './NavButton.jsx';
 import { selectMonth, getDateString, getWeeks, buildEventWeeks } from '../js/dateHelper.js';
-import { getPhotosByDate } from '../js/photoService.js';
+import { getPhotosByMonth } from '../js/photoService.js';
 import { getEventsByMonth } from '../js/eventService.js';
 
 class Calendar extends React.Component {
@@ -22,7 +22,7 @@ class Calendar extends React.Component {
         const month = this.state.selectedMonth;
         const weeks = this.state.weeks;
 
-        getPhotosByDate(month.requestString).then((photos) => {
+        getPhotosByMonth(month.requestString).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
         getEventsByMonth(month.requestString).then((events) => {
@@ -42,7 +42,7 @@ class Calendar extends React.Component {
         const weeks = getWeeks(selectedMonth);
         this.setState({ weeks });
 
-        getPhotosByDate(selectedMonth.requestString).then((photos) => {
+        getPhotosByMonth(selectedMonth.requestString).then((photos) => {
             this.setState({ dailyThumbnails: photos });
         });
         getEventsByMonth(selectedMonth.requestString).then((events) => {

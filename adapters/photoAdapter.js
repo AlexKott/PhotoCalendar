@@ -38,12 +38,12 @@ module.exports = {
                         })
                         .catch(requestError => {
                             console.log(requestError);
-                            rejectTop(requestError);
+                            reject(requestError);
                         });
                 })
                 .catch(authError => {
                     console.log(authError);
-                    rejectTop(authError);
+                    reject(authError);
                 });
         });
     }
