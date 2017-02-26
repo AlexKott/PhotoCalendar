@@ -63,7 +63,7 @@ class Calendar extends React.Component {
                             week={week}
                             key={index}
                             dailyThumbnails={this.state.dailyThumbnails}
-                            onSelectElement={this.props.selectElement}
+                            onselectContent={this.props.selectContent}
                             focussedEvent={this.state.focussedEvent}
                             onFocusEvent={this.onFocusEvent.bind(this)}
                             onBlurEvent={this.onBlurEvent.bind(this)}

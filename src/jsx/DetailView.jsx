@@ -16,11 +16,11 @@ class DetailView extends React.Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.selectedElement) {
+        if (!nextProps.selectedContent) {
             return;
         }
-        const oldElement = this.props.selectedElement || {};
-        const newElement = nextProps.selectedElement;
+        const oldElement = this.props.selectedContent || {};
+        const newElement = nextProps.selectedContent;
         const isSameEvent = oldElement.isEvent && newElement.isEvent && oldElement.eventId === newElement.eventId;
         const isSameDate = oldElement.isDate && newElement.isDate && oldElement.date === newElement.date;
         if (isSameEvent || isSameDate) {
@@ -28,8 +28,8 @@ class DetailView extends React.Component {
         }
 
         this.setState({ photos: null, text: null, isLoading: true });
-        if (nextProps.selectedElement.isEvent) {
-            const event = nextProps.selectedElement;
+        if (nextProps.selectedContent.isEvent) {
+            const event = nextProps.selectedContent;
             this.props.setTitle(event.summary);
 
             getPhotosByRange(event.startDate, event.endDate)
@@ -55,8 +55,8 @@ class DetailView extends React.Component {
                     this.setState({ isLoading: false, text: null });
                 });
 
-        } else if (nextProps.selectedElement.isDate) {
-            const date = nextProps.selectedElement.date;
+        } else if (nextProps.selectedContent.isDate) {
+            const date = nextProps.selectedContent.date;
             this.props.setTitle(getDisplayDay(date));
 
             getPhotosByDay(date)
@@ -92,14 +92,14 @@ class DetailView extends React.Component {
         this.setState({ isSlideShowOpen: false, startPhoto: null });
     }
     onChangeDate(direction) {
-        const date = new Date(this.props.selectedElement.date);
+        const date = new Date(this.props.selectedContent.date);
         date.setDate(date.getDate() + direction);
-        this.props.selectElement({ isDate: true, date: getDateStringFromDate(date) });
+        this.props.selectContent({ isDate: true, date: getDateStringFromDate(date) });
     }
     render() {
         return (
-            <div className={!this.props.isCalendarActive ? "" : "hidden"}>
-                {this.props.selectedElement && this.props.selectedElement.isDate && <NavButton direction="left" onClick={() => this.onChangeDate(-1)}/>}
+            <div className={this.props.isElementActive ? "" : "hidden"}>
+                {this.props.selectedContent && this.props.selectedContent.isDate && <NavButton direction="left" onClick={() => this.onChangeDate(-1)}/>}
                 <div className="detail__window">
                     {this.state.text &&
                         <div className="detail__text" dangerouslySetInnerHTML={{ __html: this.state.text.content }} />
@@ -138,7 +138,7 @@ class DetailView extends React.Component {
                             onClose={this.onCloseSlideshow.bind(this)}
                         />}
                 </div>
-                {this.props.selectedElement && this.props.selectedElement.isDate && <NavButton direction="right" onClick={() => this.onChangeDate(1)} />}
+                {this.props.selectedContent && this.props.selectedContent.isDate && <NavButton direction="right" onClick={() => this.onChangeDate(1)} />}
             </div>
         );
     }

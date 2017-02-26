@@ -12,7 +12,7 @@ class CalendarWeek extends React.Component {
         const {
             week,
             dailyThumbnails,
-            onSelectElement,
+            onselectContent,
             focussedEvent,
             onFocusEvent,
             onBlurEvent
@@ -28,7 +28,7 @@ class CalendarWeek extends React.Component {
                                     <div
                                         className="c-week__day-thumbnail"
                                         style={{ backgroundImage: `url(${dailyThumbnails[day.date].media[0].thumbnailSrc})`}}
-                                        onClick={() => onSelectElement({ date: day.date, isDate: true })}
+                                        onClick={() => onselectContent({ date: day.date, isDate: true })}
                                     />
                                 }
                                     <span className="c-week__day-number">{day.displayNumber}</span>
@@ -47,7 +47,7 @@ class CalendarWeek extends React.Component {
                                 <div
                                     className={classNames}
                                     style={{ flexBasis: `${100/7*event.size}%`}}
-                                    onClick={() => onSelectElement(event)}
+                                    onClick={() => onselectContent(event)}
                                     onMouseEnter={() => onFocusEvent(event)}
                                     onMouseLeave={() => onBlurEvent()}
                                     key={index}

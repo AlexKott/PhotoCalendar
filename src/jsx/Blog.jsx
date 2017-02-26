@@ -3,6 +3,7 @@ import Newsletter from './Newsletter.jsx';
 import Header from './Header.jsx';
 import Calendar from './Calendar.jsx';
 import DetailView from './DetailView.jsx';
+import About from './About.jsx';
 import { getDateString } from '../js/dateHelper.js';
 import { readCookie } from '../js/cookieService.js';
 
@@ -10,18 +11,20 @@ class Blog extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedElement: null,
-            isCalendarActive: true,
+            selectedContent: null,
+            activeComponent: 'Calendar',
+            lastComponent: '',
             calendarTitle: '',
             title: '',
+            lastTitle: '',
             hasSubscribedNewsletter: readCookie('subscribedNewsletter')
         }
     }
-    selectElement(selectedElement) {
-        this.setState({ selectedElement, isCalendarActive: false });
+    selectContent(selectedContent) {
+        this.setState({ selectedContent, activeComponent: 'DetailView' });
     }
     showCalendar() {
-        this.setState({ isCalendarActive: true });
+        this.setState({ activeComponent: 'Calendar' });
     }
     setTitle(title) {
         this.setState({ title });
@@ -29,26 +32,40 @@ class Blog extends React.Component {
     setCalendarTitle(calendarTitle) {
         this.setState({ calendarTitle });
     }
+    toggleAbout() {
+        if (this.state.activeComponent !== 'About') {
+            this.setState({
+                lastComponent: this.state.activeComponent,
+                activeComponent: 'About',
+                lastTitle: this.state.title,
+                title: 'About this CalendarPhotoBlogPage' });
+        } else {
+            this.setState({ activeComponent: this.state.lastComponent, title: this.state.lastTitle });
+        }
+    }
 
     render() {
         return(
             <div>
                 {!this.state.hasSubscribedNewsletter && <Newsletter />}
+                {this.state.activeComponent === 'About' && <About />}
                 <Header
-                    isCalendarActive={this.state.isCalendarActive}
-                    title={this.state.isCalendarActive ? this.state.calendarTitle : this.state.title}
+                    isCalendarActive={this.state.activeComponent === 'Calendar'}
+                    isAboutActive={this.state.activeComponent === 'About'}
+                    title={this.state.activeComponent === 'Calendar' ? this.state.calendarTitle : this.state.title}
                     showCalendar={this.showCalendar.bind(this)}
+                    toggleAbout={this.toggleAbout.bind(this)}
                 />
                 <Calendar
-                    isCalendarActive={this.state.isCalendarActive}
-                    selectElement={this.selectElement.bind(this)}
+                    isCalendarActive={this.state.activeComponent === 'Calendar'}
+                    selectContent={this.selectContent.bind(this)}
                     setTitle={this.setTitle.bind(this)}
                     setCalendarTitle={this.setCalendarTitle.bind(this)}
                 />
                 <DetailView
-                    selectedElement={this.state.selectedElement}
-                    selectElement={this.selectElement.bind(this)}
-                    isCalendarActive={this.state.isCalendarActive}
+                    selectedContent={this.state.selectedContent}
+                    selectContent={this.selectContent.bind(this)}
+                    isElementActive={this.state.activeComponent === 'DetailView'}
                     setTitle={this.setTitle.bind(this)}
                 />
             </div>

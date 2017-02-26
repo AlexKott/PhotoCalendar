@@ -1,6 +1,7 @@
 import React from 'react';
 import IconCalendar from './svg/IconCalendar.jsx';
 import IconQuestion from './svg/IconQuestion.jsx';
+import IconClose from './svg/IconClose.jsx';
 
 class Header extends React.Component {
     render() {
@@ -15,7 +16,8 @@ class Header extends React.Component {
                 <h1 className="header__title">{this.props.title}</h1>
                 <button
                     className="button header__button header__button--info"
-                ><IconQuestion size={iconSize} /></button>
+                    onClick={() => this.props.toggleAbout()}
+                >{this.props.isAboutActive ? <IconClose size={iconSize} /> : <IconQuestion size={iconSize} />}</button>
             </div>
         )
     }
