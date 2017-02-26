@@ -5,12 +5,18 @@ const configPassword = require('../password.json').password;
 module.exports = {
     getTextsById(req, res) {
         const isDate = dateHelper.isDateString(req.params.id);
+        const isMonth = dateHelper.isMonthString(req.params.id);
         let textPromise;
+
         if (isDate) {
             textPromise = textAdapter.getText('date', req.params.id);
+        } else if (isMonth) {
+            const { startDate, endDate } = dateHelper.getMonthBounds(req.params.id);
+            textPromise = textAdapter.getTextsByRange('date', startDate, endDate);
         } else {
             textPromise = textAdapter.getText('event', null, req.params.id);
         }
+        
         textPromise
             .then(text => {
                 if (!text) {

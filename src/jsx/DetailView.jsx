@@ -1,6 +1,6 @@
 import React from 'react';
 import { getPhotosByDay, getPhotosByRange } from '../js/photoService.js';
-import { getText } from '../js/textService.js';
+import { getText, getTextByDay } from '../js/textService.js';
 import { getDisplayDay, getDateStringFromDate } from '../js/dateHelper.js';
 import Slideshow from './Slideshow.jsx';
 import NavButton from './NavButton.jsx';
@@ -68,7 +68,7 @@ class DetailView extends React.Component {
                     this.setState({ isLoading: false, photos: null });
                 });
 
-            getText(date)
+            getTextByDay(date)
                 .then(text => this.setState({ text, isLoading: false }))
                 .catch((error) => {
                     console.log(error);

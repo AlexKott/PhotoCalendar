@@ -36,7 +36,7 @@ module.exports = {
                 if (!err) {
                     db
                         .collection(collectionName)
-                        .find({ createdAt: { $gte: startStamp, $lte: endStamp }}, (dbError, cursor) => {
+                        .find({ createdAt: { $gte: startStamp, $lte: endStamp }}, { _id: 0 }, (dbError, cursor) => {
                             if (!dbError) {
                                 resolve(cursor.toArray());
                                 db.close();

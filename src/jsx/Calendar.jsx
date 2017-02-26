@@ -4,6 +4,7 @@ import NavButton from './NavButton.jsx';
 import { selectMonth, getDateString, getWeeks, buildEventWeeks } from '../js/dateHelper.js';
 import { getPhotosByMonth } from '../js/photoService.js';
 import { getEventsByMonth } from '../js/eventService.js';
+import { getTextsByMonth } from '../js/textService.js';
 
 class Calendar extends React.Component {
     constructor(props) {
@@ -15,7 +16,8 @@ class Calendar extends React.Component {
         this.state = {
             selectedMonth,
             weeks,
-            dailyThumbnails: {}
+            dailyThumbnails: {},
+            texts: null,
         }
     }
     componentDidMount() {
@@ -27,6 +29,9 @@ class Calendar extends React.Component {
         });
         getEventsByMonth(month.requestString).then((events) => {
             this.setState({ weeks: buildEventWeeks(weeks, events) });
+        });
+        getTextsByMonth(month.requestString).then((texts) => {
+            this.setState({ texts });
         });
         this.props.setTitle(month.displayName);
         this.props.setCalendarTitle(month.displayName);
@@ -47,6 +52,9 @@ class Calendar extends React.Component {
         });
         getEventsByMonth(selectedMonth.requestString).then((events) => {
             this.setState({ weeks: buildEventWeeks(weeks, events) });
+        });
+        getTextsByMonth(month.requestString).then((texts) => {
+            this.setState({ texts });
         });
 
         this.setState({ selectedMonth });
