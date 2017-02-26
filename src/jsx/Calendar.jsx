@@ -1,5 +1,6 @@
 import React from 'react';
 import CalendarWeek from './CalendarWeek.jsx';
+import NavButton from './NavButton.jsx';
 import { selectMonth, getDateString, getWeeks, buildEventWeeks } from '../js/dateHelper.js';
 import { getPhotosByDate } from '../js/photoService.js';
 import { getEventsByMonth } from '../js/eventService.js';
@@ -55,7 +56,7 @@ class Calendar extends React.Component {
     render() {
         return (
             <div className={this.props.isCalendarActive ? "calendar__wrapper" : "hidden"}>
-                <button className="button button--nav button--nav-left" onClick={() => this.onChangeMonth(-1)}>&#9654;</button>
+                <NavButton direction="left" onClick={() => this.onChangeMonth(-1)} />
                 <div className="calendar">
                     {this.state.weeks.map((week, index) => (
                         <CalendarWeek
@@ -69,7 +70,7 @@ class Calendar extends React.Component {
                         />
                     ))}
                 </div>
-                <button className="button button--nav" onClick={() => this.onChangeMonth(1)}>&#9654;</button>
+                <NavButton direction="right" onClick={() => this.onChangeMonth(1)} />
             </div>
         );
     }

@@ -9,14 +9,19 @@
 }
 
 .button--nav {
+    position: fixed;
+    top: @headerHeight;
+    right: 0;
     height: 482px;
-    flex-grow: 1;
-    margin: 8px 4px;
+    width:~"calc(10vw - 12px)";
+    margin: 8px;
     background: transparent;
     color: @buttonBgColor;
     font-size: 60px;
     font-weight: 700;
     &-left {
+        left: 0;
+        right: auto;
         transform: rotate(180deg);
     }
     &:hover {

@@ -47,6 +47,7 @@ class Blog extends React.Component {
                 />
                 <DetailView
                     selectedElement={this.state.selectedElement}
+                    selectElement={this.selectElement.bind(this)}
                     isCalendarActive={this.state.isCalendarActive}
                     setTitle={this.setTitle.bind(this)}
                 />
