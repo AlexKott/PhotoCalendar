@@ -53,7 +53,7 @@ class Calendar extends React.Component {
         getEventsByMonth(selectedMonth.requestString).then((events) => {
             this.setState({ weeks: buildEventWeeks(weeks, events) });
         });
-        getTextsByMonth(month.requestString).then((texts) => {
+        getTextsByMonth(selectedMonth.requestString).then((texts) => {
             this.setState({ texts });
         });
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { getPhotosByDay, getPhotosByRange } from '../js/photoService.js';
 import { getText, getTextByDay } from '../js/textService.js';
 import { getDisplayDay, getDateStringFromDate } from '../js/dateHelper.js';
+import { beginningOfTime } from '../js/dateConstants.js';
 import Slideshow from './Slideshow.jsx';
 import NavButton from './NavButton.jsx';
 
@@ -12,7 +13,9 @@ class DetailView extends React.Component {
             photos: null,
             isSlideShowOpen: false,
             startPhoto: null,
-            text: null
+            text: null,
+            previousDate: null,
+            nextDate: null
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -27,7 +30,7 @@ class DetailView extends React.Component {
             return;
         }
 
-        this.setState({ photos: null, text: null, isLoading: true });
+        this.setState({ photos: null, text: null, previousDate: null, nextDate: null, isLoading: true });
         if (nextProps.selectedContent.isEvent) {
             const event = nextProps.selectedContent;
             this.props.setTitle(event.summary);
@@ -75,9 +78,37 @@ class DetailView extends React.Component {
                     this.setState({ isLoading: false, text: null });
                 });
 
+            this.setAdjacentDate(date, -1);
+            this.setAdjacentDate(date, 1);
+
         } else {
             this.setState({ isLoading: false });
         }
+    }
+    setAdjacentDate(date, direction) {
+        const self = this;
+        const earliestDate = new Date(beginningOfTime);
+        const latestDate = new Date();
+        const stateName = direction === -1 ? 'previousDate' : 'nextDate';
+
+        function checkForContent(cDate) {
+            let currentDateString;
+            let currentDate = new Date(cDate);
+            currentDate.setDate(currentDate.getDate() + direction);
+            if (currentDate >= earliestDate && currentDate <= latestDate) {
+                currentDateString = getDateStringFromDate(currentDate);
+
+                Promise.all([getPhotosByDay(currentDateString), getTextByDay(currentDateString)])
+                    .then((results) => {
+                        if (results[0] || results[1]) {
+                            self.setState({ [stateName]: currentDateString });
+                        } else {
+                            checkForContent(currentDateString);
+                        }
+                    }).catch(e => console.log(e));
+            }
+        }
+        checkForContent(date);
     }
     onOpenSlideshow(startPhoto) {
         document.querySelector('body').classList.add('no-scroll');
@@ -88,14 +119,14 @@ class DetailView extends React.Component {
         this.setState({ isSlideShowOpen: false, startPhoto: null });
     }
     onChangeDate(direction) {
-        const date = new Date(this.props.selectedContent.date);
-        date.setDate(date.getDate() + direction);
-        this.props.selectContent({ isDate: true, date: getDateStringFromDate(date) });
+        const selectedDate = direction === -1 ? this.state.previousDate : this.state.nextDate;
+        this.props.selectContent({ isDate: true, date: selectedDate });
     }
     render() {
         return (
             <div className={this.props.isElementActive ? "" : "hidden"}>
-                {this.props.selectedContent && this.props.selectedContent.isDate && <NavButton direction="left" onClick={() => this.onChangeDate(-1)}/>}
+                {this.props.selectedContent && this.props.selectedContent.isDate && this.state.previousDate &&
+                    <NavButton direction="left" onClick={() => this.onChangeDate(-1)}/>}
                 <div className="detail__window">
                     {this.state.text &&
                         <div className="detail__text" dangerouslySetInnerHTML={{ __html: this.state.text.content }} />
@@ -134,7 +165,8 @@ class DetailView extends React.Component {
                             onClose={this.onCloseSlideshow.bind(this)}
                         />}
                 </div>
-                {this.props.selectedContent && this.props.selectedContent.isDate && <NavButton direction="right" onClick={() => this.onChangeDate(1)} />}
+                {this.props.selectedContent && this.props.selectedContent.isDate && this.state.nextDate &&
+                    <NavButton direction="right" onClick={() => this.onChangeDate(1)} />}
             </div>
         );
     }

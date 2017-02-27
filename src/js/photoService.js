@@ -7,7 +7,7 @@ const photoCache = new PhotoCache();
 function getPhotosByDay(day) {
     return new Promise((resolve, reject) => {
         const month = day.substring(0, 7);
-
+        
         if (!photoCache.doesMonthExist(month)) {
             getPhotosByMonth(month).then(() => {
                 resolve(photoCache.getPhotosByDay(day));
