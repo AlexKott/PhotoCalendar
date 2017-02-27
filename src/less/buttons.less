@@ -10,9 +10,10 @@
 
 .button--nav {
     position: fixed;
-    top: @headerHeight;
+    top: 50%;
+    transform: translate(0, -50%);
     right: 0;
-    height: 482px;
+    height: 80vh;
     width:~"calc(10vw - 12px)";
     margin: 8px;
     background: transparent;
@@ -22,8 +23,8 @@
     transition: background-color @transitionProps;
     &-left {
         left: 0;
-        right: auto;
-        transform: rotate(180deg);
+        right: initial;
+        transform: translate(0, -50%) rotate(180deg);
     }
     &:hover {
         background-color: fade(@white, 60%);

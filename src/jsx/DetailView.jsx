@@ -129,7 +129,7 @@ class DetailView extends React.Component {
                     <NavButton direction="left" onClick={() => this.onChangeDate(-1)}/>}
                 <div className="detail__window">
                     {this.state.text &&
-                        <div className="detail__text" dangerouslySetInnerHTML={{ __html: this.state.text.content }} />
+                        <div className="textbox" dangerouslySetInnerHTML={{ __html: this.state.text.content }} />
                     }
                     <div className="detail__container">
                         {this.state.photos
