@@ -75,14 +75,14 @@ function buildEmail(calendarUpdates, photoUpdates, textUpdates, newsString) {
     const photoDates = Object.keys(photoUpdates);
     let amountPhotos = 0;
     photoDates.forEach((date) => {
-        amountPhotos += photoUpdates[date].media.length;
+        amountPhotos += photoUpdates[date].length;
     });
 
     const emailData = {
         calendarUpdates,
         photoUpdates: {
             size: amountPhotos,
-            teaser: photoUpdates[photoDates[0]].media[0]
+            teaser: photoUpdates[photoDates[0]][0]
         },
         textUpdates,
         newsString
