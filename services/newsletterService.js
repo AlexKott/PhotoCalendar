@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const doT = require('dot');
+const eol = require('eol');
 const sendmail = require('sendmail')({ silent: process.env.NODE_ENV === 'production' });
 const MongoClient = require('mongodb').MongoClient;
 const { dbUser, dbPassword, dbDomain } = require('../mongoConfig.json');
@@ -29,12 +30,11 @@ module.exports = {
     },
     sendEmail(recipients, calendarUpdates, photoUpdates, textUpdates, newsString) {
         const from = 'Alina and Alex <no-reply@alexkott.com>';
-        const to = recipients.map(r => r.email).join(', ');
+        const bcc = recipients.map(r => r.email).join(', ');
         const subject = 'New updates from Alina and Alex';
-        const html = buildEmail(calendarUpdates, photoUpdates, textUpdates, newsString);
+        const html = eol.crlf(buildEmail(calendarUpdates, photoUpdates, textUpdates, newsString));
         const now = new Date();
-
-        sendmail({ from, to, subject, html }, (err, reply) => {
+        sendmail({ from, bcc, subject, html }, (err, reply) => {
             if (err) {
                 console.log(err && err.stack);
             } else {
