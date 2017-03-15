@@ -21,30 +21,29 @@ class Calendar extends React.Component {
         }
     }
     componentDidMount() {
-        this.setMonthContent();
+        this.setMonthContent(this.state.weeks, this.state.selectedMonth);
     }
-    setMonthContent() {
-        const monthString = this.state.selectedMonth.requestString;
+    setMonthContent(weeks, month) {
+        const monthString = month.requestString;
 
         getPhotosByMonth(monthString).then((dailyThumbnails) => {
             this.setState({ dailyThumbnails });
         });
         getEventsByMonth(monthString).then((events) => {
-            const weeks = buildEventWeeks(this.state.weeks, events);
-            this.setState({ weeks });
+            this.setState({ weeks: buildEventWeeks(weeks, events) });
         });
         getTextsByMonth(monthString).then((texts) => {
             this.setState({ texts });
         });
 
-        this.props.setCalendarTitle(this.state.selectedMonth.displayName);
+        this.props.setCalendarTitle(month.displayName);
     }
     onChangeMonth(direction) {
         const selectedMonth = selectMonth((this.state.selectedMonth.month + direction), this.state.selectedMonth.year);
         const weeks = getWeeks(selectedMonth);
         this.setState({ weeks, selectedMonth });
 
-        this.setMonthContent();
+        this.setMonthContent(weeks, selectedMonth);
     }
     onFocusEvent(event) {
         this.setState({ focussedEvent: event.eventId });

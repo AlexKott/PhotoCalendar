@@ -59,10 +59,10 @@ function getDisplayDay(dateString) {
 
 function getWeeks(selectedMonth) {
     const daysArray = getDaysArray(selectedMonth.month, selectedMonth.year);
-    const weekDummiesStart = getWeekDummies('start', selectedMonth);
-    const weekDummiesEnd = getWeekDummies('end', selectedMonth);
+    const dayDummiesStart = getDayDummies('start', selectedMonth);
+    const dayDummiesEnd = getDayDummies('end', selectedMonth);
 
-    const month = [].concat(weekDummiesStart, daysArray, weekDummiesEnd);
+    const month = [].concat(dayDummiesStart, daysArray, dayDummiesEnd);
     const weeks = [];
 
     while(month.length > 0) {
@@ -71,20 +71,20 @@ function getWeeks(selectedMonth) {
     return weeks;
 }
 
-function getWeekDummies(position, month) {
+function getDayDummies(position, month) {
     const numberOfFillDays = month.firstWeekday === 0 ? 6 : month.firstWeekday - 1;
     return position === 'start' ?
-        getWeekDummiesStart(month, numberOfFillDays) :
-        getWeekDummiesEnd(month, numberOfFillDays);
+        getDayDummiesStart(month, numberOfFillDays) :
+        getDayDummiesEnd(month, numberOfFillDays);
 }
-function getWeekDummiesStart(month, numberOfFillDays) {
+function getDayDummiesStart(month, numberOfFillDays) {
     const fillElements = [];
     for (let i = 0; i < numberOfFillDays; i++) {
         fillElements.push({ date: null });
     }
     return fillElements;
 }
-function getWeekDummiesEnd(month, numberOfFillDays) {
+function getDayDummiesEnd(month, numberOfFillDays) {
     const fillElements = [];
     let totalDays = numberOfFillDays + month.numberOfDays;
     while (totalDays % 7 !== 0) {
