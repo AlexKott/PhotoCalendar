@@ -21,45 +21,36 @@ class Calendar extends React.Component {
         }
     }
     componentDidMount() {
-        const month = this.state.selectedMonth;
-        const weeks = this.state.weeks;
+        this.setMonthContent();
+    }
+    setMonthContent() {
+        const monthString = this.state.selectedMonth.requestString;
 
-        getPhotosByMonth(month.requestString).then((photos) => {
-            this.setState({ dailyThumbnails: photos });
+        getPhotosByMonth(monthString).then((dailyThumbnails) => {
+            this.setState({ dailyThumbnails });
         });
-        getEventsByMonth(month.requestString).then((events) => {
-            this.setState({ weeks: buildEventWeeks(weeks, events) });
+        getEventsByMonth(monthString).then((events) => {
+            const weeks = buildEventWeeks(this.state.weeks, events);
+            this.setState({ weeks });
         });
-        getTextsByMonth(month.requestString).then((texts) => {
+        getTextsByMonth(monthString).then((texts) => {
             this.setState({ texts });
         });
-        this.props.setTitle(month.displayName);
-        this.props.setCalendarTitle(month.displayName);
+
+        this.props.setCalendarTitle(this.state.selectedMonth.displayName);
+    }
+    onChangeMonth(direction) {
+        const selectedMonth = selectMonth((this.state.selectedMonth.month + direction), this.state.selectedMonth.year);
+        const weeks = getWeeks(selectedMonth);
+        this.setState({ weeks, selectedMonth });
+
+        this.setMonthContent();
     }
     onFocusEvent(event) {
         this.setState({ focussedEvent: event.eventId });
     }
     onBlurEvent() {
         this.setState({ focussedEvent: null })
-    }
-    onChangeMonth(direction) {
-        const selectedMonth = selectMonth((this.state.selectedMonth.month + direction), this.state.selectedMonth.year);
-        const weeks = getWeeks(selectedMonth);
-        this.setState({ weeks });
-
-        getPhotosByMonth(selectedMonth.requestString).then((photos) => {
-            this.setState({ dailyThumbnails: photos });
-        });
-        getEventsByMonth(selectedMonth.requestString).then((events) => {
-            this.setState({ weeks: buildEventWeeks(weeks, events) });
-        });
-        getTextsByMonth(selectedMonth.requestString).then((texts) => {
-            this.setState({ texts });
-        });
-
-        this.setState({ selectedMonth });
-        this.props.setTitle(selectedMonth.displayName);
-        this.props.setCalendarTitle(selectedMonth.displayName);
     }
     render() {
         return (
