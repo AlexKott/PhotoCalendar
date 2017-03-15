@@ -95,6 +95,7 @@ function getDayDummiesEnd(month, numberOfFillDays) {
 }
 
 function buildEventWeeks(weeks, events) {
+    console.log(events);
     events.forEach(event => {
         weeks.forEach(week => {
             week.forEach(day => {
