@@ -1,4 +1,4 @@
-const weekHelper = require('../src/js/weekHelper.js');
+const eventBarHelper = require('../src/js/eventBarHelper.js');
 const assert = require('assert');
 
 const fullWeek = [
@@ -40,35 +40,35 @@ const firstWeekEnd = { date: '2017-03-04', displayNumber: 4 };
 const lastWeekStart = { date: '2017-03-27', displayNumber: 27 };
 const lastWeekEnd = { date: '2017-03-31', displayNumber: 31 };
 
-describe('WeekHelper', () => {
+describe('EventBarHelper', () => {
     describe('WeekBounds', () => {
         it('should find week bounds for full week', () => {
-            const { weekStart, weekEnd } = weekHelper.getWeekBounds(fullWeek);
+            const { weekStart, weekEnd } = eventBarHelper.getWeekBounds(fullWeek);
             assert.equal(weekStart.displayNumber, 13);
             assert.equal(weekEnd.displayNumber, 19);
         });
         it('should find week bounds for first week', () => {
-            const { weekStart, weekEnd } = weekHelper.getWeekBounds(firstWeek);
+            const { weekStart, weekEnd } = eventBarHelper.getWeekBounds(firstWeek);
             assert.equal(weekStart.displayNumber, 1);
             assert.equal(weekEnd.displayNumber, 4);
         });
         it('should find week bounds for last week', () => {
-            const { weekStart, weekEnd } = weekHelper.getWeekBounds(lastWeek);
+            const { weekStart, weekEnd } = eventBarHelper.getWeekBounds(lastWeek);
             assert.equal(weekStart.displayNumber, 27);
             assert.equal(weekEnd.displayNumber, 31);
         });
     });
     describe('DummyEvent', () => {
         it('should return empty object for full week', () => {
-            const dummyEvent = weekHelper.getDummyEvent(fullWeekStart, fullWeekEnd);
+            const dummyEvent = eventBarHelper.getDummyEvent(fullWeekStart, fullWeekEnd);
             assert.deepEqual(dummyEvent, {});
         });
         it('should return dummy event for first week', () => {
-            const dummyEvent = weekHelper.getDummyEvent(firstWeekStart, firstWeekEnd);
+            const dummyEvent = eventBarHelper.getDummyEvent(firstWeekStart, firstWeekEnd);
             assert.deepEqual(dummyEvent, { isEvent: false, size: 3, start: true });
         });
         it('should return dummy event for last week', () => {
-            const dummyEvent = weekHelper.getDummyEvent(lastWeekStart, lastWeekEnd);
+            const dummyEvent = eventBarHelper.getDummyEvent(lastWeekStart, lastWeekEnd);
             assert.deepEqual(dummyEvent, { isEvent: false, size: 2, start: false });
         })
     });

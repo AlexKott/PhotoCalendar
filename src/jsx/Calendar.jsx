@@ -5,6 +5,7 @@ import { selectMonth, getDateString, getWeeks, buildEventWeeks } from '../js/dat
 import { getPhotosByMonth } from '../js/photoService.js';
 import { getEventsByMonth } from '../js/eventService.js';
 import { getTextsByMonth } from '../js/textService.js';
+import { getEventBars } from '../js/eventBarHelper.js';
 
 class Calendar extends React.Component {
     constructor(props) {
@@ -31,6 +32,8 @@ class Calendar extends React.Component {
         });
         getEventsByMonth(monthString).then((events) => {
             this.setState({ weeks: buildEventWeeks(weeks, events) });
+            const eventBars = getEventBars(weeks, events);
+            console.log(eventBars);
         });
         getTextsByMonth(monthString).then((texts) => {
             this.setState({ texts });
