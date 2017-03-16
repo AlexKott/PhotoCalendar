@@ -2,16 +2,25 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from './actions.js';
+import * as dateHelper from '../js/dateHelper.js';
+import { getEventBars } from '../js/eventBarHelper.js';
 import Calendar from './Calendar.jsx';
 
 function mapStateToProps(state) {
+    const weeks = dateHelper.getWeeks(state.calendar.selectedMonth);
     return {
-        month: state.month.month
+        selectedMonth: state.calendar.selectedMonth,
+        thumbnails: state.calendar.thumbnails,
+        texts: state.calendar.texts,
+        eventBars: getEventBars(weeks, state.calendar.events),
+        focussedEvent: state.calendar.focussedEvent,
+        weeks,
+        isLoading: state.calendar.isLoading
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
-        setMonth: (month) => dispatch(actions.setMonth(month))
+        changeMonth: (month) => dispatch(actions.changeMonth(month))
     }
 }
 

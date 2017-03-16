@@ -77,12 +77,5 @@ class Blog extends React.Component {
         );
     }
 }
-/*
-EXAMPLE PROPTYPE
-
-Blog.propTypes = {
-    title: React.PropTypes.string
-};
-*/
 
 export default Blog;
