@@ -1,7 +1,7 @@
 import React from 'react';
 import Newsletter from './Newsletter.jsx';
 import Header from './Header.jsx';
-import Calendar from './Calendar.jsx';
+import CalendarContainer from './CalendarContainer.jsx';
 import DetailView from './DetailView.jsx';
 import About from './About.jsx';
 import { getDateString } from '../js/dateHelper.js';
@@ -62,7 +62,7 @@ class Blog extends React.Component {
                 />
 
                 {this.state.activeComponent === ABOUT && <About />}
-                <Calendar
+                <CalendarContainer
                     isCalendarActive={this.state.activeComponent === CALENDAR}
                     selectContent={this.selectContent.bind(this)}
                     setCalendarTitle={this.setCalendarTitle.bind(this)}
@@ -77,5 +77,12 @@ class Blog extends React.Component {
         );
     }
 }
+/*
+EXAMPLE PROPTYPE
+
+Blog.propTypes = {
+    title: React.PropTypes.string
+};
+*/
 
 export default Blog;
