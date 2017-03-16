@@ -94,26 +94,4 @@ function getDayDummiesEnd(month, numberOfFillDays) {
     return fillElements;
 }
 
-function buildEventWeeks(weeks, events) {
-    events.forEach(event => {
-        weeks.forEach(week => {
-            week.forEach(day => {
-                if (event.startDate <= day.date && day.date <= event.endDate) {
-                    const options = {};
-                    if (!day.events) {
-                        day.events = [];
-                    }
-                    if (event.startDate === day.date) {
-                        options.isStart = true;
-                    } else if (event.endDate === day.date) {
-                        options.isEnd = true;
-                    }
-                    day.events.push(Object.assign({}, event, options));
-                }
-            });
-        });
-    });
-    return weeks;
-}
-
-export { getDateString, getDateStringFromDate, selectMonth, getDaysArray, getDisplayDay, getWeeks, buildEventWeeks };
+export { getDateString, getDateStringFromDate, selectMonth, getDaysArray, getDisplayDay, getWeeks };

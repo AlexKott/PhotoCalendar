@@ -31,7 +31,7 @@ function getEventWeek(week, weekEvents) {
     totalSize -= dummyEvent.size || 0;
 
     for (let i = 0; i < weekEvents.length; i++) {
-        const event = Object.assign({}, weekEvents[i]);
+        const event = Object.assign({ isEvent: true }, weekEvents[i]);
 
         const eventStartsBeforeWeek = event.startDate <= weekStart.date;
         const eventEndsAfterWeek = event.endDate >= weekEnd.date;

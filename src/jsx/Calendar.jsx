@@ -1,7 +1,8 @@
 import React from 'react';
 import CalendarWeek from './CalendarWeek.jsx';
+import EventBar from './EventBar.jsx';
 import NavButton from './NavButton.jsx';
-import { selectMonth, getDateString, getWeeks, buildEventWeeks } from '../js/dateHelper.js';
+import { selectMonth, getDateString, getWeeks } from '../js/dateHelper.js';
 import { getPhotosByMonth } from '../js/photoService.js';
 import { getEventsByMonth } from '../js/eventService.js';
 import { getTextsByMonth } from '../js/textService.js';
@@ -19,6 +20,7 @@ class Calendar extends React.Component {
             weeks,
             dailyThumbnails: {},
             texts: null,
+            eventBars: [],
         }
     }
     componentDidMount() {
@@ -31,9 +33,7 @@ class Calendar extends React.Component {
             this.setState({ dailyThumbnails });
         });
         getEventsByMonth(monthString).then((events) => {
-            this.setState({ weeks: buildEventWeeks(weeks, events) });
-            const eventBars = getEventBars(weeks, events);
-            console.log(eventBars);
+            this.setState({ eventBars: getEventBars(weeks, events) });
         });
         getTextsByMonth(monthString).then((texts) => {
             this.setState({ texts });
@@ -60,15 +60,20 @@ class Calendar extends React.Component {
                 <NavButton direction="left" onClick={() => this.onChangeMonth(-1)} />
                 <div className="calendar">
                     {this.state.weeks.map((week, index) => (
-                        <CalendarWeek
-                            week={week}
-                            key={index}
-                            dailyThumbnails={this.state.dailyThumbnails}
-                            onselectContent={this.props.selectContent}
-                            focussedEvent={this.state.focussedEvent}
-                            onFocusEvent={this.onFocusEvent.bind(this)}
-                            onBlurEvent={this.onBlurEvent.bind(this)}
-                        />
+                        <div key={index} className="c-week">
+                            <CalendarWeek
+                                week={week}
+                                dailyThumbnails={this.state.dailyThumbnails}
+                                onselectContent={this.props.selectContent}
+                            />
+                            <EventBar
+                                events={this.state.eventBars[index]}
+                                onselectContent={this.props.selectContent}
+                                focussedEvent={this.state.focussedEvent}
+                                onFocusEvent={this.onFocusEvent.bind(this)}
+                                onBlurEvent={this.onBlurEvent.bind(this)}
+                            />
+                        </div>
                     ))}
                 </div>
                 <NavButton direction="right" onClick={() => this.onChangeMonth(1)} />
