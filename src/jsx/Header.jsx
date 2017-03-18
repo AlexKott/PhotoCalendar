@@ -5,19 +5,36 @@ import IconClose from './svg/IconClose.jsx';
 
 class Header extends React.Component {
     render() {
+        const {
+            isCalendarActive,
+            isAboutActive,
+            title,
+            onShowCalendar,
+            onShowAbout,
+            onHideAbout
+        } = this.props;
         const iconSize = "40px";
         return(
             <div className="header">
-                {!this.props.isCalendarActive &&
+                {!isCalendarActive &&
                     <button
                         className="button header__button header__button--calendar"
-                        onClick={() => this.props.showCalendar()}
-                    ><IconCalendar size={iconSize} /></button>}
-                <h1 className="header__title">{this.props.title}</h1>
-                <button
-                    className="button header__button header__button--info"
-                    onClick={() => this.props.toggleAbout()}
-                >{this.props.isAboutActive ? <IconClose size={iconSize} /> : <IconQuestion size={iconSize} />}</button>
+                        onClick={() => onShowCalendar()}
+                    ><IconCalendar size={iconSize} /></button>
+                }
+                <h1 className="header__title">{title}</h1>
+                {!isAboutActive &&
+                    <button
+                        className="button header__button header__button--info"
+                        onClick={() => onShowAbout()}
+                    ><IconQuestion size={iconSize} /></button>
+                }
+                {isAboutActive &&
+                    <button
+                        className="button header__button header__button--info"
+                        onClick={() => onHideAbout()}
+                    ><IconClose size={iconSize} /></button>
+                }
             </div>
         )
     }

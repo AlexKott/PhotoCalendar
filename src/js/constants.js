@@ -1,0 +1,5 @@
+const CALENDAR = 'CALENDAR';
+const DETAIL_VIEW = 'DETAIL_VIEW';
+const ABOUT = 'ABOUT';
+
+export { CALENDAR, DETAIL_VIEW, ABOUT };

@@ -5,13 +5,13 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import * as reducers from './reducers';
-import Blog from './Blog.jsx';
+import App from './App.jsx';
 
 const store = createStore(combineReducers(reducers), applyMiddleware(thunk));
 
 render(
     <Provider store={store}>
-        <Blog />
+        <App />
     </Provider>,
     document.querySelector('#app')
 );
