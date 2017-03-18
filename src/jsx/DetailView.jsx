@@ -31,18 +31,6 @@ class DetailView extends React.Component {
         }
 
         this.setState({ photos: null, text: null, previousDate: null, nextDate: null, isLoading: true });
-        if (nextProps.selectedContent.isEvent) {
-            const event = nextProps.selectedContent;
-
-        } else if (nextProps.selectedContent.isDate) {
-            const date = nextProps.selectedContent.date;
-
-            this.setAdjacentDate(date, -1);
-            this.setAdjacentDate(date, 1);
-
-        } else {
-            this.setState({ isLoading: false });
-        }
     }
     setAdjacentDate(date, direction) {
         const self = this;
@@ -91,7 +79,7 @@ class DetailView extends React.Component {
                 {this.props.selectedContent && this.props.selectedContent.isDate && this.state.previousDate &&
                     <NavButton direction="left" onClick={() => this.onChangeDate(-1)}/>}
                 <div className="detail__window">
-                    {text &&
+                    {text.content &&
                         <div className="textbox" dangerouslySetInnerHTML={{ __html: text.content }} />
                     }
                     <div className="detail__container">

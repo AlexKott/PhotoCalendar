@@ -27,7 +27,12 @@ const state = {
         focussedEvent: 'string(eventId)'
     },
     detailView: {
-        selectedDay: 'string(date)',
+        selectedDay: {
+            dateString: 'string(date)',
+            previousDate: 'string(date)',
+            nextDate: 'string(date)',
+            displayName: 'string'
+        },
         selectedEvent: 'event',
         photos: [],
         text: { content: ''}

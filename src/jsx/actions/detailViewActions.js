@@ -2,6 +2,7 @@ import * as photoService from '../../js/photoService.js';
 import * as textService from '../../js/textService.js';
 import { setActiveComponent } from './appActions.js';
 import { DETAIL_VIEW } from '../../js/constants.js';
+import { findAdjacentDates } from '../../js/adjacentDateHelper.js';
 
 // ACTION TYPES
 export const SET_DETAIL_LOADING = 'SET_DETAIL_LOADING';
@@ -28,16 +29,25 @@ function setContent(photos = [], text = {}) {
     return { type: SET_CONTENT, photos, text };
 }
 
+function setAdjacentDates(dateString) {
+    return (dispatch) => {
+        findAdjacentDates(dateString)
+            .then((dates) => {
+                dispatch(setSelectedDay(Object.assign({}, { dateString }, dates)));
+            });
+    }
+}
+
 /// PUBLIC
-export function selectDay(selectedDay) {
-    return (dispatch, getState) => {
-        dispatch(setSelectedDay(selectedDay));
+export function selectDay(dateString) {
+    return (dispatch) => {
+        dispatch(setAdjacentDates(dateString));
         dispatch(setLoading(true));
         dispatch(setActiveComponent(DETAIL_VIEW));
 
         Promise.all([
-            photoService.getPhotosByDay(selectedDay),
-            textService.getTextByDay(selectedDay)
+            photoService.getPhotosByDay(dateString),
+            textService.getTextByDay(dateString)
         ]).then((content) => {
             dispatch(setContent(content[0], content[1]));
             dispatch(setLoading(false));
@@ -46,7 +56,7 @@ export function selectDay(selectedDay) {
 }
 
 export function selectEvent(selectedEvent) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch(setSelectedEvent(selectedEvent));
         dispatch(setLoading(true));
         dispatch(setActiveComponent(DETAIL_VIEW));
