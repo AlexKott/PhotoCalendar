@@ -8,10 +8,11 @@ export const SET_MONTH = 'SET_MONTH';
 export const SET_LOADING_STATE = 'SET_LOADING_STATE';
 export const SET_THUMBNAILS = 'SET_THUMBNAILS';
 export const SET_EVENTS = 'SET_EVENTS';
-
+export const SET_FOCUSSED_EVENT = 'SET_FOCUSSED_EVENT';
 
 // ACTION CREATORS
 
+/// PRIVATE
 function setLoading(isLoading) {
     return { type: SET_LOADING_STATE, isLoading };
 }
@@ -20,29 +21,34 @@ function setMonth(selectedMonth) {
     return { type: SET_MONTH, selectedMonth };
 }
 
-function receiveThumbnails(thumbnails) {
+function setThumbnails(thumbnails) {
     return { type: SET_THUMBNAILS, thumbnails };
 }
 
-function receiveEvents(events) {
+function setEvents(events) {
     return { type: SET_EVENTS, events };
 }
 
-function requestThumbnails(dateString) {
+function loadThumbnails(dateString) {
     return (dispatch, getState) => {
         return photoService.getPhotosByMonth(dateString)
             .then((thumbnails) => {
-                dispatch(receiveThumbnails(thumbnails))
+                dispatch(setThumbnails(thumbnails))
             });
     }
 }
-function requestEvents(dateString) {
+function loadEvents(dateString) {
     return (dispatch, getState) => {
         return eventService.getEventsByMonth(dateString)
             .then((events) => {
-                dispatch(receiveEvents(events))
+                dispatch(setEvents(events))
             });
     }
+}
+
+/// PUBLIC
+export function setFocussedEvent(eventId) {
+    return { type: SET_FOCUSSED_EVENT, eventId };
 }
 
 export function changeMonth(direction) {
@@ -52,8 +58,8 @@ export function changeMonth(direction) {
         const newMonth = dateHelper.selectMonth(selectedMonth.month + direction, selectedMonth.year);
         dispatch(setMonth(newMonth));
         Promise.all([
-            dispatch(requestThumbnails(newMonth.requestString)),
-            dispatch(requestEvents(newMonth.requestString))
+            dispatch(loadThumbnails(newMonth.requestString)),
+            dispatch(loadEvents(newMonth.requestString))
         ]).then(() => dispatch(setLoading(false)));
     }
 }

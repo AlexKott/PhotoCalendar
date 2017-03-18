@@ -1,4 +1,4 @@
-import { SET_MONTH, SET_LOADING_STATE, SET_THUMBNAILS, SET_EVENTS } from './actions.js';
+import { SET_MONTH, SET_LOADING_STATE, SET_THUMBNAILS, SET_EVENTS, SET_FOCUSSED_EVENT } from './actions.js';
 import * as dateHelper from '../js/dateHelper.js';
 
 const initialCalendarState = {
@@ -6,7 +6,7 @@ const initialCalendarState = {
     thumbnails: {},
     texts: [],
     events: [],
-    focussedEvent: null,
+    focussedEvent: '',
     isLoading: false
 };
 
@@ -24,6 +24,9 @@ export function calendar(state = initialCalendarState, action) {
 
         case SET_EVENTS:
             return Object.assign({}, state, { events: action.events });
+
+        case SET_FOCUSSED_EVENT:
+            return Object.assign({}, state, { focussedEvent: action.eventId });
 
         default:
             return state;

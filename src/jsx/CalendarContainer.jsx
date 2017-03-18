@@ -13,14 +13,13 @@ function mapStateToProps(state) {
         thumbnails: state.calendar.thumbnails,
         texts: state.calendar.texts,
         eventBars: getEventBars(weeks, state.calendar.events),
-        focussedEvent: state.calendar.focussedEvent,
         weeks,
         isLoading: state.calendar.isLoading
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
-        changeMonth: (month) => dispatch(actions.changeMonth(month))
+        onChangeMonth: (month) => dispatch(actions.changeMonth(month))
     }
 }
 
