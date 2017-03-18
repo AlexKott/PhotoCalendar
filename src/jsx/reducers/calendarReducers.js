@@ -1,5 +1,5 @@
-import { SET_MONTH, SET_LOADING_STATE, SET_THUMBNAILS, SET_EVENTS, SET_FOCUSSED_EVENT } from './actions.js';
-import * as dateHelper from '../js/dateHelper.js';
+import { SET_MONTH, SET_LOADING_STATE, SET_THUMBNAILS, SET_EVENTS, SET_FOCUSSED_EVENT } from '../actions';
+import * as dateHelper from '../../js/dateHelper.js';
 
 const initialCalendarState = {
     selectedMonth: dateHelper.selectMonth(),

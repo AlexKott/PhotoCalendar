@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from './actions.js';
+import * as actions from './actions';
 import * as dateHelper from '../js/dateHelper.js';
 import { getEventBars } from '../js/eventBarHelper.js';
 import Calendar from './Calendar.jsx';

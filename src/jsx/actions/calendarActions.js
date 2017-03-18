@@ -1,6 +1,6 @@
-import * as dateHelper from '../js/dateHelper.js';
-import * as photoService from '../js/photoService.js';
-import * as eventService from '../js/eventService.js';
+import * as dateHelper from '../../js/dateHelper.js';
+import * as photoService from '../../js/photoService.js';
+import * as eventService from '../../js/eventService.js';
 
 // ACTION TYPES
 
