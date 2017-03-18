@@ -33,11 +33,9 @@ class DetailView extends React.Component {
         this.setState({ photos: null, text: null, previousDate: null, nextDate: null, isLoading: true });
         if (nextProps.selectedContent.isEvent) {
             const event = nextProps.selectedContent;
-            this.props.setTitle(event.summary);
 
         } else if (nextProps.selectedContent.isDate) {
             const date = nextProps.selectedContent.date;
-            this.props.setTitle(getDisplayDay(date));
 
             this.setAdjacentDate(date, -1);
             this.setAdjacentDate(date, 1);

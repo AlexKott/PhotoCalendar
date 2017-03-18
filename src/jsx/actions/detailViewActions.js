@@ -1,5 +1,7 @@
 import * as photoService from '../../js/photoService.js';
 import * as textService from '../../js/textService.js';
+import { setActiveComponent } from './appActions.js';
+import { DETAIL_VIEW } from '../../js/constants.js';
 
 // ACTION TYPES
 export const SET_DETAIL_LOADING = 'SET_DETAIL_LOADING';
@@ -31,6 +33,7 @@ export function selectDay(selectedDay) {
     return (dispatch, getState) => {
         dispatch(setSelectedDay(selectedDay));
         dispatch(setLoading(true));
+        dispatch(setActiveComponent(DETAIL_VIEW));
 
         Promise.all([
             photoService.getPhotosByDay(selectedDay),
@@ -46,6 +49,7 @@ export function selectEvent(selectedEvent) {
     return (dispatch, getState) => {
         dispatch(setSelectedEvent(selectedEvent));
         dispatch(setLoading(true));
+        dispatch(setActiveComponent(DETAIL_VIEW));
 
         Promise.all([
             photoService.getPhotosByRange(selectedEvent.startDate, selectedEvent.endDate),
