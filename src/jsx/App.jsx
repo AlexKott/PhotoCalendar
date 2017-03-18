@@ -6,21 +6,13 @@ import DetailViewContainer from './DetailViewContainer.jsx';
 import About from './About.jsx';
 import { getDateString } from '../js/dateHelper.js';
 import { readCookie } from '../js/cookieService.js';
-
-const DETAIL_VIEW = 'DETAIL_VIEW';
-const CALENDAR = 'CALENDAR';
-const ABOUT = 'ABOUT';
+import { ABOUT, DETAIL_VIEW } from '../js/constants.js';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedContent: null,
-            activeComponent: CALENDAR,
-            lastComponent: '',
-            calendarTitle: '',
-            title: '',
-            lastTitle: '',
             hasSubscribedNewsletter: readCookie('subscribedNewsletter')
         }
     }
@@ -29,20 +21,23 @@ class App extends React.Component {
     }
 
     render() {
+        const {
+            activeComponent
+        } = this.props;
         return(
             <div>
                 {!this.state.hasSubscribedNewsletter && <Newsletter />}
 
                 <HeaderContainer />
 
-                {this.state.activeComponent === ABOUT && <About />}
+                {activeComponent === ABOUT && <About />}
                 <CalendarContainer
                     selectContent={this.selectContent.bind(this)}
                 />
                 <DetailViewContainer
                     selectedContent={this.state.selectedContent}
                     selectContent={this.selectContent.bind(this)}
-                    isElementActive={this.state.activeComponent === DETAIL_VIEW}
+                    isElementActive={activeComponent === DETAIL_VIEW}
                 />
             </div>
         );
