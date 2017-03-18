@@ -35,48 +35,9 @@ class DetailView extends React.Component {
             const event = nextProps.selectedContent;
             this.props.setTitle(event.summary);
 
-            getPhotosByRange(event.startDate, event.endDate)
-                .then((photos) => {
-                    const allPhotos = [];
-                    for (let date in photos) {
-                        if ({}.hasOwnProperty.call(photos, date)) {
-                            allPhotos.push(...photos[date]);
-                        }
-                    }
-                    allPhotos.sort((a, b) => a.timestamp > b.timestamp ? 1 : -1);
-                    this.setState({ photos: allPhotos, isLoading: false });
-                })
-                .catch((error) => {
-                    console.log(error);
-                    this.setState({ isLoading: false, photos: null });
-                });
-
-            getText(event.eventId)
-                .then(text => this.setState({ text, isLoading: false }))
-                .catch((error) => {
-                    console.log(error);
-                    this.setState({ isLoading: false, text: null });
-                });
-
         } else if (nextProps.selectedContent.isDate) {
             const date = nextProps.selectedContent.date;
             this.props.setTitle(getDisplayDay(date));
-
-            getPhotosByDay(date)
-                .then((photos) => {
-                    this.setState({ photos, isLoading: false });
-                })
-                .catch((error) => {
-                    console.log(error);
-                    this.setState({ isLoading: false, photos: null });
-                });
-
-            getTextByDay(date)
-                .then(text => this.setState({ text, isLoading: false }))
-                .catch((error) => {
-                    console.log(error);
-                    this.setState({ isLoading: false, text: null });
-                });
 
             this.setAdjacentDate(date, -1);
             this.setAdjacentDate(date, 1);
@@ -123,17 +84,21 @@ class DetailView extends React.Component {
         this.props.selectContent({ isDate: true, date: selectedDate });
     }
     render() {
+        const  {
+            photos,
+            text
+        } = this.props;
         return (
             <div className={this.props.isElementActive ? "" : "hidden"}>
                 {this.props.selectedContent && this.props.selectedContent.isDate && this.state.previousDate &&
                     <NavButton direction="left" onClick={() => this.onChangeDate(-1)}/>}
                 <div className="detail__window">
-                    {this.state.text &&
-                        <div className="textbox" dangerouslySetInnerHTML={{ __html: this.state.text.content }} />
+                    {text &&
+                        <div className="textbox" dangerouslySetInnerHTML={{ __html: text.content }} />
                     }
                     <div className="detail__container">
-                        {this.state.photos
-                            ? this.state.photos.map((photo, index) => {
+                        {photos
+                            ? photos.map((photo, index) => {
                                 if (photo.videoSrc) {
                                     return (<video
                                         src={photo.videoSrc}

@@ -3,18 +3,16 @@ import * as photoService from '../../js/photoService.js';
 import * as eventService from '../../js/eventService.js';
 
 // ACTION TYPES
-
 export const SET_MONTH = 'SET_MONTH';
-export const SET_LOADING_STATE = 'SET_LOADING_STATE';
+export const SET_CALENDAR_LOADING = 'SET_CALENDAR_LOADING';
 export const SET_THUMBNAILS = 'SET_THUMBNAILS';
 export const SET_EVENTS = 'SET_EVENTS';
 export const SET_FOCUSSED_EVENT = 'SET_FOCUSSED_EVENT';
 
 // ACTION CREATORS
-
 /// PRIVATE
 function setLoading(isLoading) {
-    return { type: SET_LOADING_STATE, isLoading };
+    return { type: SET_CALENDAR_LOADING, isLoading };
 }
 
 function setMonth(selectedMonth) {

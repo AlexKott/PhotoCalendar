@@ -12,7 +12,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onFocusEvent: (eventId) => dispatch(actions.setFocussedEvent(eventId))
+        onFocusEvent: (eventId) => dispatch(actions.setFocussedEvent(eventId)),
+        onSelectEvent: (event) => dispatch(actions.selectEvent(event))
     }
 }
 

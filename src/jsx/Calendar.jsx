@@ -1,5 +1,5 @@
 import React from 'react';
-import CalendarWeek from './CalendarWeek.jsx';
+import CalendarWeekContainer from './CalendarWeekContainer.jsx';
 import EventBarContainer from './EventBarContainer.jsx';
 import NavButton from './NavButton.jsx';
 import { selectMonth, getDateString, getWeeks } from '../js/dateHelper.js';
@@ -23,7 +23,7 @@ class Calendar extends React.Component {
                 <div className="calendar">
                     {weeks.map((week, index) => (
                         <div key={index} className="c-week">
-                            <CalendarWeek
+                            <CalendarWeekContainer
                                 week={week}
                                 dailyThumbnails={thumbnails}
                                 onselectContent={this.props.selectContent}

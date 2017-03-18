@@ -2,7 +2,7 @@ import React from 'react';
 import Newsletter from './Newsletter.jsx';
 import HeaderContainer from './HeaderContainer.jsx';
 import CalendarContainer from './CalendarContainer.jsx';
-import DetailView from './DetailView.jsx';
+import DetailViewContainer from './DetailViewContainer.jsx';
 import About from './About.jsx';
 import { getDateString } from '../js/dateHelper.js';
 import { readCookie } from '../js/cookieService.js';
@@ -39,7 +39,7 @@ class App extends React.Component {
                 <CalendarContainer
                     selectContent={this.selectContent.bind(this)}
                 />
-                <DetailView
+                <DetailViewContainer
                     selectedContent={this.state.selectedContent}
                     selectContent={this.selectContent.bind(this)}
                     isElementActive={this.state.activeComponent === DETAIL_VIEW}

@@ -25,5 +25,11 @@ const state = {
             colorId: 'number'
         }],
         focussedEvent: 'string(eventId)'
+    },
+    detailView: {
+        selectedDay: 'string(date)',
+        selectedEvent: 'event',
+        photos: [],
+        text: { content: ''}
     }
 }
