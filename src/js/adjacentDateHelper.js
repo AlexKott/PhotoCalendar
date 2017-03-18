@@ -28,7 +28,7 @@ function setAdjacentDate(dateString, direction) {
                     if (results[0] || results[1]) {
                         resolve(currentDateString);
                     } else {
-                        checkForContent(currentDateString);
+                        checkForContent(currentDateString, resolve);
                     }
                 }).catch(e => console.log(e));
         } else {

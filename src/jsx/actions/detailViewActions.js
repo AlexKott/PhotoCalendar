@@ -41,6 +41,7 @@ function setAdjacentDates(dateString) {
 /// PUBLIC
 export function selectDay(dateString) {
     return (dispatch) => {
+        dispatch(setSelectedDay({ dateString }));
         dispatch(setAdjacentDates(dateString));
         dispatch(setLoading(true));
         dispatch(setActiveComponent(DETAIL_VIEW));
@@ -63,7 +64,7 @@ export function selectEvent(selectedEvent) {
 
         Promise.all([
             photoService.getPhotosByRange(selectedEvent.startDate, selectedEvent.endDate),
-            textService.getText(selectedEvent)
+            textService.getText(selectedEvent.eventId)
         ]).then((content) => {
             const photos = [];
             for (let date in content[0]) {

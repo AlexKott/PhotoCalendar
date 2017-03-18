@@ -17,7 +17,7 @@ export function detailView(state = initialState, action) {
             return Object.assign({}, state, { selectedEvent: action.selectedEvent, selectedDay: null });
 
         case SET_CONTENT:
-            return Object.assign({}, state, { photos: action.photos, text: action.text });
+            return Object.assign({}, state, { photos: action.photos, text: action.text || {} });
 
         default:
             return state;

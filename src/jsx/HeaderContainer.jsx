@@ -30,7 +30,7 @@ function getTitle(activeComponent, state) {
 
         case DETAIL_VIEW:
             return state.detailView.selectedDay
-                        ? getDisplayDay(state.detailView.selectedDay)
+                        ? getDisplayDay(state.detailView.selectedDay.dateString)
                         : state.detailView.selectedEvent.summary;
 
         case ABOUT:
