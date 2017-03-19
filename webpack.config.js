@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const BUILD_DIR = path.resolve(__dirname, 'dist');
@@ -10,6 +11,7 @@ const LESS_DIR = `${APP_DIR}/less`;
 
 module.exports = {
     entry: [
+        'babel-polyfill',
         `${JSX_DIR}/index.jsx`,
         `${LESS_DIR}/main.less`
     ],
@@ -19,20 +21,37 @@ module.exports = {
         publicPath: './dist/'
     },
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.jsx?/,
+                test: /\.jsx?$/,
                 include: APP_DIR,
-                exclude: /less/,
-                loader: 'babel'
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['es2015', 'react']
+                        }
+                    }
+                ]
             },
             {
                 test: /\.less$/,
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader')
+                include: LESS_DIR,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'less-loader']
+                })
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin('../css/style.css')
+        new ExtractTextPlugin({
+            filename: '../css/style.css'
+        }),
+        new UglifyJsPlugin({
+            beautify: false,
+            mangle: { screw_ie8 : true },
+            comments: false
+        })
     ]
 };
