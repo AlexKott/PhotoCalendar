@@ -10,52 +10,9 @@ class DetailView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            photos: null,
             isSlideShowOpen: false,
             startPhoto: null,
-            text: null,
-            previousDate: null,
-            nextDate: null
         }
-    }
-    componentWillReceiveProps(nextProps) {
-        if (!nextProps.selectedContent) {
-            return;
-        }
-        const oldElement = this.props.selectedContent || {};
-        const newElement = nextProps.selectedContent;
-        const isSameEvent = oldElement.isEvent && newElement.isEvent && oldElement.eventId === newElement.eventId;
-        const isSameDate = oldElement.isDate && newElement.isDate && oldElement.date === newElement.date;
-        if (isSameEvent || isSameDate) {
-            return;
-        }
-
-        this.setState({ photos: null, text: null, previousDate: null, nextDate: null, isLoading: true });
-    }
-    setAdjacentDate(date, direction) {
-        const self = this;
-        const earliestDate = new Date(beginningOfTime);
-        const latestDate = new Date();
-        const stateName = direction === -1 ? 'previousDate' : 'nextDate';
-
-        function checkForContent(cDate) {
-            let currentDateString;
-            let currentDate = new Date(cDate);
-            currentDate.setDate(currentDate.getDate() + direction);
-            if (currentDate >= earliestDate && currentDate <= latestDate) {
-                currentDateString = getDateStringFromDate(currentDate);
-
-                Promise.all([getPhotosByDay(currentDateString), getTextByDay(currentDateString)])
-                    .then((results) => {
-                        if (results[0] || results[1]) {
-                            self.setState({ [stateName]: currentDateString });
-                        } else {
-                            checkForContent(currentDateString);
-                        }
-                    }).catch(e => console.log(e));
-            }
-        }
-        checkForContent(date);
     }
     onOpenSlideshow(startPhoto) {
         document.querySelector('body').classList.add('no-scroll');
@@ -65,19 +22,19 @@ class DetailView extends React.Component {
         document.querySelector('body').classList.remove('no-scroll');
         this.setState({ isSlideShowOpen: false, startPhoto: null });
     }
-    onChangeDate(direction) {
-        const selectedDate = direction === -1 ? this.state.previousDate : this.state.nextDate;
-        this.props.selectContent({ isDate: true, date: selectedDate });
-    }
     render() {
         const  {
+            isDetailViewActive,
+            selectedDay,
+            selectedEvent,
             photos,
-            text
+            text,
+            onSelectDay
         } = this.props;
         return (
-            <div className={this.props.isElementActive ? "" : "hidden"}>
-                {this.props.selectedContent && this.props.selectedContent.isDate && this.state.previousDate &&
-                    <NavButton direction="left" onClick={() => this.onChangeDate(-1)}/>}
+            <div className={isDetailViewActive ? "" : "hidden"}>
+                {selectedDay && selectedDay.previousDate &&
+                    <NavButton direction="left" onClick={() => onSelectDay(selectedDay.previousDate)}/>}
                 <div className="detail__window">
                     {text.content &&
                         <div className="textbox" dangerouslySetInnerHTML={{ __html: text.content }} />
@@ -116,8 +73,8 @@ class DetailView extends React.Component {
                             onClose={this.onCloseSlideshow.bind(this)}
                         />}
                 </div>
-                {this.props.selectedContent && this.props.selectedContent.isDate && this.state.nextDate &&
-                    <NavButton direction="right" onClick={() => this.onChangeDate(1)} />}
+                {selectedDay && selectedDay.nextDate &&
+                    <NavButton direction="right" onClick={() => onSelectDay(selectedDay.nextDate)} />}
             </div>
         );
     }

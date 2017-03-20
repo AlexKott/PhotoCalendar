@@ -10,7 +10,6 @@ class EventBar extends React.Component {
     }
     render() {
         const {
-            onselectContent,
             focussedEvent,
             onFocusEvent,
             onSelectEvent
@@ -24,7 +23,7 @@ class EventBar extends React.Component {
                             <div
                                 className={classNames}
                                 style={{ flexBasis: `${100/7*event.size}%`}}
-                                onClick={() => { onselectContent(event); onSelectEvent(event) }}
+                                onClick={() => onSelectEvent(event)}
                                 onMouseEnter={() => onFocusEvent(event.eventId)}
                                 onMouseLeave={() => onFocusEvent('')}
                                 key={index}
