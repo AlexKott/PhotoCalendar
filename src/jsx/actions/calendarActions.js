@@ -4,17 +4,12 @@ import * as eventService from '../../js/eventService.js';
 
 // ACTION TYPES
 export const SET_MONTH = 'SET_MONTH';
-export const SET_CALENDAR_LOADING = 'SET_CALENDAR_LOADING';
 export const SET_THUMBNAILS = 'SET_THUMBNAILS';
 export const SET_EVENTS = 'SET_EVENTS';
 export const SET_FOCUSSED_EVENT = 'SET_FOCUSSED_EVENT';
 
 // ACTION CREATORS
 /// PRIVATE
-function setLoading(isLoading) {
-    return { type: SET_CALENDAR_LOADING, isLoading };
-}
-
 function setMonth(selectedMonth) {
     return { type: SET_MONTH, selectedMonth };
 }
@@ -51,13 +46,10 @@ export function setFocussedEvent(eventId) {
 
 export function changeMonth(direction) {
     return (dispatch, getState) => {
-        dispatch(setLoading(true));
         const selectedMonth = getState().calendar.selectedMonth;
         const newMonth = dateHelper.selectMonth(selectedMonth.month + direction, selectedMonth.year);
         dispatch(setMonth(newMonth));
-        Promise.all([
-            dispatch(loadThumbnails(newMonth.requestString)),
-            dispatch(loadEvents(newMonth.requestString))
-        ]).then(() => dispatch(setLoading(false)));
+        dispatch(loadThumbnails(newMonth.requestString));
+        dispatch(loadEvents(newMonth.requestString));
     }
 }

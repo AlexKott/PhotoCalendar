@@ -4,7 +4,7 @@ class CalendarWeek extends React.Component {
     render() {
         const {
             week,
-            dailyThumbnails,
+            thumbnails,
             onSelectDay,
         } = this.props;
         return (
@@ -13,10 +13,10 @@ class CalendarWeek extends React.Component {
                         if (day.date) {
                             return (
                                 <div className="c-week__day" key={index}>
-                                {dailyThumbnails[day.date] &&
+                                {thumbnails[day.date] &&
                                     <div
                                         className="c-week__day-thumbnail"
-                                        style={{ backgroundImage: `url(${dailyThumbnails[day.date][0].thumbnailSrc})`}}
+                                        style={{ backgroundImage: `url(${thumbnails[day.date][0].thumbnailSrc})`}}
                                         onClick={() => onSelectDay(day.date)}
                                     />
                                 }
