@@ -1,14 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from './actions';
 import CalendarWeek from './CalendarWeek.jsx';
 
-function mapStateToProps(state) {
-    return {
-
-    };
-}
+import * as actions from './actions';
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -16,4 +11,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CalendarWeek);
+export default connect(null, mapDispatchToProps)(CalendarWeek);
