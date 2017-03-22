@@ -1,4 +1,10 @@
-import { SET_SELECTED_DAY, SET_SELECTED_EVENT, SET_CONTENT } from '../actions';
+import {
+    SET_DETAIL_LOADING,
+    SET_SELECTED_DAY,
+    SET_SELECTED_EVENT,
+    SET_CONTENT,
+    TOGGLE_SLIDESHOW
+} from '../actions';
 
 const initialState = {
     selectedDay: null,
@@ -18,6 +24,9 @@ export function detailView(state = initialState, action) {
 
         case SET_CONTENT:
             return Object.assign({}, state, { photos: action.photos, text: action.text || {} });
+
+        case TOGGLE_SLIDESHOW:
+            return Object.assign({}, state, { isSlideShowOpen: action.isSlideShowOpen, startPhotoId: action.startPhotoId || null });
 
         default:
             return state;

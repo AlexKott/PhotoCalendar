@@ -9,6 +9,7 @@ export const SET_DETAIL_LOADING = 'SET_DETAIL_LOADING';
 export const SET_SELECTED_DAY = 'SET_SELECTED_DAY';
 export const SET_SELECTED_EVENT = 'SET_SELECTED_EVENT';
 export const SET_CONTENT = 'SET_CONTENT';
+export const TOGGLE_SLIDESHOW = 'TOGGLE_SLIDESHOW';
 
 
 // ACTION CREATORS
@@ -39,6 +40,16 @@ function setAdjacentDates(dateString) {
 }
 
 /// PUBLIC
+export function startSlideShow(startPhotoId) {
+    document.querySelector('body').classList.add('no-scroll');
+    return { type: TOGGLE_SLIDESHOW, isSlideShowOpen: true, startPhotoId };
+}
+
+export function endSlideShow() {
+    document.querySelector('body').classList.remove('no-scroll');
+    return { type: TOGGLE_SLIDESHOW, isSlideShowOpen: false };
+}
+
 export function selectDay(dateString) {
     return (dispatch) => {
         dispatch(setSelectedDay({ dateString }));

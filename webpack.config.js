@@ -49,8 +49,6 @@ module.exports = {
             filename: '../css/style.css'
         }),
         new UglifyJsPlugin({
-            beautify: false,
-            mangle: { screw_ie8 : true },
             comments: false
         })
     ]
