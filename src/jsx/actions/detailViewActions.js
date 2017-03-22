@@ -11,7 +11,7 @@ export const SET_SELECTED_EVENT = 'SET_SELECTED_EVENT';
 export const SET_SELECTED_PHOTO_INDEX = 'SET_SELECTED_PHOTO_INDEX';
 export const SET_CONTENT = 'SET_CONTENT';
 export const TOGGLE_SLIDESHOW = 'TOGGLE_SLIDESHOW';
-
+export const TOGGLE_COMMENTS = 'TOGGLE_COMMENTS';
 
 // ACTION CREATORS
 /// PRIVATE
@@ -49,6 +49,10 @@ function toggleSlideshow(isSlideshowActive) {
 }
 
 /// PUBLIC
+export function toggleComments() {
+    return { type: TOGGLE_COMMENTS };
+}
+
 export function selectDay(dateString) {
     return (dispatch) => {
         dispatch(setSelectedDay({ dateString }));

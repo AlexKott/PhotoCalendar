@@ -4,16 +4,19 @@ import {
     SET_SELECTED_EVENT,
     SET_SELECTED_PHOTO_INDEX,
     SET_CONTENT,
-    TOGGLE_SLIDESHOW
+    TOGGLE_SLIDESHOW,
+    TOGGLE_COMMENTS
 } from '../actions';
 
 const initialState = {
     isSlideshowActive: false,
+    isCommentsActive: false,
     selectedDay: null,
     selectedEvent: null,
     selectedPhotoIndex: null,
     photos: [],
-    text: {}
+    text: {},
+    comments: [{ authorName: "test", content: "<p>also test</p>" }, { authorName: "Alex", content: "<p>wir sind cool</p>" }]
 };
 
 export function detailView(state = initialState, action) {
@@ -33,6 +36,9 @@ export function detailView(state = initialState, action) {
 
         case TOGGLE_SLIDESHOW:
             return Object.assign({}, state, { isSlideshowActive: action.isSlideshowActive });
+
+        case TOGGLE_COMMENTS:
+            return Object.assign({}, state, { isCommentsActive: !state.isCommentsActive });
 
         default:
             return state;

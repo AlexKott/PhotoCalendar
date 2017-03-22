@@ -2,6 +2,7 @@ import React from 'react';
 
 import SlideshowContainer from './SlideshowContainer.jsx';
 import NavButton from './NavButton.jsx';
+import CommentsContainer from './CommentsContainer.jsx';
 
 export default function DetailView ({
     isDetailViewActive,
@@ -48,6 +49,7 @@ export default function DetailView ({
                         : (this.state.isLoading ? (<img className="detail__loader" src="assets/images/loader.svg" />) : '')
                     }
                 </div>
+                <CommentsContainer />
             </div>
 
             {selectedDay && selectedDay.nextDate &&
