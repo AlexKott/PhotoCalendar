@@ -19,7 +19,7 @@ const initialState = {
     selectedPhotoIndex: null,
     photos: [],
     text: {},
-    comments: [{ authorName: "test", content: "<p>also test</p>" }, { authorName: "Alex", content: "<p>wir sind cool</p>" }],
+    comments: [],
     commentInput: {
         authorName: '',
         authorEmail: '',
@@ -40,7 +40,11 @@ export function detailView(state = initialState, action) {
             return Object.assign({}, state, { selectedPhotoIndex: action.selectedPhotoIndex });
 
         case SET_CONTENT:
-            return Object.assign({}, state, { photos: action.photos, text: action.text || {} });
+            return Object.assign({}, state, {
+                photos: action.photos,
+                text: action.text || {},
+                comments: action.comments
+            });
 
         case SET_AUTHOR_NAME:
             const commentInputName = Object.assign({}, state.commentInput, { authorName: action.authorName });

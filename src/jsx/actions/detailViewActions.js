@@ -35,8 +35,8 @@ function setSelectedPhotoIndex(selectedPhotoIndex) {
     return { type: SET_SELECTED_PHOTO_INDEX, selectedPhotoIndex };
 }
 
-function setContent(photos = [], text = {}) {
-    return { type: SET_CONTENT, photos, text };
+function setContent(photos = [], text = {}, comments = []) {
+    return { type: SET_CONTENT, photos, text, comments };
 }
 
 function setAdjacentDates(dateString) {
@@ -78,9 +78,10 @@ export function selectDay(dateString) {
 
         Promise.all([
             photoService.getPhotosByDay(dateString),
-            textService.getTextByDay(dateString)
+            textService.getTextByDay(dateString),
+            commentService.getComments(dateString)
         ]).then((content) => {
-            dispatch(setContent(content[0], content[1]));
+            dispatch(setContent(content[0], content[1], content[2]));
             dispatch(setLoading(false));
         })
     }
@@ -94,7 +95,8 @@ export function selectEvent(selectedEvent) {
 
         Promise.all([
             photoService.getPhotosByRange(selectedEvent.startDate, selectedEvent.endDate),
-            textService.getText(selectedEvent.eventId)
+            textService.getText(selectedEvent.eventId),
+            commentService.getComments(selectedEvent.eventId)
         ]).then((content) => {
             const photos = [];
             for (let date in content[0]) {
@@ -103,7 +105,7 @@ export function selectEvent(selectedEvent) {
                 }
             }
             photos.sort((a, b) => a.timestamp > b.timestamp ? 1 : -1);
-            dispatch(setContent(photos, content[1]));
+            dispatch(setContent(photos, content[1], content[2]));
             dispatch(setLoading(false));
         })
     }
