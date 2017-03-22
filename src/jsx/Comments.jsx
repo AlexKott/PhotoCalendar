@@ -3,13 +3,17 @@ import Quill from 'quill';
 
 class Comments extends React.Component {
     componentDidMount() {
-        const quill = new Quill('#editor', { theme: 'snow' });
+        const quillEditor = new Quill('#editor', { theme: 'snow' });
+        this.props.onSetQuillEditor(quillEditor);
     }
     render() {
         const {
             isCommentsActive,
             comments,
-            onToggleComments
+            onToggleComments,
+            onChangeName,
+            onChangeEmail,
+            onSendComment
         } = this.props;
         return (
             <div>
@@ -28,16 +32,20 @@ class Comments extends React.Component {
                     <span>Have something to say?</span>
                     <label>
                         <span>Your Name: </span>
-                        <input></input>
+                        <input
+                            onChange={(event) => onChangeName(event.target.value)}
+                            type="text"></input>
                     </label>
                     <label>
                         <span>Your Email: </span>
-                        <input></input>
+                        <input
+                            onChange={(event) => onChangeEmail(event.target.value)}
+                            type="email"></input>
                     </label>
                     <div className="comment__editor">
                         <div id="editor"></div>
                     </div>
-                    <button>Send</button>
+                    <button onClick={() => onSendComment()}>Send</button>
                 </div>
             </div>
         );

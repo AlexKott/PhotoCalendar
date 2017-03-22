@@ -4,6 +4,9 @@ import {
     SET_SELECTED_EVENT,
     SET_SELECTED_PHOTO_INDEX,
     SET_CONTENT,
+    SET_AUTHOR_NAME,
+    SET_AUTHOR_EMAIL,
+    SET_QUILL_EDITOR,
     TOGGLE_SLIDESHOW,
     TOGGLE_COMMENTS
 } from '../actions';
@@ -16,7 +19,12 @@ const initialState = {
     selectedPhotoIndex: null,
     photos: [],
     text: {},
-    comments: [{ authorName: "test", content: "<p>also test</p>" }, { authorName: "Alex", content: "<p>wir sind cool</p>" }]
+    comments: [{ authorName: "test", content: "<p>also test</p>" }, { authorName: "Alex", content: "<p>wir sind cool</p>" }],
+    commentInput: {
+        authorName: '',
+        authorEmail: '',
+        quillEditor: null
+    }
 };
 
 export function detailView(state = initialState, action) {
@@ -33,6 +41,18 @@ export function detailView(state = initialState, action) {
 
         case SET_CONTENT:
             return Object.assign({}, state, { photos: action.photos, text: action.text || {} });
+
+        case SET_AUTHOR_NAME:
+            const commentInputName = Object.assign({}, state.commentInput, { authorName: action.authorName });
+            return Object.assign({}, state, { commentInput: commentInputName });
+
+        case SET_AUTHOR_EMAIL:
+            const commentInputEmail = Object.assign({}, state.commentInput, { authorEmail: action.authorEmail });
+            return Object.assign({}, state, { commentInput: commentInputEmail });
+
+        case SET_QUILL_EDITOR:
+            const commentInputQuill = Object.assign({}, state.commentInput, { quillEditor: action.quillEditor });
+            return Object.assign({}, state, { commentInput: commentInputQuill });
 
         case TOGGLE_SLIDESHOW:
             return Object.assign({}, state, { isSlideshowActive: action.isSlideshowActive });

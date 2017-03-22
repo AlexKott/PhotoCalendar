@@ -1,5 +1,6 @@
 import * as photoService from '../../js/photoService.js';
 import * as textService from '../../js/textService.js';
+import * as commentService from '../../js/commentService.js';
 import { setActiveComponent } from './appActions.js';
 import { DETAIL_VIEW } from '../../js/constants.js';
 import { findAdjacentDates } from '../../js/adjacentDateHelper.js';
@@ -10,6 +11,9 @@ export const SET_SELECTED_DAY = 'SET_SELECTED_DAY';
 export const SET_SELECTED_EVENT = 'SET_SELECTED_EVENT';
 export const SET_SELECTED_PHOTO_INDEX = 'SET_SELECTED_PHOTO_INDEX';
 export const SET_CONTENT = 'SET_CONTENT';
+export const SET_AUTHOR_NAME = 'SET_AUTHOR_NAME';
+export const SET_AUTHOR_EMAIL = 'SET_AUTHOR_EMAIL';
+export const SET_QUILL_EDITOR = 'SET_QUILL_EDITOR';
 export const TOGGLE_SLIDESHOW = 'TOGGLE_SLIDESHOW';
 export const TOGGLE_COMMENTS = 'TOGGLE_COMMENTS';
 
@@ -49,6 +53,18 @@ function toggleSlideshow(isSlideshowActive) {
 }
 
 /// PUBLIC
+export function setAuthorName(authorName) {
+    return { type: SET_AUTHOR_NAME, authorName };
+}
+
+export function setAuthorEmail(authorEmail) {
+    return { type: SET_AUTHOR_EMAIL, authorEmail };
+}
+
+export function setQuillEditor(quillEditor) {
+    return { type: SET_QUILL_EDITOR, quillEditor };
+}
+
 export function toggleComments() {
     return { type: TOGGLE_COMMENTS };
 }
@@ -119,5 +135,19 @@ export function changePhoto(direction) {
             nextPhotoIndex = lastPhotoIndex;
         }
         dispatch(setSelectedPhotoIndex(nextPhotoIndex));
+    }
+}
+
+export function sendComment() {
+    return (dispatch, getState) => {
+        const state = getState().detailView;
+        const type = state.selectedDay ? 'date' : 'event';
+        const authorName = state.commentInput.authorName;
+        const authorEmail = state.commentInput.authorEmail;
+        const html = state.commentInput.quillEditor.root.innerHTML;
+        const date = state.selectedDay ? state.selectedDay.dateString : null;
+        const eventId = state.selectedEvent ? state.selectedEvent.eventId : null;
+
+        commentService.saveComment(type, { authorName, authorEmail, html }, date, eventId);
     }
 }
