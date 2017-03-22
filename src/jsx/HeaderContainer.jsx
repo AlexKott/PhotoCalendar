@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from './actions';
 import Header from './Header.jsx';
+
+import * as actions from './actions';
+import * as dateHelper from '../js/dateHelper.js';
 import { CALENDAR, DETAIL_VIEW, ABOUT } from '../js/constants.js';
-import { getDisplayDay } from '../js/dateHelper.js';
 
 function mapStateToProps(state) {
     return {
@@ -30,7 +31,7 @@ function getTitle(activeComponent, state) {
 
         case DETAIL_VIEW:
             return state.detailView.selectedDay
-                        ? getDisplayDay(state.detailView.selectedDay.dateString)
+                        ? dateHelper.getDisplayDay(state.detailView.selectedDay.dateString)
                         : state.detailView.selectedEvent.summary;
 
         case ABOUT:
