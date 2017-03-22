@@ -8,6 +8,7 @@ import { findAdjacentDates } from '../../js/adjacentDateHelper.js';
 export const SET_DETAIL_LOADING = 'SET_DETAIL_LOADING';
 export const SET_SELECTED_DAY = 'SET_SELECTED_DAY';
 export const SET_SELECTED_EVENT = 'SET_SELECTED_EVENT';
+export const SET_SELECTED_PHOTO_INDEX = 'SET_SELECTED_PHOTO_INDEX';
 export const SET_CONTENT = 'SET_CONTENT';
 export const TOGGLE_SLIDESHOW = 'TOGGLE_SLIDESHOW';
 
@@ -26,6 +27,10 @@ function setSelectedEvent(selectedEvent) {
     return { type: SET_SELECTED_EVENT, selectedEvent };
 }
 
+function setSelectedPhotoIndex(selectedPhotoIndex) {
+    return { type: SET_SELECTED_PHOTO_INDEX, selectedPhotoIndex };
+}
+
 function setContent(photos = [], text = {}) {
     return { type: SET_CONTENT, photos, text };
 }
@@ -39,17 +44,11 @@ function setAdjacentDates(dateString) {
     }
 }
 
+function toggleSlideshow(isSlideshowActive) {
+    return { type: TOGGLE_SLIDESHOW, isSlideshowActive };
+}
+
 /// PUBLIC
-export function startSlideShow(startPhotoId) {
-    document.querySelector('body').classList.add('no-scroll');
-    return { type: TOGGLE_SLIDESHOW, isSlideShowOpen: true, startPhotoId };
-}
-
-export function endSlideShow() {
-    document.querySelector('body').classList.remove('no-scroll');
-    return { type: TOGGLE_SLIDESHOW, isSlideShowOpen: false };
-}
-
 export function selectDay(dateString) {
     return (dispatch) => {
         dispatch(setSelectedDay({ dateString }));
@@ -87,5 +86,34 @@ export function selectEvent(selectedEvent) {
             dispatch(setContent(photos, content[1]));
             dispatch(setLoading(false));
         })
+    }
+}
+
+export function openSlideshow(startPhotoIndex) {
+    document.querySelector('body').classList.add('no-scroll');
+    return (dispatch) => {
+        dispatch(setSelectedPhotoIndex(startPhotoIndex));
+        dispatch(toggleSlideshow(true));
+    }
+}
+
+export function closeSlideshow() {
+    document.querySelector('body').classList.remove('no-scroll');
+    return (dispatch) => {
+        dispatch(setSelectedPhotoIndex(null));
+        dispatch(toggleSlideshow(false));
+    }
+}
+
+export function changePhoto(direction) {
+    return (dispatch, getState) => {
+        let nextPhotoIndex = getState().detailView.selectedPhotoIndex + direction;
+        const lastPhotoIndex = getState().detailView.photos.length - 1;
+        if (nextPhotoIndex > lastPhotoIndex) {
+            nextPhotoIndex = 0;
+        } else if (nextPhotoIndex < 0) {
+            nextPhotoIndex = lastPhotoIndex;
+        }
+        dispatch(setSelectedPhotoIndex(nextPhotoIndex));
     }
 }
