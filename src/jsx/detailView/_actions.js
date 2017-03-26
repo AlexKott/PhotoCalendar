@@ -74,7 +74,6 @@ export function selectDay(dateString) {
         dispatch(setSelectedDay({ dateString }));
         dispatch(setAdjacentDates(dateString));
         dispatch(setLoading(true));
-        dispatch(setActiveComponent(DETAIL_VIEW));
 
         Promise.all([
             photoService.getPhotosByDay(dateString),

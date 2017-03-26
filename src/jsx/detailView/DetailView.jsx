@@ -14,7 +14,7 @@ export default function DetailView ({
     onSelectDay,
     onOpenSlideshow }) {
     return (
-        <div className={isDetailViewActive ? "" : "hidden"}>
+        <div>
 
             {selectedDay && selectedDay.previousDate &&
                 <NavButton direction="left" onClick={() => onSelectDay(selectedDay.previousDate)}/>}

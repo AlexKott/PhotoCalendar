@@ -17,8 +17,7 @@ class Calendar extends React.Component {
             onChangeMonth
         } = this.props;
         return (
-            <div className={isCalendarActive ? "calendar__wrapper" : "hidden"}>
-
+            <div>
                 <NavButton direction="left" onClick={() => onChangeMonth(-1)} />
 
                 <div className="calendar">
@@ -36,7 +35,6 @@ class Calendar extends React.Component {
                 </div>
 
                 <NavButton direction="right" onClick={() => onChangeMonth(1)} />
-
             </div>
         );
     }
