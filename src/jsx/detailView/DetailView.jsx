@@ -19,7 +19,6 @@ export default function DetailView ({
             {selectedDay && selectedDay.previousDate &&
                 <NavButton direction="left" onClick={() => onSelectDay(selectedDay.previousDate)}/>}
 
-            <div className="detail__window">
                 {text.content &&
                     <div className="textbox" dangerouslySetInnerHTML={{ __html: text.content }} />
                 }
@@ -50,7 +49,6 @@ export default function DetailView ({
                     }
                 </div>
                 <CommentsContainer />
-            </div>
 
             {selectedDay && selectedDay.nextDate &&
                 <NavButton direction="right" onClick={() => onSelectDay(selectedDay.nextDate)} />}

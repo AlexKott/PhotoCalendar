@@ -52,7 +52,7 @@ function formatImageSrc(response) {
             response[date].forEach((photo) => {
                 const formattedPhoto = Object.assign({}, photo);
                 formattedPhoto.thumbnailSrc = `${photo.path}/s150/${photo.fileName}`;
-                formattedPhoto.src = `${photo.path}/s400/${photo.fileName}`;
+                formattedPhoto.src = `${photo.path}/s600/${photo.fileName}`;
                 formattedPhoto.highQualitySrc = `${photo.path}/s1200/${photo.fileName}`;
                 formattedResponse[date].push(formattedPhoto);
             });

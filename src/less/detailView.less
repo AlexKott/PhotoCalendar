@@ -1,43 +1,27 @@
 .detail {
-    &__window {
-        width: @viewportWidth;
-        margin: auto;
-    }
-    &__title {
-        margin: 10px;
-        text-align: left;
-        font-weight: 300;
-    }
-    &__text {
-        width: 64%;
-        min-width: 600px;
-        padding: 2px 12px;
-        margin: 16px auto 8px;
-        background-color: fade(@white, 30%);
-    }
     &__container {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: flex-start;
         width: 100%;
+        margin-top: -@halfGap;
     }
-    &__image-container {
-        flex-grow: 1;
-        flex-shrink: 1;
-        height: 300px;
-        margin: 8px 4px 0;
-        background-size: cover;
-        background-position: center;
+    &__image-container, &__video {
+        margin: @halfGap;
         cursor: pointer;
         transition: transform .2s;
         &:hover {
             transform: scale(0.98);
         }
     }
-    &__video {
-        margin: 5px;
-        cursor: pointer;
+    &__image-container {
+        flex-grow: 1;
+        flex-shrink: 1;
+        height: 300px;
+        background-size: cover;
+        background-position: center;
+
     }
     &__loader {
         width: 100%;
