@@ -29,3 +29,20 @@
         background-color: fade(@white, 60%);
     }
 }
+
+.button--header {
+    height: 100%;
+    margin: 0 0 0 @normalGap;
+    padding: @contentPadding;
+    background-color: fade(@white, 60%);
+    transition: transform .2s;
+    &--left {
+        margin: 0 @normalGap 0 0;
+    }
+    .icon {
+        fill: @buttonBgColor;
+    }
+    &:hover {
+        transform: scale(0.9);
+    }
+}

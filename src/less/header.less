@@ -1,5 +1,5 @@
 .header {
-    width: ~"calc(80vw - 8px)";
+    width: @contentWidth;
     height: @headerHeight;
     display: flex;
     flex-direction: row;
@@ -12,24 +12,11 @@
     &__title {
         flex-basis: 80%;
         flex-grow: 1;
-        margin: 0 8px;
+        margin: 0;
         text-align: center;
         line-height: 60px;
         font-weight: 300;
         font-size: 28px;
         background-color: fade(@white, 60%);
-    }
-    &__button {
-        height: 100%;
-        padding: 10px;
-        margin: 0;
-        background-color: fade(@white, 60%);
-        transition: background-color @transitionProps;
-        .icon {
-            fill: @buttonBgColor;
-        }
-        &:hover {
-            background-color: fade(@white, 90%);
-        }
     }
 }
