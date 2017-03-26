@@ -1,5 +1,6 @@
 import React from 'react';
 
+import NavButton from '../app/NavButton.jsx';
 import IconClose from '../svg/IconClose.jsx';
 
 class Slideshow extends React.Component {
@@ -17,15 +18,10 @@ class Slideshow extends React.Component {
             <div className="slideshow" onClick={() => onCloseSlideshow()}>
 
                 <button className="button button--white slideshow__close-button" onClick={() => onCloseSlideshow()}>
-                    <IconClose size="64px" />
+                    <IconClose size="40px" />
                 </button>
 
-                {photos.length > 1 &&
-                    <button
-                        className="button button--white button--nav button--nav-left"
-                        onClick={(e) => this._onChangePhoto(e, -1)}>&#9654;
-                    </button>
-                }
+                {photos.length > 1 && <NavButton onClick={(e) => this._onChangePhoto(e, -1)} direction="left"/>}
 
                 {photos[selectedPhotoIndex].videoSrc
                     ? <div className="slideshow__image"><video
@@ -42,12 +38,7 @@ class Slideshow extends React.Component {
                     </div>
                 }
 
-                {photos.length > 1 &&
-                    <button
-                        className="button button--white button--nav"
-                        onClick={(e) => this._onChangePhoto(e, 1)}>&#9654;
-                    </button>
-                }
+                {photos.length > 1 && <NavButton onClick={(e) => this._onChangePhoto(e, 1)} direction="right"/>}
 
             </div>
         );

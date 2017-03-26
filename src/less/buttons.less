@@ -9,9 +9,8 @@
 
 .button--nav {
     position: fixed;
-    top: ~"calc(50% - @{normalGap})";
+    bottom: 0;
     right: 0;
-    transform: translate(0, -50%);
     height: ~"calc(100vh - @{doubleGap})";
     width:~"calc(10vw - @{doubleGap})";
     margin: @normalGap;
@@ -23,7 +22,7 @@
     &-left {
         left: 0;
         right: initial;
-        transform: translate(0, -50%) rotate(180deg);
+        transform: rotate(180deg);
     }
     &:hover {
         background-color: fade(@white, 60%);
