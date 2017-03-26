@@ -105,47 +105,26 @@
             background-color: transparent;
             cursor: initial;
         }
-        &--0 {
-            .eventBgColor(244, 50, 50);
+        &--0, &--3, &--8 {
+            .eventBgColor(@eventPurple);
         }
-        &--1 {
-            .eventBgColor(244, 100, 100);
+        &--1, &--9 {
+            .eventBgColor(@eventBlue);
         }
-        &--2 {
-            .eventBgColor(244, 150, 150);
+        &--2, &--7, &--10 {
+            .eventBgColor(@eventGreen);
         }
-        &--3 {
-            .eventBgColor(50, 244, 50);
+        &--4, &--11 {
+            .eventBgColor(@eventRed);
         }
-        &--4 {
-            .eventBgColor(100, 244, 100);
-        }
-        &--5 {
-            .eventBgColor(150, 244, 150);
-        }
-        &--6 {
-            .eventBgColor(50, 50, 244);
-        }
-        &--7 {
-            .eventBgColor(100, 100, 244);
-        }
-        &--8 {
-            .eventBgColor(150, 150, 244);
-        }
-        &--9 {
-            .eventBgColor(100, 100, 100);
-        }
-        &--10 {
-            .eventBgColor(50, 50, 50);
-        }
-        &--11 {
-            .eventBgColor(244, 0, 100);
+        &--5, &--6 {
+            .eventBgColor(@eventOrange);
         }
     }
 }
-.eventBgColor(@r, @g, @b) {
-    background-color: rgba(@r, @g, @b, 0.4);
+.eventBgColor(@color) {
+    background-color: fade(@color, 60%);
     &.c-week__event--focussed {
-        background-color: rgba(@r, @g, @b, 0.7);
+        background-color: fade(@color, 90%);
     }
 }
