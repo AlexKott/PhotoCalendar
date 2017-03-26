@@ -17,8 +17,6 @@
 body {
     margin: 0;
     position: relative;
-    padding-bottom: 80px;
-    padding-top: 60px;
     background-color: @backgroundColor;
     color: @fontColor;
 }
@@ -36,10 +34,23 @@ h2 {
     font-weight: 300;
 }
 
+button {
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
 .no-scroll {
     overflow: hidden;
 }
 
 .hidden {
     display: none;
+}
+
+.content-container {
+    width: ~"calc(@{contentWidth} + @{normalGap})";
+    margin: auto;
+    margin-top: @headerHeight + @normalGap;
+    margin-bottom: @bottomGap;
 }

@@ -6,10 +6,10 @@ export default function EventBar({
     onFocusEvent,
     onSelectEvent }) {
     return(
-        <div className="c-week__events">
+        <div className="week__events">
             {events && events.map((event, index) => {
                 if (event.isEvent) {
-                    const classNames = `c-week__event c-week__event--${event.colorId} ${focussedEvent === event.eventId ? 'c-week__event--focussed' : ''}`;
+                    const classNames = `week__event week__event--${event.colorId} ${focussedEvent === event.eventId ? 'week__event--focussed' : ''}`;
                     return (
                         <div
                             className={classNames}
@@ -21,7 +21,7 @@ export default function EventBar({
                         >{event.summary}</div>
                     );
                 } else {
-                    return (<div className="c-week__event c-week__event--pseudo" style={{ flexBasis: `${100/7*event.size}%`}} key={index}></div>);
+                    return (<div className="week__event week__event--pseudo" style={{ flexBasis: `${100/7*event.size}%`}} key={index}></div>);
                 }
             })}
         </div>

@@ -17,23 +17,21 @@ class Calendar extends React.Component {
             onChangeMonth
         } = this.props;
         return (
-            <div className={isCalendarActive ? "calendar__wrapper" : "hidden"}>
+            <div className={isCalendarActive ? "content-container" : "hidden"}>
 
                 <NavButton direction="left" onClick={() => onChangeMonth(-1)} />
 
-                <div className="calendar">
-                    {weeks.map((week, index) => (
-                        <div key={index} className="c-week">
-                            <CalendarWeekContainer
-                                week={week}
-                                thumbnails={thumbnails}
-                            />
-                            <EventBarContainer
-                                events={eventBars[index]}
-                            />
-                        </div>
-                    ))}
-                </div>
+                {weeks.map((week, index) => (
+                    <div key={index} className="week">
+                        <CalendarWeekContainer
+                            week={week}
+                            thumbnails={thumbnails}
+                        />
+                        <EventBarContainer
+                            events={eventBars[index]}
+                        />
+                    </div>
+                ))}
 
                 <NavButton direction="right" onClick={() => onChangeMonth(1)} />
 

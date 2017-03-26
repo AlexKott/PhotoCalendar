@@ -1,5 +1,4 @@
 .button {
-    border: none;
     color: @buttonFontColor;
     background-color: @buttonBgColor;
     cursor: pointer;
@@ -10,12 +9,12 @@
 
 .button--nav {
     position: fixed;
-    top: 50%;
-    transform: translate(0, -50%);
+    top: ~"calc(50% - @{normalGap})";
     right: 0;
-    height: 80vh;
-    width:~"calc(10vw - 12px)";
-    margin: 8px;
+    transform: translate(0, -50%);
+    height: ~"calc(100vh - @{doubleGap})";
+    width:~"calc(10vw - @{doubleGap})";
+    margin: @normalGap;
     background: transparent;
     color: @buttonBgColor;
     font-size: 60px;

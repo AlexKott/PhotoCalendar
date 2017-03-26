@@ -1,34 +1,11 @@
 @weekDayHeight: 90px;
 @eventHeight: 20px;
 
-.calendar {
-    width: @viewportWidth;
-    margin: auto;
-    &__wrapper {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-    }
-    &__header {
-        width: @viewportWidth;
-        margin: auto;
-        margin-top: 30px;
-        margin-bottom: 10px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    &__title {
-        margin: 0;
-        text-align: center;
-        font-weight: 300;
-    }
-}
-.c-week {
+.week {
     position: relative;
     width: 100%;
     height: @weekDayHeight;
-    margin: 8px 0;
+    margin: @normalGap 0;
     &__days,
     &__events {
         position: absolute;
@@ -49,10 +26,10 @@
         position: relative;
         flex-basis: calc(100%/7);
         height: 100%;
-        margin: 0 4px;
-        padding: 10px;
+        margin: 0 @halfGap;
+        padding: @contentPadding;
         background-color: @white;
-        font-size: 18px;
+        font-size: @fontNormal;
 
         &--pseudo {
             background-color: transparent;
@@ -83,20 +60,20 @@
                 transition: background-color @transitionProps;
             }
             &:hover:after {
-                background-color: fade(@white, 60%);
+                background-color: fade(@white, 10%);
             }
         }
     }
     &__event {
         position: relative;
         height: 100%;
-        padding: 0 4px;
-        border-left: 4px solid @backgroundColor;
-        border-right: 4px solid @backgroundColor;
+        padding: 0 @halfGap;
+        border-left: @halfGap solid @backgroundColor;
+        border-right: @halfGap solid @backgroundColor;
         overflow: hidden;
         cursor: pointer;
-        font-size: 13px;
-        font-weight:300;
+        font-size: @fontSmall;
+        font-weight: @regular;
         line-height: @eventHeight;
         text-shadow: 0 0 4px rgba(200,200,200, 0.5);
         color: black;
@@ -124,7 +101,7 @@
 }
 .eventBgColor(@color) {
     background-color: fade(@color, 60%);
-    &.c-week__event--focussed {
+    &.week__event--focussed {
         background-color: fade(@color, 90%);
     }
 }
