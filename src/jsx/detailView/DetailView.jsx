@@ -5,19 +5,16 @@ import CommentsContainer from './CommentsContainer.jsx';
 import NavButton from '../app/NavButton.jsx';
 
 export default function DetailView ({
-    isDetailViewActive,
     isSlideshowActive,
     selectedDay,
-    selectedEvent,
     photos,
     text,
-    onSelectDay,
     onOpenSlideshow }) {
     return (
-        <div className={isDetailViewActive ? "content-container" : "hidden"}>
+        <div className="content-container">
 
             {selectedDay && selectedDay.previousDate &&
-                <NavButton direction="left" onClick={() => onSelectDay(selectedDay.previousDate)}/>}
+                <NavButton direction="left" href={`/day/${selectedDay.previousDate}`} />}
 
                 {text.content &&
                     <div className="textbox" dangerouslySetInnerHTML={{ __html: text.content }} />
@@ -51,7 +48,7 @@ export default function DetailView ({
                 <CommentsContainer />
 
             {selectedDay && selectedDay.nextDate &&
-                <NavButton direction="right" onClick={() => onSelectDay(selectedDay.nextDate)} />}
+                <NavButton direction="right" href={`/day/${selectedDay.nextDate}`} />}
 
             {isSlideshowActive && <SlideshowContainer />}
 

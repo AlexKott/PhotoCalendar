@@ -2,8 +2,8 @@ import * as photoService from '../_services/photoService.js';
 import * as textService from '../_services/textService.js';
 import * as commentService from '../_services/commentService.js';
 import { setActiveComponent } from '../actions.js';
-import { DETAIL_VIEW } from '../_constants/appConstants.js';
 import { findAdjacentDates } from '../_helpers/adjacentDateHelper.js';
+import { getDisplayDay } from '../_helpers/dateHelper.js';
 
 // ACTION TYPES
 export const SET_DETAIL_LOADING = 'SET_DETAIL_LOADING';
@@ -39,11 +39,11 @@ function setContent(photos = [], text = {}, comments = []) {
     return { type: SET_CONTENT, photos, text, comments };
 }
 
-function setAdjacentDates(dateString) {
+function setAdjacentDates(selectedDay) {
     return (dispatch) => {
-        findAdjacentDates(dateString)
+        findAdjacentDates(selectedDay.dateString)
             .then((dates) => {
-                dispatch(setSelectedDay(Object.assign({}, { dateString }, dates)));
+                dispatch(setSelectedDay(Object.assign({}, selectedDay, dates)));
             });
     }
 }
@@ -71,10 +71,10 @@ export function toggleComments() {
 
 export function selectDay(dateString) {
     return (dispatch) => {
-        dispatch(setSelectedDay({ dateString }));
-        dispatch(setAdjacentDates(dateString));
+        const selectedDay = { dateString, displayName: getDisplayDay(dateString) };
+        dispatch(setSelectedDay(selectedDay));
+        dispatch(setAdjacentDates(selectedDay));
         dispatch(setLoading(true));
-        dispatch(setActiveComponent(DETAIL_VIEW));
 
         Promise.all([
             photoService.getPhotosByDay(dateString),
@@ -87,16 +87,15 @@ export function selectDay(dateString) {
     }
 }
 
-export function selectEvent(selectedEvent) {
+export function selectEvent(eventId, startDate, endDate, summary) {
     return (dispatch) => {
-        dispatch(setSelectedEvent(selectedEvent));
+        dispatch(setSelectedEvent({ eventId, startDate, endDate, summary }));
         dispatch(setLoading(true));
-        dispatch(setActiveComponent(DETAIL_VIEW));
 
         Promise.all([
-            photoService.getPhotosByRange(selectedEvent.startDate, selectedEvent.endDate),
-            textService.getText(selectedEvent.eventId),
-            commentService.getComments(selectedEvent.eventId)
+            photoService.getPhotosByRange(startDate, endDate),
+            textService.getText(eventId),
+            commentService.getComments(eventId)
         ]).then((content) => {
             const photos = [];
             for (let date in content[0]) {

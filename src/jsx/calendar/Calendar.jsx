@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CalendarWeekContainer from './CalendarWeekContainer.jsx';
+import CalendarWeek from './CalendarWeek.jsx';
 import EventBarContainer from './EventBarContainer.jsx';
 import NavButton from '../app/NavButton.jsx';
 
@@ -17,13 +17,12 @@ class Calendar extends React.Component {
             onChangeMonth
         } = this.props;
         return (
-            <div className={isCalendarActive ? "content-container" : "hidden"}>
-
+            <div className="content-container">
                 <NavButton direction="left" onClick={() => onChangeMonth(-1)} />
 
                 {weeks.map((week, index) => (
                     <div key={index} className="week">
-                        <CalendarWeekContainer
+                        <CalendarWeek
                             week={week}
                             thumbnails={thumbnails}
                         />
@@ -34,7 +33,6 @@ class Calendar extends React.Component {
                 ))}
 
                 <NavButton direction="right" onClick={() => onChangeMonth(1)} />
-
             </div>
         );
     }

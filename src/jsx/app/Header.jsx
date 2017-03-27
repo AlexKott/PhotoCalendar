@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'redux-little-router';
 
 import IconCalendar from '../svg/IconCalendar.jsx';
 import IconQuestion from '../svg/IconQuestion.jsx';
@@ -8,31 +9,27 @@ export default function Header({
     isCalendarActive,
     isAboutActive,
     title,
-    onShowCalendar,
-    onShowAbout,
-    onHideAbout
+    onCloseAbout
     }) {
     const iconSize = "40px";
     return (
         <div className="header">
             {!isCalendarActive &&
-                <button
+                <Link
                     className="button button--header button--header--left"
-                    onClick={() => onShowCalendar()}
-                ><IconCalendar size={iconSize} /></button>
+                    href="/"
+                ><IconCalendar size={iconSize} /></Link>
             }
             <h1 className="header__title">{title}</h1>
-            {!isAboutActive &&
-                <button
+            {isAboutActive
+                ? <button
+                    onClick={onCloseAbout}
                     className="button button--header"
-                    onClick={() => onShowAbout()}
-                ><IconQuestion size={iconSize} /></button>
-            }
-            {isAboutActive &&
-                <button
-                    className="button button--header"
-                    onClick={() => onHideAbout()}
                 ><IconClose size={iconSize} /></button>
+                : <Link
+                    href="/about"
+                    className="button button--header"
+                ><IconQuestion size={iconSize} /></Link>
             }
         </div>
     );

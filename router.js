@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
 
 const eventController = require('./controllers/eventController');
 const textController = require('./controllers/textController');
@@ -8,14 +7,6 @@ const commentController = require('./controllers/commentController');
 const photoController = require('./controllers/photoController');
 
 const newsletterService = require('./services/newsletterService');
-
-router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-router.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
 
 router.get('/events', eventController.getAllEvents);
 router.get('/events/:month', eventController.getEventsByMonth);
