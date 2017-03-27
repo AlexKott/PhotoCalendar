@@ -10,8 +10,8 @@ export const routerInterceptor = ({ getState, dispatch }) => (next) => (action) 
                 dispatch(actions.selectDay(router.params.dateString));
             } else if (router.result.key === 'EVENT') {
                 const eventId = router.params.eventId;
-                const startDate = router.query.startDate;
-                const endDate = router.query.endDate;
+                const startDate = router.query.startDate.substring(0, 10);
+                const endDate = router.query.endDate.substring(0, 10);
                 const summary = router.query.summary;
                 dispatch(actions.selectEvent(eventId, startDate, endDate, summary));
             }

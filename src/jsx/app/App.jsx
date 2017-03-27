@@ -21,7 +21,12 @@ export default function App({ router }) {
 
             <Fragment forRoute="/admin"><Admin /></Fragment>
 
-            <Fragment forRoute="/" withConditions={() => !router.result}><div>notfound</div></Fragment>
+            <Fragment forRoute="/" withConditions={() => !router.result}>
+                <div className="textbox">
+                    <h2>Not found!</h2>
+                    <p>Sorry, we didn't find what you're looking for.</p>
+                </div>
+            </Fragment>
         </div>
     );
 }
