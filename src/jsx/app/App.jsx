@@ -14,7 +14,7 @@ export default function App({ router }) {
         <div>
             <HeaderContainer router={router} />
 
-            <Fragment forRoute="/" withConditions={() => router.result.key === 'INDEX'}><CalendarContainer /></Fragment>
+            <Fragment forRoute="/" withConditions={() => router.result && router.result.key === 'INDEX'}><CalendarContainer /></Fragment>
             <Fragment forRoute="/event"><DetailViewContainer /></Fragment>
             <Fragment forRoute="/day"><DetailViewContainer /></Fragment>
             <Fragment forRoute="/about"><About /></Fragment>

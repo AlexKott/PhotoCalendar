@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CalendarWeekContainer from './CalendarWeekContainer.jsx';
+import CalendarWeek from './CalendarWeek.jsx';
 import EventBarContainer from './EventBarContainer.jsx';
 import NavButton from '../app/NavButton.jsx';
 
@@ -23,7 +23,7 @@ class Calendar extends React.Component {
                 <div className="calendar">
                     {weeks.map((week, index) => (
                         <div key={index} className="c-week">
-                            <CalendarWeekContainer
+                            <CalendarWeek
                                 week={week}
                                 thumbnails={thumbnails}
                             />

@@ -6,11 +6,17 @@ export default {
             title: 'About this PhotoCalendarBlogPage'
         },
         '/event': {
-            '/:eventId': {}
+            '/:eventId': {
+                key: 'EVENT'
+            }
         },
         '/day': {
-            '/:dateString': {}
+            '/:dateString': {
+                key: 'DAY'
+            }
         },
-        '/admin': {}
+        '/admin': {
+            key: 'ADMIN'
+        }
     }
 }

@@ -19,7 +19,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onSelectDay: (dateString) => dispatch(actions.selectDay(dateString)),
         onOpenSlideshow: (startPhotoIndex) => dispatch(actions.openSlideshow(startPhotoIndex))
     };
 }

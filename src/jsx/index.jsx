@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import { routerForBrowser, RouterProvider } from 'redux-little-router';
 
 import * as reducers from './reducers.js';
+import { routerInterceptor } from './middleware.js';
 import routes from './routes.js';
 
 import App from './app/App.jsx';
@@ -18,7 +19,7 @@ const {
 
 const store = createStore(
     combineReducers(Object.assign({}, { router: reducer }, reducers )),
-    compose(enhancer, applyMiddleware(middleware), applyMiddleware(thunk))
+    compose(enhancer, applyMiddleware(middleware, thunk, routerInterceptor))
 );
 
 render(

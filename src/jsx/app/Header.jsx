@@ -15,10 +15,10 @@ export default function Header({
     return (
         <div className="header">
             {!isCalendarActive &&
-                <button
+                <Link
                     className="button header__button header__button--calendar"
-                    onClick={() => onShowCalendar()}
-                ><IconCalendar size={iconSize} /></button>
+                    href="/"
+                ><IconCalendar size={iconSize} /></Link>
             }
             <h1 className="header__title">{title}</h1>
             {isAboutActive

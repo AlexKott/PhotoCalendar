@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'redux-little-router';
 
-export default function CalendarWeek({ week, thumbnails, onSelectDay }) {
+export default function CalendarWeek({ week, thumbnails }) {
     return (
         <div className="c-week__days">
             {week.map((day, index) => {
@@ -8,11 +9,11 @@ export default function CalendarWeek({ week, thumbnails, onSelectDay }) {
                     return (
                         <div className="c-week__day" key={index}>
                             {thumbnails[day.date] &&
-                                <div
+                                <Link
                                     className="c-week__day-thumbnail"
                                     style={{ backgroundImage: `url(${thumbnails[day.date][0].thumbnailSrc})`}}
-                                    onClick={() => onSelectDay(day.date)}
-                                />
+                                    href={`/day/${day.date}`}
+                                ></Link>
                             }
                             <span className="c-week__day-number">{day.displayNumber}</span>
                         </div>

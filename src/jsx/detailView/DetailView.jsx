@@ -11,13 +11,12 @@ export default function DetailView ({
     selectedEvent,
     photos,
     text,
-    onSelectDay,
     onOpenSlideshow }) {
     return (
         <div>
 
             {selectedDay && selectedDay.previousDate &&
-                <NavButton direction="left" onClick={() => onSelectDay(selectedDay.previousDate)}/>}
+                <NavButton direction="left" href={`/day/${selectedDay.previousDate}`} />}
 
             <div className="detail__window">
                 {text.content &&
@@ -53,7 +52,7 @@ export default function DetailView ({
             </div>
 
             {selectedDay && selectedDay.nextDate &&
-                <NavButton direction="right" onClick={() => onSelectDay(selectedDay.nextDate)} />}
+                <NavButton direction="right" href={`/day/${selectedDay.nextDate}`} />}
 
             {isSlideshowActive && <SlideshowContainer />}
 

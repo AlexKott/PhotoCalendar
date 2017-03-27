@@ -10,33 +10,16 @@ import { CALENDAR, DETAIL_VIEW, ABOUT } from '../_constants/appConstants.js';
 
 function mapStateToProps(state) {
     return {
-        isCalendarActive: state.router.result.key === 'INDEX',
-        isAboutActive: state.router.result.key === 'ABOUT',
+        isCalendarActive: state.router.result && state.router.result.key === 'INDEX',
+        isAboutActive: state.router.result && state.router.result.key === 'ABOUT',
         title: ''
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        onShowCalendar: () => dispatch(actions.setActiveComponent(CALENDAR)),
         onCloseAbout: () => dispatch(goBack())
     }
 }
-
-function getTitle(state) {
-    if (matchPath('/event') || matchPath('/day')) {
-        return state.detailView.selectedDay
-                    ? dateHelper.getDisplayDay(state.detailView.selectedDay.dateString)
-                    : state.detailView.selectedEvent.summary;
-    }
-
-    if (matchPath('/about')) {
-        return;
-    }
-
-    return state.calendar.selectedMonth.displayName;
-
-}
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
