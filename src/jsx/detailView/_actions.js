@@ -86,16 +86,16 @@ export function selectDay(dateString) {
     }
 }
 
-export function selectEvent(selectedEvent) {
+export function selectEvent(eventId, startDate, endDate) {
     return (dispatch) => {
-        dispatch(setSelectedEvent(selectedEvent));
+        //dispatch(setSelectedEvent(selectedEvent));
         dispatch(setLoading(true));
         dispatch(setActiveComponent(DETAIL_VIEW));
 
         Promise.all([
-            photoService.getPhotosByRange(selectedEvent.startDate, selectedEvent.endDate),
-            textService.getText(selectedEvent.eventId),
-            commentService.getComments(selectedEvent.eventId)
+            photoService.getPhotosByRange(startDate, endDate),
+            textService.getText(eventId),
+            commentService.getComments(eventId)
         ]).then((content) => {
             const photos = [];
             for (let date in content[0]) {

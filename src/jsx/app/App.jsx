@@ -12,15 +12,16 @@ import { ABOUT } from '../_constants/appConstants.js';
 export default function App({ router }) {
     return (
         <div>
-            <HeaderContainer router={router} />
+            <HeaderContainer />
 
             <Fragment forRoute="/" withConditions={() => router.result && router.result.key === 'INDEX'}><CalendarContainer /></Fragment>
-            <Fragment forRoute="/event"><DetailViewContainer /></Fragment>
-            <Fragment forRoute="/day"><DetailViewContainer /></Fragment>
+            <Fragment forRoute="/event/:eventId"><DetailViewContainer /></Fragment>
+            <Fragment forRoute="/day/"><DetailViewContainer /></Fragment>
             <Fragment forRoute="/about"><About /></Fragment>
 
             <Fragment forRoute="/admin"><Admin /></Fragment>
 
+            <Fragment forRoute="/" withConditions={() => !router.result}><div>notfound</div></Fragment>
         </div>
     );
 }
