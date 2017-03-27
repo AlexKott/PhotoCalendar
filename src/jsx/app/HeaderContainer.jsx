@@ -14,7 +14,8 @@ function mapStateToProps(state) {
     return {
         isCalendarActive: state.router.result && state.router.result.key === keys.INDEX,
         isAboutActive: state.router.result && state.router.result.key === keys.ABOUT,
-        title: getTitle(key, state)
+        title: getTitle(key, state),
+        numberOfComments: state.detailView.comments.length
     }
 }
 

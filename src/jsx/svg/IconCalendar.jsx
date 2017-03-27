@@ -1,7 +1,7 @@
 import React from 'react';
 
 const IconCalendar = (props) => (
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" className="icon icon__calendar"
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" className="icon"
     	 width={props.size} height={props.size} viewBox="0 0 480 469">
          <g>
          	<path d="M240.162-0.291c62.09,0,124.177,0.061,186.267-0.05c12.774-0.024,24.171,3.484,34.146,11.188

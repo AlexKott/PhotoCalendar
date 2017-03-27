@@ -1,7 +1,7 @@
 import React from 'react';
 
 const IconClose = (props) => (
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" className="icon icon__close"
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" className="icon"
     	 width={props.size} height={props.size} viewBox="0 0 732.917 732.772">
         <g>
         	<path d="M0,349.063c1.702-83.474,36.369-170.606,107.63-241.698
