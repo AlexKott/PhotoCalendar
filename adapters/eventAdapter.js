@@ -47,6 +47,7 @@ function formatEvents(response) {
             endDate = item.end.dateTime.substring(0, 10);
         }
         events.push({ summary, created, colorId, startDate, endDate, eventId });
+        events.sort((a, b) => a.startDate > b.startDate ? 1 : -1);
     });
     return events;
 }
