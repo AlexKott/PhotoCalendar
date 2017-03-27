@@ -27,7 +27,9 @@ module.exports = {
             .catch(error => res.status(500).send(error));
     },
     saveComment(req, res) {
-        const { type, authorName, authorEmail, html, date, eventId } = req.body;
+        const { type, authorName, authorEmail, html, date, eventId, token } = req.body;
+
+        console.log(token);
 
         commentAdapter.saveComment(type, authorName, authorEmail, html, date, eventId)
             .then(response => res.status(200).send(response))

@@ -167,15 +167,32 @@ export function sendComment(event) {
         const { authorName, authorEmail } = detailState.commentInput;
         const text = detailState.commentInput.quillEditor.root.innerText.trim();
         const formVal = dispatch(checkCommentValidity(authorEmail, authorName, text)).formValidity;
-
         if (formVal.isValid) {
-            const html = detailState.commentInput.quillEditor.root.innerHTML;
-            const type = detailState.selectedDay ? 'date' : 'event';
-
-            const date = detailState.selectedDay ? detailState.selectedDay.dateString : null;
-            const eventId = detailState.selectedEvent ? detailState.selectedEvent.eventId : null;
-
-            commentService.saveComment(type, { authorName, authorEmail, html }, date, eventId);
+            const token = grecaptcha.getResponse();
+            if (token) {
+                dispatch(postComment(token));
+            } else {
+                grecaptcha.execute();
+            }
         }
+    }
+}
+function postComment(token) {
+    return (dispatch, getState) => {
+        const detailState = getState().detailView;
+        const { authorName, authorEmail } = detailState.commentInput;
+        const html = detailState.commentInput.quillEditor.root.innerHTML;
+        const type = detailState.selectedDay ? 'date' : 'event';
+
+        const date = detailState.selectedDay ? detailState.selectedDay.dateString : null;
+        const eventId = detailState.selectedEvent ? detailState.selectedEvent.eventId : null;
+
+        commentService.saveComment(type, { authorName, authorEmail, html }, date, eventId, token);
+    }
+}
+
+export function executeCaptcha(token) {
+    return (dispatch, getState) => {
+        dispatch(postComment(token));
     }
 }

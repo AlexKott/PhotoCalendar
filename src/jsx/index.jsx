@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import { routerForBrowser, RouterProvider, initializeCurrentLocation } from 'redux-little-router';
 
 import * as reducers from './reducers.js';
+import * as actions from './actions.js';
 import { routerInterceptor } from './middleware.js';
 import routes from './routes.js';
 
@@ -26,6 +27,18 @@ const initialLocation = store.getState().router;
 if (initialLocation) {
     store.dispatch(initializeCurrentLocation(initialLocation));
 }
+
+function executeCallback(token) {
+    store.dispatch(actions.executeCaptcha(token));
+}
+
+setTimeout(function() {
+    grecaptcha.render('captcha', {
+        'sitekey': '6LeGixoUAAAAAHFbbTYr5wypxlTr7Cg7O83mALri',
+        'callback': executeCallback,
+        'size': 'invisible'
+    });
+}, 2000);
 
 render(
     <Provider store={store}>

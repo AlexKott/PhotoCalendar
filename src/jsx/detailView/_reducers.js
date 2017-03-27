@@ -76,6 +76,10 @@ export function detailView(state = initialState, action) {
         case TOGGLE_SLIDESHOW:
             return Object.assign({}, state, { isSlideshowActive: action.isSlideshowActive });
 
+        case 'EXECUTE_CAPTCHA':
+        console.log(action.token);
+            return state;
+
         default:
             return state;
     }

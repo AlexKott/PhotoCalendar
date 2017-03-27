@@ -10,10 +10,10 @@ export function getComments(id) {
     });
 }
 
-export function saveComment(type, comment, date, eventId) {
+export function saveComment(type, comment, date, eventId, token) {
     const { authorName, authorEmail, html } = comment;
     return new Promise((resolve, reject) => {
-        ajax(COMMENTS_API, 'POST', { type, authorName, authorEmail, html, date, eventId })
+        ajax(COMMENTS_API, 'POST', { type, authorName, authorEmail, html, date, eventId, token })
             .then(response => resolve(response.data))
             .catch(error => reject(error));
     });
