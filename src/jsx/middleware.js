@@ -12,7 +12,8 @@ export const routerInterceptor = ({ getState, dispatch }) => (next) => (action) 
                 const eventId = router.params.eventId;
                 const startDate = router.query.startDate;
                 const endDate = router.query.endDate;
-                dispatch(actions.selectEvent(eventId, startDate, endDate));
+                const summary = router.query.summary;
+                dispatch(actions.selectEvent(eventId, startDate, endDate, summary));
             }
         }
     }

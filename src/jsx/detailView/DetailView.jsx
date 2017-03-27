@@ -5,10 +5,8 @@ import CommentsContainer from './CommentsContainer.jsx';
 import NavButton from '../app/NavButton.jsx';
 
 export default function DetailView ({
-    isDetailViewActive,
     isSlideshowActive,
     selectedDay,
-    selectedEvent,
     photos,
     text,
     onOpenSlideshow }) {

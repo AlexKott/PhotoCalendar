@@ -14,7 +14,7 @@ export default function EventBar({
                         <Link
                             className={classNames}
                             style={{ flexBasis: `${100/7*event.size}%`}}
-                            href={`/event/${event.eventId}?startDate=${event.startDate}&endDate=${event.endDate}`}
+                            href={`/event/${event.eventId}?startDate=${event.startDate}&endDate=${event.endDate}&summary=${event.summary}`}
                             onMouseEnter={() => onFocusEvent(event.eventId)}
                             onMouseLeave={() => onFocusEvent('')}
                             key={index}

@@ -6,19 +6,32 @@ import Header from './Header.jsx';
 
 import * as actions from '../actions.js';
 import * as dateHelper from '../_helpers/dateHelper.js';
-import { CALENDAR, DETAIL_VIEW, ABOUT } from '../_constants/appConstants.js';
+import { keys } from '../routes.js';
 
 function mapStateToProps(state) {
+    const key = state.router.result ? state.router.result.key : keys.DEFAULT;
+
     return {
-        isCalendarActive: state.router.result && state.router.result.key === 'INDEX',
-        isAboutActive: state.router.result && state.router.result.key === 'ABOUT',
-        title: ''
+        isCalendarActive: state.router.result && state.router.result.key === keys.INDEX,
+        isAboutActive: state.router.result && state.router.result.key === keys.ABOUT,
+        title: getTitle(key, state)
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         onCloseAbout: () => dispatch(goBack())
+    }
+}
+
+function getTitle(key, state) {
+    switch(key) {
+        case keys.INDEX: return state.calendar.selectedMonth.displayName;
+        case keys.EVENT: return state.detailView.selectedEvent.summary;
+        case keys.DAY: return state.detailView.selectedDay.displayName;
+        case keys.ABOUT: return 'About this PhotoCalendarBlogPage';
+        case keys.ADMIN: return 'Admin';
+        default: return 'Not found';
     }
 }
 
