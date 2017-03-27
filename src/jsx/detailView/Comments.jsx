@@ -17,10 +17,10 @@ class Comments extends React.Component {
     render() {
         const {
             comments,
-            onToggleComments,
+            formValidity,
             onChangeName,
             onChangeEmail,
-            onSendComment
+            onSubmitComment
         } = this.props;
         const commentsTitle = comments.length === 1 ? '1 comment' : `${comments.length} comments`;
         return (
@@ -40,7 +40,7 @@ class Comments extends React.Component {
                             />
                         </div>
                     ))}
-                    <div className="comment">
+                    <form className="comment">
                         <div className="comment__info">
                             <div className="comment__info-box">
                                 <label
@@ -54,6 +54,7 @@ class Comments extends React.Component {
                                     type="text"
                                     placeholder="Your name"
                                 />
+                            {!formValidity.isValid && formValidity.isNameEmpty && <small className="error">Please enter your name.</small>}
                             </div>
                             <div className="comment__info-box">
                                 <label
@@ -67,13 +68,22 @@ class Comments extends React.Component {
                                     type="email"
                                     placeholder="your-name@email.com"
                                 />
+                            {!formValidity.isValid && formValidity.isEmailEmpty && <small className="error">Please enter your email.</small>}
+                                <small>We won't share this.</small>
                             </div>
-                            <p><button onClick={() => onSendComment()}>Send</button></p>
+                            <div className="comment__info-box">
+                                <button
+                                    className="button comment__send-button"
+                                    onClick={(e) => onSubmitComment(e)}
+                                    type="submit"
+                                >Send</button>
+                            {!formValidity.isValid && formValidity.isTextEmpty && <small className="error">Please write a comment.</small>}
+                            </div>
                         </div>
                         <div className="comment__content comment__editor">
                             <div id="editor"></div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         );

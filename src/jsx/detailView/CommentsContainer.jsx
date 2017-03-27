@@ -8,7 +8,8 @@ import * as actions from '../actions.js';
 function mapStateToProps(state) {
     return {
         comments: state.detailView.comments,
-        quillEditor: state.detailView.commentInput.quillEditor
+        quillEditor: state.detailView.commentInput.quillEditor,
+        formValidity: state.detailView.commentInput.formValidity
     }
 }
 
@@ -17,7 +18,7 @@ function mapDispatchToProps(dispatch) {
         onChangeName: (authorName) => dispatch(actions.setAuthorName(authorName)),
         onChangeEmail: (authorEmail) => dispatch(actions.setAuthorEmail(authorEmail)),
         onSetQuillEditor: (quillEditor) => dispatch(actions.setQuillEditor(quillEditor)),
-        onSendComment: () => dispatch(actions.sendComment())
+        onSubmitComment: (event) => dispatch(actions.sendComment(event))
     }
 }
 

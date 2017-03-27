@@ -14,6 +14,7 @@ export const SET_CONTENT = 'SET_CONTENT';
 export const SET_AUTHOR_NAME = 'SET_AUTHOR_NAME';
 export const SET_AUTHOR_EMAIL = 'SET_AUTHOR_EMAIL';
 export const SET_QUILL_EDITOR = 'SET_QUILL_EDITOR';
+export const SET_FORM_VALIDITY = 'SET_FORM_VALIDITY';
 export const TOGGLE_SLIDESHOW = 'TOGGLE_SLIDESHOW';
 
 // ACTION CREATORS
@@ -38,6 +39,10 @@ function setContent(photos = [], text = {}, comments = []) {
     return { type: SET_CONTENT, photos, text, comments };
 }
 
+function toggleSlideshow(isSlideshowActive) {
+    return { type: TOGGLE_SLIDESHOW, isSlideshowActive };
+}
+
 function setAdjacentDates(selectedDay) {
     return (dispatch) => {
         findAdjacentDates(selectedDay.dateString)
@@ -47,8 +52,29 @@ function setAdjacentDates(selectedDay) {
     }
 }
 
-function toggleSlideshow(isSlideshowActive) {
-    return { type: TOGGLE_SLIDESHOW, isSlideshowActive };
+function checkCommentValidity(authorEmail, authorName, text) {
+    const action = {
+        type: SET_FORM_VALIDITY,
+        formValidity: {
+            isValid: true,
+            isEmailEmpty: false,
+            isNameEmpty: false,
+            isTextEmpty: false
+        }
+    };
+    if (!authorEmail) {
+        action.formValidity.isValid = false;
+        action.formValidity.isEmailEmpty = true;
+    }
+    if (!authorName) {
+        action.formValidity.isValid = false;
+        action.formValidity.isNameEmpty = true;
+    }
+    if (!text) {
+        action.formValidity.isValid = false;
+        action.formValidity.isTextEmpty = true;
+    }
+    return action;
 }
 
 /// PUBLIC
@@ -134,16 +160,22 @@ export function changePhoto(direction) {
     }
 }
 
-export function sendComment() {
+export function sendComment(event) {
     return (dispatch, getState) => {
-        const state = getState().detailView;
-        const type = state.selectedDay ? 'date' : 'event';
-        const authorName = state.commentInput.authorName;
-        const authorEmail = state.commentInput.authorEmail;
-        const html = state.commentInput.quillEditor.root.innerHTML;
-        const date = state.selectedDay ? state.selectedDay.dateString : null;
-        const eventId = state.selectedEvent ? state.selectedEvent.eventId : null;
+        event.preventDefault();
+        const detailState = getState().detailView;
+        const { authorName, authorEmail } = detailState.commentInput;
+        const text = detailState.commentInput.quillEditor.root.innerText.trim();
+        const formVal = dispatch(checkCommentValidity(authorEmail, authorName, text)).formValidity;
 
-        commentService.saveComment(type, { authorName, authorEmail, html }, date, eventId);
+        if (formVal.isValid) {
+            const html = detailState.commentInput.quillEditor.root.innerHTML;
+            const type = detailState.selectedDay ? 'date' : 'event';
+
+            const date = detailState.selectedDay ? detailState.selectedDay.dateString : null;
+            const eventId = detailState.selectedEvent ? detailState.selectedEvent.eventId : null;
+
+            commentService.saveComment(type, { authorName, authorEmail, html }, date, eventId);
+        }
     }
 }

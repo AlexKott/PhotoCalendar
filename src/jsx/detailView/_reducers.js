@@ -7,6 +7,7 @@ import {
     SET_AUTHOR_NAME,
     SET_AUTHOR_EMAIL,
     SET_QUILL_EDITOR,
+    SET_FORM_VALIDITY,
     TOGGLE_SLIDESHOW
 } from './_actions';
 
@@ -21,7 +22,10 @@ const initialState = {
     commentInput: {
         authorName: '',
         authorEmail: '',
-        quillEditor: null
+        quillEditor: null,
+        formValidity: {
+            isValid: false
+        }
     }
 };
 
@@ -45,16 +49,29 @@ export function detailView(state = initialState, action) {
             });
 
         case SET_AUTHOR_NAME:
-            const commentInputName = Object.assign({}, state.commentInput, { authorName: action.authorName });
+            const commentInputName = Object.assign({}, state.commentInput, {
+                authorName: action.authorName,
+                formValidity: { isValid: true }
+            });
             return Object.assign({}, state, { commentInput: commentInputName });
 
         case SET_AUTHOR_EMAIL:
-            const commentInputEmail = Object.assign({}, state.commentInput, { authorEmail: action.authorEmail });
+            const commentInputEmail = Object.assign({}, state.commentInput, {
+                authorEmail: action.authorEmail,
+                formValidity: { isValid: true }
+            });
             return Object.assign({}, state, { commentInput: commentInputEmail });
 
         case SET_QUILL_EDITOR:
-            const commentInputQuill = Object.assign({}, state.commentInput, { quillEditor: action.quillEditor });
+            const commentInputQuill = Object.assign({}, state.commentInput, {
+                quillEditor: action.quillEditor,
+                formValidity: { isValid: true }
+            });
             return Object.assign({}, state, { commentInput: commentInputQuill });
+
+        case SET_FORM_VALIDITY:
+            const commentInputValidity = Object.assign({}, state.commentInput, { formValidity: action.formValidity });
+            return Object.assign({}, state, { commentInput: commentInputValidity });
 
         case TOGGLE_SLIDESHOW:
             return Object.assign({}, state, { isSlideshowActive: action.isSlideshowActive });

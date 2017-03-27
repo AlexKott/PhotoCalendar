@@ -17,7 +17,11 @@ module.exports = {
                 if (!text) {
                     res.status(200).send();
                 } else {
-                    res.status(200).send(text);
+                    const filteredText = text.map(c => {
+                        c.authorEmail = undefined;
+                        return c;
+                    });
+                    res.status(200).send(filteredText);
                 }
             })
             .catch(error => res.status(500).send(error));
