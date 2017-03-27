@@ -26,6 +26,16 @@ a {
     text-decoration: none;
 }
 
+p {
+    margin: 8px 0;
+    &:first-of-type {
+        margin-top: 0;
+    }
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+}
+
 h1 {
     margin: 0;
 }
@@ -33,6 +43,10 @@ h1 {
 h2 {
     margin: 0;
     font-weight: 300;
+}
+
+small {
+    font-size: @fontSmall;
 }
 
 button {

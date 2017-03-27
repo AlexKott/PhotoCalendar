@@ -7,13 +7,11 @@ import {
     SET_AUTHOR_NAME,
     SET_AUTHOR_EMAIL,
     SET_QUILL_EDITOR,
-    TOGGLE_SLIDESHOW,
-    TOGGLE_COMMENTS
+    TOGGLE_SLIDESHOW
 } from './_actions';
 
 const initialState = {
     isSlideshowActive: false,
-    isCommentsActive: false,
     selectedDay: null,
     selectedEvent: null,
     selectedPhotoIndex: null,
@@ -60,9 +58,6 @@ export function detailView(state = initialState, action) {
 
         case TOGGLE_SLIDESHOW:
             return Object.assign({}, state, { isSlideshowActive: action.isSlideshowActive });
-
-        case TOGGLE_COMMENTS:
-            return Object.assign({}, state, { isCommentsActive: !state.isCommentsActive });
 
         default:
             return state;

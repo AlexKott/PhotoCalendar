@@ -15,7 +15,6 @@ export const SET_AUTHOR_NAME = 'SET_AUTHOR_NAME';
 export const SET_AUTHOR_EMAIL = 'SET_AUTHOR_EMAIL';
 export const SET_QUILL_EDITOR = 'SET_QUILL_EDITOR';
 export const TOGGLE_SLIDESHOW = 'TOGGLE_SLIDESHOW';
-export const TOGGLE_COMMENTS = 'TOGGLE_COMMENTS';
 
 // ACTION CREATORS
 /// PRIVATE
@@ -63,10 +62,6 @@ export function setAuthorEmail(authorEmail) {
 
 export function setQuillEditor(quillEditor) {
     return { type: SET_QUILL_EDITOR, quillEditor };
-}
-
-export function toggleComments() {
-    return { type: TOGGLE_COMMENTS };
 }
 
 export function selectDay(dateString) {

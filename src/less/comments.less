@@ -1,32 +1,72 @@
 .comment {
-    margin: 4px 0;
-    padding: 12px;
-    background-color: @white;
-}
-
-.comment__header {
-    height: @headerHeight;
-    margin: 8px 4px;
-    padding: 14px;
-    background-color: @transparentWhite;
-    cursor: pointer;
-}
-
-.comment__form {
-    width: 60%;
-    margin: 14px;
     display: flex;
-    flex-direction: column;
-}
-
-.comment__editor {
-    height: 160px;
-    background-color: @white;
-}
-
-.comment__list {
-    width: 60%;
-    margin: 4px 14px;
-    display: flex;
-    flex-direction: column;
+    min-height: 72px;
+    margin: 8px 0;
+    &__header {
+        height: 40px;
+        line-height: 40px;
+        margin: 8px 4px;
+        padding: 0 8px;
+        background-color: @transparentWhite;
+    }
+    &__list {
+        margin: 4px 72px;
+    }
+    &__info {
+        width: 240px;
+        padding: 16px;
+        background-color: @transparentWhite;
+        >p {
+            margin: 0;
+        }
+        &-box {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 8px;
+            &:first-child {
+                margin-top: 0;
+            }
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        &-label {
+            flex-basis: 80px;
+            height: 28px;
+            line-height: 28px;
+        }
+        &-input {
+            width: 100%;
+            flex-grow: 1;
+            height: 28px;
+            line-height: 28px;
+            padding: 2px;
+            font-size: @fontNormal;
+        }
+    }
+    &__content {
+        flex-basis: 60%;
+        flex-grow: 1;
+        padding: 16px;
+        background-color: @white;
+    }
+    &__form {
+        width: 60%;
+        margin: 14px;
+        display: flex;
+        flex-direction: column;
+    }
+    &__editor {
+        min-height: 240px;
+        background-color: @white;
+        .ql-editor {
+            font-size: @fontNormal;
+            >p {
+                margin-bottom: 8px;
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
 }
