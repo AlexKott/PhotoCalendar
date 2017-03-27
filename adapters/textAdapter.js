@@ -28,15 +28,13 @@ module.exports = {
     },
     getTextsByRange(type, startDate, endDate) {
         const collectionName = `${type}Texts`;
-        const startStamp = startDate.getTime();
-        const endStamp = endDate.getTime();
 
         return new Promise((resolve, reject) => {
             MongoClient.connect(dbUrl, (err, db) => {
                 if (!err) {
                     db
                         .collection(collectionName)
-                        .find({ createdAt: { $gte: startStamp, $lte: endStamp }}, { _id: 0 }, (dbError, cursor) => {
+                        .find({ date: { $gte: startDate, $lte: endDate }}, { _id: 0 }, (dbError, cursor) => {
                             if (!dbError) {
                                 resolve(cursor.toArray());
                                 db.close();

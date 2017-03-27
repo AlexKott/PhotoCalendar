@@ -11,12 +11,14 @@ module.exports = {
         if (isDate) {
             textPromise = textAdapter.getText('date', req.params.id);
         } else if (isMonth) {
-            const { startDate, endDate } = dateHelper.getMonthBounds(req.params.id);
+            let { startDate, endDate } = dateHelper.getMonthBounds(req.params.id);
+            startDate = dateHelper.getDateString(startDate);
+            endDate = dateHelper.getDateString(endDate);
             textPromise = textAdapter.getTextsByRange('date', startDate, endDate);
         } else {
             textPromise = textAdapter.getText('event', null, req.params.id);
         }
-        
+
         textPromise
             .then(text => {
                 if (!text) {
