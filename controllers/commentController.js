@@ -1,4 +1,5 @@
 const commentAdapter = require('../adapters/commentAdapter');
+const captchaService = require('../services/captchaService');
 const dateHelper = require('../helpers/dateHelper');
 
 module.exports = {
@@ -29,10 +30,22 @@ module.exports = {
     saveComment(req, res) {
         const { type, authorName, authorEmail, html, date, eventId, token } = req.body;
 
-        console.log(token);
-
-        commentAdapter.saveComment(type, authorName, authorEmail, html, date, eventId)
-            .then(response => res.status(200).send(response))
-            .catch(error => res.status(500).send(error));
+        captchaService
+            .validate(token)
+            .then(result => {
+                if (result.success) {
+                    commentAdapter.saveComment(type, authorName, authorEmail, html, date, eventId)
+                        .then(response => res.status(200).send(response))
+                        .catch(error => {
+                            console.log(error);
+                            res.status(500).send(error)});
+                } else {
+                    res.status(400).send(result['error-codes']);
+                }
+            })
+            .catch(captchaError => {
+                console.log(captchaError);
+                res.status(500).send(captchaError);
+            });
     }
 }
