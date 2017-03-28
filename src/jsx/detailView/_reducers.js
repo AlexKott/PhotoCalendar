@@ -8,6 +8,7 @@ import {
     SET_AUTHOR_EMAIL,
     SET_QUILL_EDITOR,
     SET_FORM_VALIDITY,
+    SET_SENDING_COMMENT,
     POSTED_COMMENT,
     COMMENT_ERROR,
     TOGGLE_SLIDESHOW
@@ -16,6 +17,7 @@ import {
 const initialState = {
     isSlideshowActive: false,
     isLoading: false,
+    isSendingComment: false,
     selectedDay: null,
     selectedEvent: null,
     selectedPhotoIndex: null,
@@ -94,6 +96,9 @@ export function detailView(state = initialState, action) {
 
         case SET_DETAIL_LOADING:
             return Object.assign({}, state, { isLoading: action.isLoading });
+
+        case SET_SENDING_COMMENT:
+            return Object.assign({}, state, { isSendingComment: action.isSendingComment });
 
         default:
             return state;

@@ -29,7 +29,7 @@ if (initialLocation) {
 }
 
 function executeCallback(token) {
-    store.dispatch(actions.executeCaptcha(token));
+    store.dispatch(actions.postComment(token));
 }
 
 setTimeout(function() {

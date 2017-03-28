@@ -14,6 +14,7 @@ class Comments extends React.Component {
     }
     render() {
         const {
+            isSendingComment,
             comments,
             authorName,
             authorEmail,
@@ -80,8 +81,9 @@ class Comments extends React.Component {
                                 <button
                                     className="button comment__send-button"
                                     onClick={(e) => onSubmitComment(e)}
+                                    disabled={isSendingComment}
                                     type="submit"
-                                >Send</button>
+                                >{isSendingComment ? "wait" : "Send"}</button>
                             {!formValidity.isValid && formValidity.isTextEmpty && <small className="error">Please write a comment.</small>}
                             {error && <small className="error">{error}</small>}
                             </div>

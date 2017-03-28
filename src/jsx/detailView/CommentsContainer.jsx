@@ -7,6 +7,7 @@ import * as actions from '../actions.js';
 
 function mapStateToProps(state) {
     return {
+        isSendingComment: state.detailView.isSendingComment,
         comments: state.detailView.comments,
         authorName: state.detailView.commentInput.authorName,
         authorEmail: state.detailView.commentInput.authorEmail,
