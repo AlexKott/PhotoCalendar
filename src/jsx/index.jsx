@@ -22,23 +22,22 @@ const store = createStore(
     combineReducers(Object.assign({}, { router: reducer }, reducers )),
     compose(enhancer, applyMiddleware(middleware, thunk, routerInterceptor))
 );
-
+// Router
 const initialLocation = store.getState().router;
 if (initialLocation) {
     store.dispatch(initializeCurrentLocation(initialLocation));
 }
-
+// Recaptcha
 function executeCallback(token) {
     store.dispatch(actions.postComment(token));
 }
-
-setTimeout(function() {
-    grecaptcha.render('captcha', {
+setTimeout(() => {
+    grecaptcha.render(document.querySelector('#captcha'), {
         'sitekey': '6LeGixoUAAAAAHFbbTYr5wypxlTr7Cg7O83mALri',
         'callback': executeCallback,
         'size': 'invisible'
     });
-}, 2000);
+}, 3000);
 
 render(
     <Provider store={store}>

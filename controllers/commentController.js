@@ -1,5 +1,6 @@
 const commentAdapter = require('../adapters/commentAdapter');
 const captchaService = require('../services/captchaService');
+const newsletterService = require('../services/newsletterService');
 const dateHelper = require('../helpers/dateHelper');
 
 module.exports = {
@@ -35,7 +36,10 @@ module.exports = {
             .then(result => {
                 if (result.success) {
                     commentAdapter.saveComment(type, authorName, authorEmail, html, date, eventId)
-                        .then(response => res.status(200).send(response))
+                        .then(response => {
+                            newsletterService.sendNotification(type, authorName, html, date, eventId);
+                            res.status(200).send(response);
+                        })
                         .catch(error => {
                             console.log(error);
                             res.status(500).send(error)});
