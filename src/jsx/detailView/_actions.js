@@ -15,6 +15,8 @@ export const SET_AUTHOR_NAME = 'SET_AUTHOR_NAME';
 export const SET_AUTHOR_EMAIL = 'SET_AUTHOR_EMAIL';
 export const SET_QUILL_EDITOR = 'SET_QUILL_EDITOR';
 export const SET_FORM_VALIDITY = 'SET_FORM_VALIDITY';
+export const POSTED_COMMENT = 'POSTED_COMMENT';
+export const COMMENT_ERROR = 'COMMENT_ERROR';
 export const TOGGLE_SLIDESHOW = 'TOGGLE_SLIDESHOW';
 
 // ACTION CREATORS
@@ -36,6 +38,10 @@ function setSelectedPhotoIndex(selectedPhotoIndex) {
 }
 
 function setContent(photos = [], text = {}, comments = []) {
+    const dateComments = comments.map(c => {
+        c.displayDate = getDisplayDay(c.createdAt);
+        return c;
+    })
     return { type: SET_CONTENT, photos, text, comments };
 }
 
@@ -187,8 +193,18 @@ function postComment(token) {
         const date = detailState.selectedDay ? detailState.selectedDay.dateString : null;
         const eventId = detailState.selectedEvent ? detailState.selectedEvent.eventId : null;
 
-        commentService.saveComment(type, { authorName, authorEmail, html }, date, eventId, token);
+        commentService
+            .saveComment(type, { authorName, authorEmail, html }, date, eventId, token)
+            .then(() => dispatch(postedComment(authorName, html)))
+            .catch(() => dispatch(showError('Something went wrong, please reload and try again. If this keeps happening, let us know!')));
     }
+}
+function postedComment(authorName, content) {
+    return { type: POSTED_COMMENT, comment: { authorName, content, displayDate: 'now' } };
+}
+
+function showError(error) {
+    return { type: COMMENT_ERROR, error };
 }
 
 export function executeCaptcha(token) {

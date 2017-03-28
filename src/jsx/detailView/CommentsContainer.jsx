@@ -8,8 +8,11 @@ import * as actions from '../actions.js';
 function mapStateToProps(state) {
     return {
         comments: state.detailView.comments,
+        authorName: state.detailView.commentInput.authorName,
+        authorEmail: state.detailView.commentInput.authorEmail,
         quillEditor: state.detailView.commentInput.quillEditor,
-        formValidity: state.detailView.commentInput.formValidity
+        formValidity: state.detailView.commentInput.formValidity,
+        error: state.detailView.commentInput.error
     }
 }
 

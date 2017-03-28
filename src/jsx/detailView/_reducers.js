@@ -8,6 +8,8 @@ import {
     SET_AUTHOR_EMAIL,
     SET_QUILL_EDITOR,
     SET_FORM_VALIDITY,
+    POSTED_COMMENT,
+    COMMENT_ERROR,
     TOGGLE_SLIDESHOW
 } from './_actions';
 
@@ -25,7 +27,8 @@ const initialState = {
         quillEditor: null,
         formValidity: {
             isValid: false
-        }
+        },
+        error: ''
     }
 };
 
@@ -76,9 +79,17 @@ export function detailView(state = initialState, action) {
         case TOGGLE_SLIDESHOW:
             return Object.assign({}, state, { isSlideshowActive: action.isSlideshowActive });
 
-        case 'EXECUTE_CAPTCHA':
-        console.log(action.token);
-            return state;
+        case POSTED_COMMENT:
+            const commentInputPosted = Object.assign({}, state.commentInput, { authorName: '', authorEmail: '', error: '' });
+            const comments = state.comments.slice();
+            comments.push(action.comment);
+            state.commentInput.quillEditor.root.innerText = '';
+
+            return Object.assign({}, state, { comments, commentInput: commentInputPosted });
+
+        case COMMENT_ERROR:
+            const commentInputError = Object.assign({}, state.commentInput, { error: action.error });
+            return Object.assign({}, state, { commentInput: commentInputError });
 
         default:
             return state;

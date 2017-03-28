@@ -1,8 +1,6 @@
 import React from 'react';
 import Quill from 'quill';
 
-import { getDisplayDay } from '../_helpers/dateHelper.js';
-
 class Comments extends React.Component {
     componentDidMount() {
         const quillEditor = new Quill('#editor', {
@@ -17,7 +15,10 @@ class Comments extends React.Component {
     render() {
         const {
             comments,
+            authorName,
+            authorEmail,
             formValidity,
+            error,
             onChangeName,
             onChangeEmail,
             onSubmitComment
@@ -32,7 +33,7 @@ class Comments extends React.Component {
                         <div className="comment" key={index}>
                             <div className="comment__info">
                                 <p><strong>{comment.authorName}</strong></p>
-                                <p><small>{getDisplayDay(comment.createdAt)}</small></p>
+                                <p><small>{comment.displayDate}</small></p>
                             </div>
                             <div
                                 className="comment__content"
@@ -53,6 +54,7 @@ class Comments extends React.Component {
                                     onChange={(event) => onChangeName(event.target.value)}
                                     type="text"
                                     placeholder="Your name"
+                                    value={authorName}
                                 />
                             {!formValidity.isValid && formValidity.isNameEmpty && <small className="error">Please enter your name.</small>}
                             </div>
@@ -67,6 +69,7 @@ class Comments extends React.Component {
                                     onChange={(event) => onChangeEmail(event.target.value)}
                                     type="email"
                                     placeholder="your-name@email.com"
+                                    value={authorEmail}
                                 />
                             {!formValidity.isValid && formValidity.isEmailEmpty && <small className="error">Please enter your email.</small>}
                                 <small>We won't share this.</small>
@@ -78,6 +81,7 @@ class Comments extends React.Component {
                                     type="submit"
                                 >Send</button>
                             {!formValidity.isValid && formValidity.isTextEmpty && <small className="error">Please write a comment.</small>}
+                            {error && <small className="error">{error}</small>}
                             </div>
                         </div>
                         <div className="comment__content comment__editor">
