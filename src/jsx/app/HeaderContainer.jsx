@@ -12,8 +12,9 @@ function mapStateToProps(state) {
     const key = state.router.result ? state.router.result.key : keys.DEFAULT;
 
     return {
-        isCalendarActive: state.router.result && state.router.result.key === keys.INDEX,
-        isAboutActive: state.router.result && state.router.result.key === keys.ABOUT,
+        isCalendarActive: key === keys.INDEX,
+        isAboutActive: key === keys.ABOUT,
+        isDetailViewActive: key === keys.DAY || key === keys.EVENT,
         title: getTitle(key, state),
         numberOfComments: state.detailView.comments.length
     }
