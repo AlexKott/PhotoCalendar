@@ -82,7 +82,7 @@ class Admin extends React.Component {
     }
     render () {
         return (
-            <div className="content-container admin__page">
+            <div className="content-container">
                 <h1>Hi AuA! Writing something?</h1>
                 <div className="admin__radio">
                     <label>

@@ -8,7 +8,7 @@ class Comments extends React.Component {
             modules: {
                 toolbar: ['bold', 'italic', 'underline', 'link']
             },
-            placeholder: 'Write your comment here'
+            placeholder: 'Write your comment here (gern auch auf Deutsch eller på svenska!)'
         });
         this.props.onSetQuillEditor(quillEditor);
     }
@@ -55,6 +55,7 @@ class Comments extends React.Component {
                                     type="text"
                                     placeholder="Your name"
                                     value={authorName}
+                                    maxLength="20"
                                 />
                             {!formValidity.isValid && formValidity.isNameEmpty && <small className="error">Please enter your name.</small>}
                             </div>
@@ -70,6 +71,7 @@ class Comments extends React.Component {
                                     type="email"
                                     placeholder="your-name@email.com"
                                     value={authorEmail}
+                                    maxLength="40"
                                 />
                             {!formValidity.isValid && formValidity.isEmailEmpty && <small className="error">Please enter your email.</small>}
                                 <small>We won't share this.</small>
