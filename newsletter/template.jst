@@ -16,38 +16,38 @@
 <body>
     <div class="wrapper">
         <div class="content">
-            <h1>New updates from Alina and Alex</h1>
+            <h1>News from Alina and Alex</h1>
             {{? it.newsString}}
                 {{=it.newsString}}
             {{?}}
             {{? it.calendarUpdates.length === 1}}
-                <h2>A new destination has been chosen!</h2>
-                <p>We added <strong>{{=it.calendarUpdates[0].summary}}</strong> and will probably be there from {{=it.calendarUpdates[0].startDate}} until {{=it.calendarUpdates[0].endDate}}.</p>
+                <h2>New destination:</h2>
+                <p>We'll go to <strong>{{=it.calendarUpdates[0].summary}}</strong> and will probably stay there from {{=it.calendarUpdates[0].startDate}} until {{=it.calendarUpdates[0].endDate}}.</p>
                 <hr>
             {{?}}
             {{? it.calendarUpdates.length > 1}}
-                <h2>Some new destinations have been chosen!</h2>
-                <p>We added <strong>{{=it.calendarUpdates.map(a => a.summary).join(' and ')}}</strong>. How exciting!</p>
+                <h2>New destinations:</h2>
+                <p>We'll go to <strong>{{=it.calendarUpdates.map(a => a.summary).join(' and ')}}</strong>. How exciting!</p>
                 <hr>
             {{?}}
             {{? it.photoUpdates.size > 0}}
-                <h2>We added some new photos</h2>
-                <p>In the last week we added {{=it.photoUpdates.size}} new photos. Here's a teaser:</p>
+                <h2>New photos:</h2>
+                <p>We added {{=it.photoUpdates.size}} new photos since last week. Here's a teaser:</p>
                 <img src="{{=it.photoUpdates.teaser.path + '/' + it.photoUpdates.teaser.fileName}}" width="{{=it.photoUpdates.teaser.width}}" height="{{=it.photoUpdates.teaser.height}}" />
                 <hr>
             {{?}}
             {{? it.textUpdates.eventTexts.length === 1 && it.textUpdates.dateTexts.length === 0}}
-                <h2>We published a new text</h2>
-                <p>We wrote a text for {{=it.textUpdates.eventTexts[0].eventSummary}}. Sounds good? Go, read it! :)</p>
+                <h2>New text:</h2>
+                <p>We wrote a text about our stay in {{=it.textUpdates.eventTexts[0].eventSummary}}.</p>
                 <hr>
             {{?}}
             {{? it.textUpdates.eventTexts.length > 1 || it.textUpdates.dateTexts.length > 0}}
-                <h2>We published some texts</h2>
-                <p>We were busy and added {{=it.textUpdates.eventTexts.length + it.textUpdates.dateTexts.length}} new texts. Can you find them? ;)</p>
+                <h2>New texts:</h2>
+                <p>We were busy and added {{=it.textUpdates.eventTexts.length + it.textUpdates.dateTexts.length}} new texts. You'll find them in the calendar.</p>
                 <hr>
             {{?}}
-            <p>Go check it out at <a href="https://travel.alexkott.com">the website</a></p>
-            <div class="small">Too many newsletters? Just <a href="mailto:alex.kott@mail.com">let us know</a> and we might consider unsubscribing you :)</div>
+            <p>Go check it out on <a href="https://travel.alexkott.com">the website!</a></p>
+            <div class="small">Too many newsletters? Just <a href="mailto:alex.kott@mail.com">let us know</a> and we might consider unsubscribing you. :)</div>
         </div>
     </div>
 </body>

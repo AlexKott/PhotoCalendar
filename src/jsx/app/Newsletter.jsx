@@ -1,12 +1,14 @@
 import React from 'react';
 import { signUp } from '../_services/newsletterService.js';
-import { writeCookie } from '../_services/cookieService.js';
+import { writeCookie, readCookie } from '../_services/cookieService.js';
 import IconClose from '../svg/IconClose.jsx';
 
 class Newsletter extends React.Component {
     constructor(props) {
         super(props);
+        const hasSubscribed = !!readCookie('subscribedNewsletter');
         this.state = {
+            hasSubscribed,
             showNewsletter: true,
             status: 0,
             messages: [
@@ -66,6 +68,10 @@ class Newsletter extends React.Component {
             });
     }
     render() {
+
+        if (this.state.hasSubscribed) {
+            return <div></div>;
+        }
         let classes = 'newsletter ';
         if (!this.state.showNewsletter) {
             classes += 'newsletter--closed ';

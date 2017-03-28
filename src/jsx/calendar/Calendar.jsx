@@ -3,6 +3,7 @@ import React from 'react';
 import CalendarWeek from './CalendarWeek.jsx';
 import EventBarContainer from './EventBarContainer.jsx';
 import NavButton from '../app/NavButton.jsx';
+import Newsletter from '../app/Newsletter.jsx';
 
 class Calendar extends React.Component {
     componentDidMount() {
@@ -35,6 +36,7 @@ class Calendar extends React.Component {
                 ))}
 
                 <NavButton direction="right" onClick={() => onChangeMonth(1)} />
+                <Newsletter />
             </div>
         );
     }
