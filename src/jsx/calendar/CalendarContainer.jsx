@@ -9,9 +9,10 @@ import * as eventBarHelper from '../_helpers/eventBarHelper.js';
 
 function mapStateToProps(state) {
     const weeks = dateHelper.getWeeks(state.calendar.selectedMonth);
+    const texts = state.calendar.texts.map(t => t.date);
     return {
         thumbnails: state.calendar.thumbnails,
-        texts: state.calendar.texts,
+        texts,
         eventBars: eventBarHelper.getEventBars(weeks, state.calendar.events),
         weeks
     }

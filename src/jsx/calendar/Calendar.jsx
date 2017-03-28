@@ -14,6 +14,7 @@ class Calendar extends React.Component {
             thumbnails,
             eventBars,
             weeks,
+            texts,
             onChangeMonth
         } = this.props;
         return (
@@ -25,6 +26,7 @@ class Calendar extends React.Component {
                         <CalendarWeek
                             week={week}
                             thumbnails={thumbnails}
+                            texts={texts}
                         />
                         <EventBarContainer
                             events={eventBars[index]}
