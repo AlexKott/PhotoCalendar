@@ -10,7 +10,6 @@ const JSX_DIR = `${APP_DIR}/jsx`;
 const LESS_DIR = `${APP_DIR}/less`;
 
 module.exports = {
-    devtool: 'eval-source-map',
     entry: [
         'babel-polyfill',
         `${JSX_DIR}/index.jsx`,
