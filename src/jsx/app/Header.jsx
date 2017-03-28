@@ -6,6 +6,8 @@ import IconQuestion from '../svg/IconQuestion.jsx';
 import IconClose from '../svg/IconClose.jsx';
 import IconComments from '../svg/IconComments.jsx';
 
+import * as scrollHelper from '../_helpers/scrollHelper';
+
 export default function Header({
     isCalendarActive,
     isAboutActive,
@@ -16,7 +18,7 @@ export default function Header({
     }) {
     const iconSize = "40px";
     return (
-        <div className="header">
+        <div className="header" id="header">
             {!isCalendarActive &&
                 <Link
                     className="button button--header button--header--left"
@@ -25,8 +27,8 @@ export default function Header({
             }
             <h1 className="header__title">{title}</h1>
             {isDetailViewActive && numberOfComments > 0
-                ? <a href="#comments" className="button button--header">
-                    <IconComments size={iconSize} /><span className="button__label">{numberOfComments}</span></a>
+                ? <button className="button button--header" onClick={() => scrollHelper.scrollToElement('#comments', '#header')}>
+                    <IconComments size={iconSize} /><span className="button__label">{numberOfComments}</span></button>
                 : ''
 
             }

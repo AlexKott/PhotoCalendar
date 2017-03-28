@@ -26,6 +26,7 @@
     "redux-thunk": "^2.2.0",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
+    "scroll-to": "0.0.2",
     "sendmail": "^1.1.1",
     "xml-js": "^1.0.2"
   },
