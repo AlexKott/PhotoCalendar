@@ -8,6 +8,7 @@ import * as actions from '../actions.js';
 function mapStateToProps(state) {
     return {
         isSlideshowActive: state.detailView.isSlideshowActive,
+        isLoading: state.detailView.isLoading,
         selectedDay: state.detailView.selectedDay,
         photos: state.detailView.photos,
         text: state.detailView.text

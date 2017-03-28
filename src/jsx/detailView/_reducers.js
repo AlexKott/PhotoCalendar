@@ -15,6 +15,7 @@ import {
 
 const initialState = {
     isSlideshowActive: false,
+    isLoading: false,
     selectedDay: null,
     selectedEvent: null,
     selectedPhotoIndex: null,
@@ -90,6 +91,9 @@ export function detailView(state = initialState, action) {
         case COMMENT_ERROR:
             const commentInputError = Object.assign({}, state.commentInput, { error: action.error });
             return Object.assign({}, state, { commentInput: commentInputError });
+
+        case SET_DETAIL_LOADING:
+            return Object.assign({}, state, { isLoading: action.isLoading });
 
         default:
             return state;
