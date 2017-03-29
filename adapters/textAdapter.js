@@ -26,15 +26,18 @@ module.exports = {
             });
         });
     },
-    getTextsByRange(type, startDate, endDate) {
+    getTextsByRange(type, startDate, endDate, createdAt) {
         const collectionName = `${type}Texts`;
+        const filterType = createdAt ? 'createdAt' : 'date';
+        const filter = {};
+        filter[filterType] = { $gte: startDate, $lte: endDate };
 
         return new Promise((resolve, reject) => {
             MongoClient.connect(dbUrl, (err, db) => {
                 if (!err) {
                     db
                         .collection(collectionName)
-                        .find({ date: { $gte: startDate, $lte: endDate }}, { _id: 0 }, (dbError, cursor) => {
+                        .find(filter, { _id: 0 }, (dbError, cursor) => {
                             if (!dbError) {
                                 resolve(cursor.toArray());
                                 db.close();

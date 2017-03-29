@@ -14,10 +14,13 @@ const startDate = new Date();
 startDate.setDate(endDate.getDate() - 7);
 endDate.setHours(23, 59, 59);
 
+const startDateTime = startDate.getTime();
+const endDateTime = endDate.getTime();
+
 updatePromises.push(eventAdapter.getEvents({ updatedMin: startDate }));
 updatePromises.push(photoAdapter.getPhotos(startDate, endDate));
-updatePromises.push(textAdapter.getTextsByRange('date', startDate, endDate));
-updatePromises.push(textAdapter.getTextsByRange('event', startDate, endDate));
+updatePromises.push(textAdapter.getTextsByRange('date', startDateTime, endDateTime, true));
+updatePromises.push(textAdapter.getTextsByRange('event', startDateTime, endDateTime, true));
 updatePromises.push(new Promise((resolve, reject) => {
     fs.readFile(path.join(__dirname, '/content/news.html'), 'utf-8', (err, result) => {
         if (err) {
