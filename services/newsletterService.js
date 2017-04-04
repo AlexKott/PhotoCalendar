@@ -66,15 +66,8 @@ module.exports = {
             });
         });
     },
-    sendNotification(type, authorName, content, date, eventId) {
+    sendNotification(to, subject, html) {
         const from = 'Alina and Alex <no-reply@alexkott.com>';
-        const to = 'Alex Kott <alex.kott@mail.com>';
-        const subject = `New Comment by ${authorName}`;
-        const topic = type === 'date' ? date : eventId;
-        let html = '<html><head><title>New Comment</title></head><body>';
-        html += `<h3>Author</h3><p>${authorName} wrote a new comment.</p>`;
-        html += `<h3>Topic (${type})</h3> <p>${topic}</p>`;
-        html += `<h3>Content:</h3>${content}`;
         sendmail({ from, to, subject, html }, (err, reply) => {
             if (err) {
                 console.log(err && err.stack);

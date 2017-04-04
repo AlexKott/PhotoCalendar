@@ -37,8 +37,22 @@ module.exports = {
                 if (result.success) {
                     commentAdapter.saveComment(type, authorName, authorEmail, html, date, eventId)
                         .then(response => {
-                            newsletterService.sendNotification(type, authorName, html, date, eventId);
                             res.status(200).send(response);
+                            commentAdapter.getComments(type, date, eventId).then((comments) => {
+                                const subject = `New Comment by ${authorName}`;
+                                const slug = type === 'date' ? `/day/${date}` : '';
+                                const recipients = comments
+                                    .filter(c => c.authorEmail !== authorEmail)
+                                    .map(c => `${c.authorName} <${c.authorEmail}>`);
+                                recipients.push('Alex Kott <alex.kott@mail.com>');
+
+                                let html = '<html><head><title>New Comment</title></head><body>';
+                                html += `<p><strong>${authorName}</strong> replied to your comment:</p>`;
+                                html += content;
+                                html += `<p><a href="https://travel.alexkott.com${slug}">Click here</a>`;
+                                html += ` or enter <pre style="display:inline">travel.alexkott.com${slug}</pre> in your browser.</p>`;
+                                recipients.forEach(to => newsletterService.sendNotification(to, subject, html));
+                            });
                         })
                         .catch(error => {
                             console.log(error);
