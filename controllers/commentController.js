@@ -47,7 +47,7 @@ module.exports = {
                                 recipients.push('Alex Kott <alex.kott@mail.com>');
 
                                 let content = mailHead;
-                                content += '<h1>New comments</h1>';
+                                content += '<h1>New comment on travel.alexkott.com</h1>';
                                 content += `<h2><strong>${authorName}</strong> replied to your comment:</h2>`;
                                 content += html;
                                 content += `<p><a href="https://travel.alexkott.com${slug}">Click here</a> to see it on the website.</p>`;

@@ -31,7 +31,7 @@ module.exports = {
     sendEmail(recipients, calendarUpdates, photoUpdates, textUpdates, newsString) {
         const from = 'Alina and Alex <no-reply@alexkott.com>';
         const bcc = recipients.map(r => r.email).join(', ');
-        const subject = 'New updates from Alina and Alex';
+        const subject = 'News from Alina and Alex';
         const html = eol.crlf(buildEmail(calendarUpdates, photoUpdates, textUpdates, newsString));
         const now = new Date();
         sendmail({ from, bcc, subject, html }, (err, reply) => {
