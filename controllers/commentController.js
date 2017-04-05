@@ -46,12 +46,12 @@ module.exports = {
                                     .map(c => `${c.authorName} <${c.authorEmail}>`);
                                 recipients.push('Alex Kott <alex.kott@mail.com>');
 
-                                let html = '<html><head><title>New Comment</title></head><body>';
-                                html += `<p><strong>${authorName}</strong> replied to your comment:</p>`;
-                                html += content;
-                                html += `<p><a href="https://travel.alexkott.com${slug}">Click here</a>`;
-                                html += ` or enter <pre style="display:inline">travel.alexkott.com${slug}</pre> in your browser.</p>`;
-                                recipients.forEach(to => newsletterService.sendNotification(to, subject, html));
+                                let content = '<html><head><title>New Comment</title></head><body>';
+                                content += `<p><strong>${authorName}</strong> replied to your comment:</p>`;
+                                content += html;
+                                content += `<p><a href="https://travel.alexkott.com${slug}">Click here</a>`;
+                                content += ` or enter <pre style="display:inline">travel.alexkott.com${slug}</pre> in your browser.</p>`;
+                                recipients.forEach(to => newsletterService.sendNotification(to, subject, content));
                             });
                         })
                         .catch(error => {
