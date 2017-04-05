@@ -47,7 +47,7 @@ module.exports = {
                                 recipients.push('Alex Kott <alex.kott@mail.com>');
 
                                 let content = mailHead;
-                                content += '<h1>New comment on travel.alexkott.com</h1>';
+                                content += '<h1>New comment on <span class="no-link">travel.alexkott.com</span></h1>';
                                 content += `<h2><strong>${authorName}</strong> replied to your comment:</h2>`;
                                 content += html;
                                 content += `<p><a href="https://travel.alexkott.com${slug}">Click here</a> to see it on the website.</p>`;
@@ -81,5 +81,6 @@ const mailHead = `<html><head><meta charset="utf-8"><title>New Comment</title><s
     a:hover { border: none; }
     .small { font-size: 10px; padding-left: 8px; }
     hr { width: 40%; margin: 20px auto; border: 1px solid #880011; border-top: none; }
+    .no-link a { color: #222222 !important; text-decoration: none !important; }
 </style></head><body><div class="wrapper"><div class="content">`;
 const mailFoot = `</div></div></body></html>`;
