@@ -214,6 +214,7 @@ export function postComment(token) {
             .then(() => {
                 dispatch(postedComment(authorName, html));
                 dispatch(setSendingComment(false));
+                grecaptcha.reset();
             })
             .catch(() => {
                 dispatch(showError('Something went wrong, please reload and try again. If this keeps happening, let us know!'));
