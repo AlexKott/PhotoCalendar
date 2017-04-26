@@ -1,56 +1,42 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <style>
-        .body { width: 100%; color: #222222; font-family: Helvetica, Arial, sans-serif; margin: 0; padding 0; }
-        .wrapper { width: 100%; background-color: #777777; padding: 20px 0; }
-        .content { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #FBFBFB; }
-        .h1 { font-size: 24px; margin: 0 0 16px; padding: 4px 8px; background-color: #880011; color: #FBFBFB; }
-        .h2 { font-size: 18px; margin: 20px 0 4px 0; border-left: 4px solid #880011; padding-left: 4px; }
-        .p, .li { font-size: 14px; line-height: 1.46; margin: 8px 0 8px; padding: 0 8px }
-        .a { color: #880011; text-decoration: none; border-bottom: 1px solid currentColor; }
-        .a:hover { border: none; }
-        .small { font-size: 10px; padding-left: 8px; }
-        .hr { width: 40%; margin: 20px auto; border: 1px solid #880011; border-top: none; }
-    </style>
 </head>
-<body>
-    <div class="body">
-        <div class="wrapper">
-            <div class="content">
-                <h1 class="h1">News from Alina and Alex</h1>
-                {{? it.newsString}}
-                    {{=it.newsString}}
-                {{?}}
-                {{? it.calendarUpdates.length === 1}}
-                    <h2 class="h2">New destination:</h2>
-                    <p class="p">We'll go to <strong>{{=it.calendarUpdates[0].summary}}</strong> and will probably stay there from {{=it.calendarUpdates[0].startDate}} until {{=it.calendarUpdates[0].endDate}}.</p>
-                    <hr>
-                {{?}}
-                {{? it.calendarUpdates.length > 1}}
-                    <h2 class="h2">New destinations:</h2>
-                    <p class"p">We'll go to <strong>{{=it.calendarUpdates.map(a => a.summary).join(' and ')}}</strong>. How exciting!</p>
-                    <hr>
-                {{?}}
-                {{? it.photoUpdates.size > 0}}
-                    <h2 class="h2">New photos:</h2>
-                    <p class="p">We added {{=it.photoUpdates.size}} new photos since last week. Here's a teaser:</p>
-                    <img src="{{=it.photoUpdates.teaser.path + '/' + it.photoUpdates.teaser.fileName}}" width="{{=it.photoUpdates.teaser.width}}" height="{{=it.photoUpdates.teaser.height}}" />
-                    <hr>
-                {{?}}
-                {{? it.textUpdates.eventTexts.length === 1 && it.textUpdates.dateTexts.length === 0}}
-                    <h2 class="h2">New text:</h2>
-                    <p class="p">We wrote a text about our stay in {{=it.textUpdates.eventTexts[0].eventSummary}}.</p>
-                    <hr>
-                {{?}}
-                {{? it.textUpdates.eventTexts.length > 1 || it.textUpdates.dateTexts.length > 0}}
-                    <h2 class="h2">New texts:</h2>
-                    <p class="p">We were busy and added {{=it.textUpdates.eventTexts.length + it.textUpdates.dateTexts.length}} new texts. You'll find them in the calendar.</p>
-                    <hr>
-                {{?}}
-                <p class"p">Go check it out on <a class="a" href="https://travel.alexkott.com">the website!</a></p>
-                <div class="small">Too many newsletters? Just <a class="a" href="mailto:alex.kott@mail.com">let us know</a> and we might consider unsubscribing you. :)</div>
-            </div>
+<body style="width: 100%; color: #222222; font-family: Helvetica, Arial, sans-serif; margin: 0; padding 0;">
+    <div style="width: 100%; background-color: #777777; padding: 20px 0;">
+        <div style="width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #FBFBFB;">
+            <h1 style="font-size: 24px; margin: 0 0 16px; padding: 4px 8px; background-color: #880011; color: #FBFBFB;">News from Alina and Alex</h1>
+            {{? it.newsString}}
+                {{=it.newsString}}
+            {{?}}
+            {{? it.calendarUpdates.length === 1}}
+                <h2 style="font-size: 18px; margin: 20px 0 4px 0; border-left: 4px solid #880011; padding-left: 4px;">New destination:</h2>
+                <p style="font-size: 14px; line-height: 1.46; margin: 8px 0 8px; padding: 0 8px;">We'll go to <strong>{{=it.calendarUpdates[0].summary}}</strong> and will probably stay there from {{=it.calendarUpdates[0].startDate}} until {{=it.calendarUpdates[0].endDate}}.</p>
+                <hr style="width: 40%; margin: 20px auto; border: 1px solid #880011; border-top: none;">
+            {{?}}
+            {{? it.calendarUpdates.length > 1}}
+                <h2 style="font-size: 18px; margin: 20px 0 4px 0; border-left: 4px solid #880011; padding-left: 4px;">New destinations:</h2>
+                <p style="font-size: 14px; line-height: 1.46; margin: 8px 0 8px; padding: 0 8px;">We'll go to <strong>{{=it.calendarUpdates.map(a => a.summary).join(' and ')}}</strong>. How exciting!</p>
+                <hr style="width: 40%; margin: 20px auto; border: 1px solid #880011; border-top: none;">
+            {{?}}
+            {{? it.photoUpdates.size > 0}}
+                <h2 style="font-size: 18px; margin: 20px 0 4px 0; border-left: 4px solid #880011; padding-left: 4px;">New photos:</h2>
+                <p style="font-size: 14px; line-height: 1.46; margin: 8px 0 8px; padding: 0 8px;">We added {{=it.photoUpdates.size}} new photos since last week. Here's a teaser:</p>
+                <img src="{{=it.photoUpdates.teaser.path + '/' + it.photoUpdates.teaser.fileName}}" width="{{=it.photoUpdates.teaser.width}}" height="{{=it.photoUpdates.teaser.height}}" />
+                <hr style="width: 40%; margin: 20px auto; border: 1px solid #880011; border-top: none;">
+            {{?}}
+            {{? it.textUpdates.eventTexts.length === 1 && it.textUpdates.dateTexts.length === 0}}
+                <h2 style="font-size: 18px; margin: 20px 0 4px 0; border-left: 4px solid #880011; padding-left: 4px;">New text:</h2>
+                <p style="font-size: 14px; line-height: 1.46; margin: 8px 0 8px; padding: 0 8px;">We wrote a text about our stay in {{=it.textUpdates.eventTexts[0].eventSummary}}.</p>
+                <hr style="width: 40%; margin: 20px auto; border: 1px solid #880011; border-top: none;">
+            {{?}}
+            {{? it.textUpdates.eventTexts.length > 1 || it.textUpdates.dateTexts.length > 0}}
+                <h2 style="font-size: 18px; margin: 20px 0 4px 0; border-left: 4px solid #880011; padding-left: 4px;">New texts:</h2>
+                <p style="font-size: 14px; line-height: 1.46; margin: 8px 0 8px; padding: 0 8px;">We were busy and added {{=it.textUpdates.eventTexts.length + it.textUpdates.dateTexts.length}} new texts. You'll find them in the calendar.</p>
+                <hr style="width: 40%; margin: 20px auto; border: 1px solid #880011; border-top: none;">
+            {{?}}
+            <p style="font-size: 14px; line-height: 1.46; margin: 8px 0 8px; padding: 0 8px;">Go check it out on <a style="color: #880011; text-decoration: none; border-bottom: 1px solid currentColor;" href="https://travel.alexkott.com" onMouseOver="this.style.border='none'" onMouseOut="this.style.borderBottom='1px solid currentColor'">the website!</a></p>
+            <div style="font-size: 10px; padding-left: 8px;">Too many newsletters? Just <a style="color: #880011; text-decoration: none; border-bottom: 1px solid currentColor;" href="mailto:alex.kott@mail.com" onMouseOver="this.style.border='none'" onMouseOut="this.style.borderBottom='1px solid currentColor'">let us know</a> and we might consider unsubscribing you. :)</div>
         </div>
     </div>
 </body>
