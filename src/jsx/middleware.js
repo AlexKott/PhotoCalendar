@@ -5,6 +5,8 @@ export const routerInterceptor = ({ getState, dispatch }) => (next) => (action) 
     if (action.type === ROUTER_LOCATION_CHANGED) {
         const router = action.payload;
         const state = getState();
+        ga('set', 'page', router.pathname);
+        ga('send', 'pageview');
         if (router.result) {
             if (router.result.key === 'DAY') {
                 dispatch(actions.selectDay(router.params.dateString));
