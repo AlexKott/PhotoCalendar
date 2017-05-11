@@ -15,15 +15,15 @@ module.exports = {
         }
 
         commentPromise
-            .then(text => {
-                if (!text) {
+            .then(comments => {
+                if (!comments) {
                     res.status(200).send();
                 } else {
-                    const filteredText = text.map(c => {
+                    const filteredComments = comments.map(c => {
                         c.authorEmail = undefined;
                         return c;
-                    });
-                    res.status(200).send(filteredText);
+                    }).sort((a, b) => a.createdAt < b.createdAt ? -1 : 1);
+                    res.status(200).send(filteredComments);
                 }
             })
             .catch(error => res.status(500).send(error));
