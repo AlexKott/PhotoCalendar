@@ -30,16 +30,21 @@ module.exports = {
     },
     sendEmail(recipients, calendarUpdates, photoUpdates, textUpdates, newsString) {
         const from = 'Alina and Alex <no-reply@alexkott.com>';
-        const bcc = recipients.map(r => r.email).join(', ');
         const subject = 'News from Alina and Alex';
         const html = eol.crlf(buildEmail(calendarUpdates, photoUpdates, textUpdates, newsString));
         const now = new Date();
-        sendmail({ from, bcc, subject, html }, (err, reply) => {
-            if (err) {
-                console.log(err && err.stack);
-            } else {
-                console.log(`Newsletter sent at ${now}.`);
-            }
+        recipients.forEach((rec, index) => {
+            const filteredName = rec.name.replace(',', '');
+            const to = `${filteredName} <${rec.email}>`;
+
+            sendmail({ from, to, subject, html }, (err, reply) => {
+                if (err) {
+                    console.log(`[${index}] Error sending mail to: ${to}!`);
+                    console.log(`[${index}] err.stack`);
+                } else {
+                    console.log(`[${index}] Newsletter sent to ${to} at ${now}.`);
+                }
+            });
         });
     },
     addUser(name, email) {
