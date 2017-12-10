@@ -15,11 +15,12 @@ module.exports = {
             Promise.all(authService.getAccessTokens('picasa'))
                 .then((access_tokens) => {
                     access_tokens.forEach((access_token, id) => {
-                        const uri = googleAuth.clients[id].albumURL;
-                        requestPromises.push(request({
-                            uri,
-                            qs: Object.assign({}, { access_token, fields })
-                        }));
+                        googleAuth.clients[id].albumURL.forEach(uri => {
+                            requestPromises.push(request({
+                                uri,
+                                qs: Object.assign({}, { access_token, fields })
+                            }));
+                        });
                     });
                     // picasa requests
                     Promise.all(requestPromises)
