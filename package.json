@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "export NODE_ENV=production && npm install && webpack -p && node index.js",
+    "start": "export NODE_ENV=production && yarn install && webpack -p && node index.js",
     "watch": "concurrently \"webpack -d --watch\" \"nodemon index.js\"",
     "newsletter": "export NODE_ENV=production && node newsletter"
   },
@@ -28,9 +28,7 @@
     "request-promise": "^4.1.1",
     "scroll-to": "0.0.2",
     "sendmail": "^1.1.1",
-    "xml-js": "^1.0.2"
-  },
-  "devDependencies": {
+    "xml-js": "^1.0.2",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.4.1",
     "babel-preset-es2015": "^6.18.0",

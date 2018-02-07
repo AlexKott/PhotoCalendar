@@ -189,17 +189,12 @@ export function sendComment(event) {
         const formVal = dispatch(checkCommentValidity(authorEmail, authorName, text)).formValidity;
         if (formVal.isValid) {
             dispatch(setSendingComment(true));
-            const token = grecaptcha.getResponse();
-            if (token) {
-                dispatch(postComment(token));
-            } else {
-                grecaptcha.execute();
-            }
+            dispatch(postComment());
         }
     }
 }
 
-export function postComment(token) {
+export function postComment() {
     return (dispatch, getState) => {
         const detailState = getState().detailView;
         const { authorName, authorEmail } = detailState.commentInput;
@@ -210,11 +205,10 @@ export function postComment(token) {
         const eventId = detailState.selectedEvent ? detailState.selectedEvent.eventId : null;
 
         commentService
-            .saveComment(type, { authorName, authorEmail, html }, date, eventId, token)
+            .saveComment(type, { authorName, authorEmail, html }, date, eventId)
             .then(() => {
                 dispatch(postedComment(authorName, html));
                 dispatch(setSendingComment(false));
-                grecaptcha.reset();
             })
             .catch(() => {
                 dispatch(showError('Something went wrong, please reload and try again. If this keeps happening, let us know!'));
