@@ -1,12 +1,16 @@
 import React from 'react';
-import Quill from 'quill';
 
 class Comments extends React.Component {
     componentDidMount() {
         const quillEditor = new Quill('#editor', {
             theme: 'snow',
             modules: {
-                toolbar: ['bold', 'italic', 'underline', 'link']
+                toolbar: {
+                    container: ['bold', 'italic', 'underline', 'link', 'emoji'],
+                    handlers: { 'emoji': function() {} }
+                },
+                short_name_emoji: true,
+                toolbar_emoji: true
             },
             placeholder: 'Write your comment here (gern auch auf Deutsch eller på svenska!)'
         });

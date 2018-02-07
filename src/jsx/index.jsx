@@ -4,6 +4,7 @@ import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { routerForBrowser, RouterProvider, initializeCurrentLocation } from 'redux-little-router';
+import Quill from 'quill';
 
 import * as reducers from './reducers.js';
 import * as actions from './actions.js';
@@ -11,6 +12,8 @@ import { routerInterceptor } from './middleware.js';
 import routes from './routes.js';
 
 import App from './app/App.jsx';
+
+window.Quill = Quill;
 
 const {
   reducer,
